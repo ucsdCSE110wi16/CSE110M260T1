@@ -1,0 +1,19 @@
+User Stories:
+
+Camera - have a fixed camera on an object, joystick on screen, circle/box moving around
+
+networking - connecting to another phone and being able to send data back and forth
+
+map - having a map with terrain that can interact with player
+
+animations of the character - having the object move around when is triggered
+
+menu - having a menu to the game
+
+
+Milestone - all of us meeting and setting up an environment (We should all test libdgx beforehand) - Monday
+Milestone - splitting up into teams: Networking vs gamedev - Monday
+Milestone - connection and info send between two phones; Character moving around and make a map - Monday week 5
+Milestone - view other players movement; character actions - monday week 6
+Milestone - have other players actions affect your player and vise versa; animations - monday week 7
+Milestone - game menus + polishing/animations - monday week 8

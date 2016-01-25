@@ -25,5 +25,5 @@ public class CS110App extends ApplicationAdapter {
 		batch.end();
 	}
 
-	    
+
 }

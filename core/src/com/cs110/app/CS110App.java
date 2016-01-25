@@ -14,6 +14,8 @@ public class CS110App extends Game { //The automatically generated code has Appl
 	
 	@Override
 	public void create () {
+
+        setScreen(new GameScreen());
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 	}

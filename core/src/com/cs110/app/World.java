@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * Created by Yashwanth on 1/24/16.
  */
+
+//This class will represent our world and map
 public class World {
 
     private Player myPlayer;

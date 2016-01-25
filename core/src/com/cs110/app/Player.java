@@ -8,10 +8,15 @@ import com.badlogic.gdx.math.Rectangle;
 public class Player {
 
     static final float SIZE = 0.5f; //half a unit size
+    static final int MAX_HEALTH = 100;
+    static final int MAX_ARMOR = 100;
 
     Vector2 position = new Vector2(); //position of the player character
     Vector2 acceleration = new Vector2(); //acceleration of the player character
     Vector2 velocity = new Vector2(); //velocity of the player character
+
+    private int health; // the health of the player
+    private int armor;  // armor of the player
 
     Rectangle bounds = new Rectangle();
 
@@ -20,5 +25,26 @@ public class Player {
         this.position = position;
         bounds.height = SIZE;
         bounds.width = SIZE;
+        health = MAX_HEALTH;
+        armor = MAX_ARMOR;
+    }
+
+
+    public void move(Vector2 moveVector){
+
+    }
+
+    //Launches a skillshot in the direction the player is facing, TODO: params TBD
+    public void skillshot(Vector2 attackVector){
+
+    }
+    //The aoe attack that launches when button is pressed TODO: params TBD
+    public void attack(){
+
+    }
+
+    //if double tap on location blink onto that location TBD: determine range of blink
+    public void blind(Vector2 blinkVector){
+
     }
 }

@@ -18,6 +18,6 @@ public class World {
 
     //returns the player that belongs to this world
     public Player getPlayer(){
-        return myPlayer
+        return myPlayer;
     }
 }

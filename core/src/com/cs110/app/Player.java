@@ -5,7 +5,10 @@ import com.badlogic.gdx.math.Rectangle;
 /**
  * Created by Yashwanth on 1/24/16.
  */
-public class Player {
+public class Player
+{
+
+    public enum STATE { IDLE, MOVING, ATTACKING, DEAD }
 
     static final float SIZE = 0.5f; //half a unit size
     static final int MAX_HEALTH = 100;
@@ -22,7 +25,8 @@ public class Player {
     Rectangle bounds = new Rectangle();
 
     //Constructor for the player, takes in a vector2 to set the position of the player character
-    public Player(Vector2 position, String playerID){
+    public Player(Vector2 position, String playerID)
+    {
         this.position = position;
         bounds.height = SIZE;
         bounds.width = SIZE;
@@ -32,46 +36,56 @@ public class Player {
     }
 
 
-    public void move(Vector2 moveVector){
+    public void move(Vector2 moveVector)
+    {
 
     }
 
     //Launches a skillshot in the direction the player is facing, TODO: params TBD
-    public void skillshot(Vector2 attackVector){
+    public void skillshot(Vector2 attackVector)
+    {
 
     }
     //The aoe attack that launches when button is pressed TODO: params TBD
-    public void attack(){
+    public void attack()
+    {
 
     }
 
     //if double tap on location blink onto that location TBD: determine range of blink
-    public void blind(Vector2 blinkVector){
+    public void blind(Vector2 blinkVector)
+    {
 
     }
 
     //returns true if they are the same player
     @Override
-    public boolean equals(Object obj){
-        if(obj instanceof Player) {
+    public boolean equals(Object obj)
+    {
+        if(obj instanceof Player)
+        {
             //check if they are the same player by comparing Id
             return ((Player)obj).getId().equals(getId());
         }
+
         else
             return false;
 
     }
 
-    public String getId(){
+    public String getId()
+    {
         return Id;
     }
 
-    public Vector2 getPosition(){
+    public Vector2 getPosition()
+    {
         return position;
     }
 
     //returns the rectangle of this Player
-    public Rectangle getBounds(){
+    public Rectangle getBounds()
+    {
         return bounds;
     }
 }

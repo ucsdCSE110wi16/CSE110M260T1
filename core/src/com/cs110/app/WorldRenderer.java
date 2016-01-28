@@ -9,16 +9,19 @@ import com.badlogic.gdx.math.Rectangle;
  */
 
 //This class renders the world
-public class WorldRenderer {
+public class WorldRenderer
+{
 
     static final int CAMERA_WIDTH = 10;
     static final int CAMERA_HEIGHT = 10;
 
     private World world; //this is the world that this object will render
     private OrthographicCamera camera; //the camera viewing the world
+    private ShapeRenderer rend = new ShapeRenderer(); //the renderer
 
     //Constructor takes in a world to render as the parameter
-    public WorldRenderer(World world){
+    public WorldRenderer(World world)
+    {
         this.world = world;
 
         float w = Gdx.graphics.getWidth();
@@ -37,7 +40,34 @@ public class WorldRenderer {
     }
 
     //Draw the world and set the camera
-    public void render(){
+    public void render()
+    {
+        rend.setProjectionMatrix(camera.combined);
+        rend.begin(ShapeType.Fill);
+
+        for (Obstacle obj : world.getObstacles() )
+        {
+            Rectangle rec = obj.getBounds();
+            float x = obj.getPosition().x + rec.x;
+            float y = obj.getPosition().y + rec.y;
+            rend.setColor(new Color(0,194,90,1));
+            rend.rect(x,y,rec.width,rec.height);
+        }
+
+        rend.end();
+        rend.begin(ShapeType.Line);
+
+        for (Player person : world.getPlayers() )
+        {
+            Rectangle rec = person.getBounds();
+            x = person.getPosition().x + rec.x;
+            y = person.getPosition().y + rec.y;
+            rend.setColor(new Color(1,0,0,1));
+            rend.rect(x,y, rec.width, rec.height);
+        }
+
+        rend.end();
+
 
 
     }

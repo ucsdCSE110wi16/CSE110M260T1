@@ -29,4 +29,6 @@ public class Obstacle {
     }
 
     Rectangle getBounds() { return bounds; }
+
+    Vector2 getPosition() { return position; }
 }

@@ -9,18 +9,23 @@ import com.badlogic.gdx.Screen;
  */
 
 //This is the screen that is shown when the the game itself is being played
-public class GameScreen implements Screen {
+public class GameScreen implements Screen
+{
 
     private World world;
     private WorldRenderer renderer;
 
     @Override
-    public void show() {
+    public void show()
+    {
+        world = new World();
+        renderer = new WorldRenderer(world);
 
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float delta)
+    {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         renderer.render();
@@ -28,27 +33,32 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize(int width, int height)
+    {
 
     }
 
     @Override
-    public void pause() {
+    public void pause()
+    {
 
     }
 
     @Override
-    public void resume() {
+    public void resume()
+    {
 
     }
 
     @Override
-    public void hide() {
+    public void hide()
+    {
 
     }
 
     @Override
-    public void dispose() {
+    public void dispose()
+    {
 
     }
 }

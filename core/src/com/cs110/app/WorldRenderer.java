@@ -1,7 +1,9 @@
 package com.cs110.app;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -43,7 +45,7 @@ public class WorldRenderer
     public void render()
     {
         rend.setProjectionMatrix(camera.combined);
-        rend.begin(ShapeType.Fill);
+        rend.begin(ShapeRenderer.ShapeType.Filled);
 
         for (Obstacle obj : world.getObstacles() )
         {
@@ -55,7 +57,7 @@ public class WorldRenderer
         }
 
         rend.end();
-        rend.begin(ShapeType.Line);
+        rend.begin(ShapeRenderer.ShapeType.Line);
 
         for (Player person : world.getPlayers() )
         {

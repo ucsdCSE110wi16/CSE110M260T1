@@ -38,7 +38,7 @@ public class Player
 
     public void move(Vector2 moveVector)
     {
-
+        position= new Vector2(position.x + moveVector.x, position.y+ moveVector.y);
     }
 
     //Launches a skillshot in the direction the player is facing, TODO: params TBD

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 
 /**
  * Created by Yashwanth on 1/25/16.
+ * Personal class we made to help us render the world
  */
 
 //This class renders the world

@@ -1,4 +1,4 @@
-package com.cs110.app;
+package com.cs110.app.Model;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -22,13 +22,16 @@ public class Obstacle {
         position = pos;
     }
 
+    /*
+    Constructor for obstacles with give position and size
+     */
     Obstacle(Vector2 pos, float w, float h) {
         bounds.width = w;
         bounds.height = h;
         position = pos;
     }
 
-    Rectangle getBounds() { return bounds; }
+    public Rectangle getBounds() { return bounds; }
 
-    Vector2 getPosition() { return position; }
+    public Vector2 getPosition() { return position; }
 }

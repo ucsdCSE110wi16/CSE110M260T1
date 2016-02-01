@@ -1,4 +1,4 @@
-package com.cs110.app;
+package com.cs110.app.Model;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
@@ -13,6 +13,7 @@ public class Player
     static final float SIZE = 0.5f; //half a unit size
     static final int MAX_HEALTH = 100;
     static final int MAX_ARMOR = 100;
+    static final float SPEED = 0.1f;
 
     Vector2 position = new Vector2(); //position of the player character
     Vector2 acceleration = new Vector2(); //acceleration of the player character
@@ -36,9 +37,15 @@ public class Player
     }
 
 
+    //Moves the Player by adding the two vectors
     public void move(Vector2 moveVector)
     {
         position= new Vector2(position.x + moveVector.x, position.y+ moveVector.y);
+    }
+
+    //moves Player based on the given touchpad knob percentage
+    public void move(float knobPercentageX, float knobPercentageY){
+        setPosition(getPosition().x + knobPercentageX*SPEED, getPosition().y + knobPercentageY*SPEED);
     }
 
     //Launches a skillshot in the direction the player is facing, TODO: params TBD
@@ -53,7 +60,7 @@ public class Player
     }
 
     //if double tap on location blink onto that location TBD: determine range of blink
-    public void blind(Vector2 blinkVector)
+    public void blink(Vector2 blinkVector)
     {
 
     }
@@ -83,9 +90,20 @@ public class Player
         return position;
     }
 
+    //Sets the position to the passed in x and y
+    public void setPosition(float x, float y){
+        getPosition().set(x,y);
+    }
     //returns the rectangle of this Player
     public Rectangle getBounds()
     {
         return bounds;
+    }
+
+    //TODO we might not need this anymore
+    //Updates Player's position based on velocity
+    public void update(float delta){
+       // position.add(velocity.cpy().scl(delta));
+
     }
 }

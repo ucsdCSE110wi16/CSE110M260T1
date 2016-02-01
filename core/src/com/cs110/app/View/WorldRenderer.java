@@ -1,10 +1,13 @@
-package com.cs110.app;
+package com.cs110.app.View;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.cs110.app.Model.Obstacle;
+import com.cs110.app.Model.Player;
+import com.cs110.app.Model.World;
 
 /**
  * Created by Yashwanth on 1/25/16.
@@ -44,9 +47,16 @@ public class WorldRenderer
     //Draw the world and set the camera
     public void render()
     {
+
+        //Keeping the camera the centered on the player
+        camera.position.set(world.getPlayer().getPosition().x, world.getPlayer().getPosition().y, 0);
+        camera.update();
+
+        //Drawing
         rend.setProjectionMatrix(camera.combined);
         rend.begin(ShapeRenderer.ShapeType.Filled);
 
+        //Drawing the obstacles
         for (Obstacle obj : world.getObstacles() )
         {
             Rectangle rec = obj.getBounds();
@@ -59,13 +69,14 @@ public class WorldRenderer
         rend.end();
         rend.begin(ShapeRenderer.ShapeType.Line);
 
-        for (Player person : world.getPlayers() )
-        {
+        //Drawing the player
+        for (Player person : world.getPlayers() ) {
+
             Rectangle rec = person.getBounds();
-            x = person.getPosition().x + rec.x;
-            y = person.getPosition().y + rec.y;
-            rend.setColor(new Color(1,0,0,1));
-            rend.rect(x,y, rec.width, rec.height);
+            float x = person.getPosition().x + rec.x;
+            float y = person.getPosition().y + rec.y;
+            rend.setColor(new Color(1, 0, 0, 1));
+            rend.rect(x, y, rec.width, rec.height);
         }
 
         rend.end();

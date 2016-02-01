@@ -1,16 +1,27 @@
 User Stories:
 
-Camera - have a fixed camera on an object, joystick on screen, circle/box moving
-around
+As a user I want to be able to use a joystick so that I can move the player
+around the world
+	Camera - have a fixed camera on an object, joystick on screen, circle/box moving
+	around
 
-networking - connecting to another phone and being able to send data back and
-forth
+As a player I want to be able to see other players on the map so that I can
+interact and fight with them 
+	networking - connecting to another phone and being able to send data back and
+	forth
 
-map - having a map with terrain that can interact with player
+As a player I want to have a map with a variety of terrain so that it adds
+complexity to the game which allows for a more dynamic player vs player
+experience 
+	map - having a map with terrain that can interact with player
 
-animations of the character - having the object move around when is triggered
+As a user I want to be able to see an animated player character so that I can
+see different movements that the player character conduscts 
+	animations of the character - having the object move around when is triggered
 
-menu - having a menu to the game
+As a user when I first start the game I want to see a game menu so that I can
+interact with different game options
+	menu - having a menu to the game
 
 
 Milestone - all of us meeting and setting up an environment (We should all test

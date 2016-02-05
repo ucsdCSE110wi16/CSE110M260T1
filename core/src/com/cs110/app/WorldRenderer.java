@@ -1,6 +1,7 @@
 package com.cs110.app;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.cs110.app.Model.World;
 
 /**
  * Created by Yashwanth on 1/25/16.

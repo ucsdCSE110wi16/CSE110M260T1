@@ -13,7 +13,6 @@ public class CS110App extends Game { //The automatically generated code has Appl
 	@Override
 	public void create () {
 
-
         super.setScreen(new GameScreen());
         //super.render();
 	}
@@ -22,6 +21,12 @@ public class CS110App extends Game { //The automatically generated code has Appl
 	public void render () {
         super.render();
 
+		//getScreen().render(0);
+		/*Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		batch.begin();
+		batch.draw(img, 0, 0);
+		batch.end(); */
 	}
 
 }

@@ -27,6 +27,8 @@ public class World
     private ArrayList<Obstacle> obstacles; //a list of obstacles in the map. Maybe we can have an interface
     // called Obstacle and then from there we can have multiple obstacles
 
+    public static long gameTime = System.currentTimeMillis(); //current time in the world
+
     // I am forcing player to be created with a player because there are too many places that could
     // have null pointer exceptions if done otherwise
     public World(Player p)

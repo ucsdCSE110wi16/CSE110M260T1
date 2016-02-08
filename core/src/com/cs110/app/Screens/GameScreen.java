@@ -186,6 +186,7 @@ public class GameScreen implements Screen
 
 
         //System.err.println("Game screen rendedring");
+        World.gameTime = System.currentTimeMillis();
         renderer.render();
 
         stage.act(delta);

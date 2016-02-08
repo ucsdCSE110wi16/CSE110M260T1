@@ -61,14 +61,13 @@ public class GameScreen implements Screen
 
         //The 20 is how much distance touchpad has to be moved before detecting the motion
         pad = new Touchpad(10, touchpadStyle);
-        pad.setBounds(15, 15, 200, 200);
+        pad.setBounds(30, 30, 200, 200);
 
         //add touchpad to the stage
         stage = new Stage();
         stage.addActor(pad);
 
         Gdx.input.setInputProcessor(stage);
-
     }
 
     @Override
@@ -84,11 +83,13 @@ public class GameScreen implements Screen
             world.getPlayer().move(pad.getKnobPercentX(), pad.getKnobPercentY());
         }
 
-        stage.act(delta);
-        stage.draw();
+
 
         //System.err.println("Game screen rendedring");
         renderer.render();
+
+        stage.act(delta);
+        stage.draw();
 
     }
 

@@ -87,30 +87,20 @@ public class GameScreen implements Screen
         //buttonsAtlas = new TextureAtlas("touchKnob.png");
         //buttonSkin.addRegions(buttonsAtlas);
         buttonSkin.add("button",new Texture("touchKnob.png"));
+         buttonSkin.add("buttonDown",new Texture("buttonDown.png"));
         textbuttonStyle = new TextButton.TextButtonStyle();
         textbuttonStyle.font = font;
         textbuttonStyle.up = buttonSkin.getDrawable("button");
-        textbuttonStyle.down = buttonSkin.getDrawable("button");
+        textbuttonStyle.down = buttonSkin.getDrawable("buttonDown");
         textbuttonStyle.checked = buttonSkin.getDrawable("button");
 
         buttonX = new TextButton("X",textbuttonStyle);
         buttonY = new TextButton("Y",textbuttonStyle);
         buttonZ = new TextButton("Z",textbuttonStyle);
 
-        buttonX.setWidth(60);
-        buttonX.setHeight(60);
-        buttonY.setWidth(60);
-        buttonY.setHeight(60);
-        buttonZ.setWidth(60);
-        buttonZ.setHeight(60);
-
         buttonZ.pad(30);
         buttonX.pad(30);
         buttonY.pad(30);
-
-        buttonX.setColor(1,0,0,1);
-        buttonY.setColor(0,1,0,1);
-        buttonZ.setColor(0,0,1,1);
 
         //Adding on-touch listeners for buttons
         buttonX.addListener(new ClickListener()
@@ -157,12 +147,13 @@ public class GameScreen implements Screen
 
         //Adds the pad and on-screen buttons to group
         HorizontalGroup group = new HorizontalGroup();
-        group.pad(0,50,200,0);
+        group.pad(0,50,250,0);
         group.align(Align.left);
         group.addActor(pad);
         group.addActor(buttonX);
         group.addActor(buttonY);
         group.addActor(buttonZ);
+        group.space(20);
 
         //add touchpad to the stage
         stage = new Stage();

@@ -11,7 +11,7 @@ import java.util.Scanner;
  */
 public class NetworkingClient extends Listener {
     static Client client;
-    static String ip="localhost";
+    static String ip="137.110.91.239";
     static int tcpPort = 27960, udpPort = 27960;
 
     static boolean messageReceived=false;

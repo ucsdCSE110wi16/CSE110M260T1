@@ -48,6 +48,7 @@ public class Player
         setPosition(getPosition().x + knobPercentageX*SPEED, getPosition().y + knobPercentageY*SPEED);
     }
 
+
     //Launches a skillshot in the direction the player is facing, TODO: params TBD
     public void skillshot(Vector2 attackVector)
     {
@@ -62,7 +63,13 @@ public class Player
     //if double tap on location blink onto that location TBD: determine range of blink
     public void blink(Vector2 blinkVector)
     {
+        maxBlinkDist = 100;
+        //if the blink distance is too far, set it to the max
+        //if x^2+y^2 > 100^2
+        if(pow(blinkVector.x,2)+pow(blinkVector.y,2) > pow(maxBlinkDist,2)){
 
+        }
+        setPosition(getPosition().x+, getPosition().y);
     }
 
     //returns true if they are the same player

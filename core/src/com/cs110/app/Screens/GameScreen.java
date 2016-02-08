@@ -61,7 +61,7 @@ public class GameScreen implements Screen
 
         //The 20 is how much distance touchpad has to be moved before detecting the motion
         pad = new Touchpad(10, touchpadStyle);
-        pad.setBounds(15, 15, 200, 200);
+        pad.setBounds(90, 60, 200, 200);
 
         //add touchpad to the stage
         stage = new Stage();

@@ -10,19 +10,24 @@ public class CS110App extends Game { //The automatically generated code has Appl
 
 	SpriteBatch batch;
 	Texture img;
-	
+	NetworkingClient NC;
 	@Override
-	public void create () {
+	public void create (){
 
-
-        super.setScreen(new GameScreen());
-        //super.render();
+		GameScreen screen = new GameScreen();
+        super.setScreen(screen);
+		try {
+			NC = new NetworkingClient(screen);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//super.render();
 	}
 
 	@Override
 	public void render () {
         super.render();
-
+		NC.update();
 	}
 
 }

@@ -21,7 +21,6 @@ public class NetworkingServer extends Listener{
             public void connected(Connection c) {
                 System.out.println("REceived a connection from " + c.getRemoteAddressTCP().getHostString());
                 PacketMessage packetMessage = new PacketMessage();
-                packetMessage.message = "Hello friend! The time is " + new Date().toString();
 
                 c.sendTCP(packetMessage);
 
@@ -30,12 +29,10 @@ public class NetworkingServer extends Listener{
             public void received(Connection c, Object p) {
                 if(p instanceof PacketMessage){
                     PacketMessage pm = (PacketMessage)p;
-                    System.out.println("Received message as Server: " + pm.message);
                 }
                 System.out.println("PacketClass " + p.getClass().toString());
                 Scanner kboard = new Scanner(System.in);
                 PacketMessage packetMessage = new PacketMessage();
-                packetMessage.message = kboard.nextLine();
                 c.sendUDP(packetMessage);
             }
 

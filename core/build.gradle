@@ -6,5 +6,5 @@ eclipse.project {
     name = appName + "-core"
 }
 dependencies {
-    compile files('/Users/OriGilad/CSE110M260T1/Lib/kryonet-2.18-all.jar')
+    compile files('../Lib/kryonet-2.18-all.jar')
 }

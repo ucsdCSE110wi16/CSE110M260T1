@@ -11,7 +11,7 @@ public class CS110App extends Game { //The automatically generated code has Appl
 	SpriteBatch batch;
 	Texture img;
 	NetworkingServer NS;
-	NetworkingClient NC; // Uncomment to be client
+	NetworkingClient NC;
 	
 	@Override
 	public void create () {
@@ -19,8 +19,8 @@ public class CS110App extends Game { //The automatically generated code has Appl
 		GameScreen screen = new GameScreen();
 		super.setScreen(screen);
 		try {
-//			NS = new NetworkingServer(screen);
-			NC = new NetworkingClient(screen); // Uncomment to be client
+			NS = new NetworkingServer(screen);
+//			NC = new NetworkingClient(screen); // Uncomment to be client
 		}
 		catch(Exception e) {
 

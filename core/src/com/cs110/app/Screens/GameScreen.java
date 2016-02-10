@@ -21,8 +21,7 @@ import com.cs110.app.View.WorldRenderer;
  */
 
 //This is the screen that is shown when the the game itself is being played
-public class GameScreen implements Screen
-{
+public class GameScreen implements Screen {
 
     private World world;
     private WorldRenderer renderer;
@@ -37,8 +36,7 @@ public class GameScreen implements Screen
     SpriteBatch batch;
 
     @Override
-    public void show()
-    {
+    public void show() {
         //create new world with a player at the location
         world = new World(new Player(new Vector2(5, 5), "Player1"));
         renderer = new WorldRenderer(world);
@@ -72,15 +70,14 @@ public class GameScreen implements Screen
     }
 
     @Override
-    public void render(float delta)
-    {
+    public void render(float delta) {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         /*
         Moving the player
          */
-        if(pad.isTouched()) {
+        if (pad.isTouched()) {
             world.getPlayer().move(pad.getKnobPercentX(), pad.getKnobPercentY());
         }
 
@@ -91,6 +88,12 @@ public class GameScreen implements Screen
         renderer.render();
 
     }
+
+    public World getWorld() {
+        return world;
+    }
+
+
 
     @Override
     public void resize(int width, int height)

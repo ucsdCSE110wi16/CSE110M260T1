@@ -25,9 +25,8 @@ public class NetworkingClient extends Listener {
             public void received(Connection c, Object p) {
                 if (p instanceof PacketMessage) {
                     PacketMessage packet = (PacketMessage) p;
-                    System.out.println("Message received: " + packet.message);
+//                    System.out.println("Message received: " + packet.message);
                     PacketMessage packetMessage = new PacketMessage();
-                    packetMessage.message = "hello";
                     c.sendUDP(packetMessage);
                 }
             }
@@ -41,9 +40,6 @@ public class NetworkingClient extends Listener {
     public static void main(String args[]) throws Exception{
 
         NetworkingClient c = new NetworkingClient();
-
-
-
 
     }
 

@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class NetworkingServer extends Listener{
     private static Server server;
     private static int udpPort = 27961, tcpPort = 27961;
+    private int oldXCord = 0, oldYCord = 0;
     public NetworkingServer(final GameScreen gs) throws Exception{
         System.out.println("Creating the server ... ");
         server = new Server();
@@ -30,12 +31,23 @@ public class NetworkingServer extends Listener{
 
 
                 public void received(Connection c, Object p) {
+
                     if (p instanceof PacketMessage) {
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         PacketMessage pm = (PacketMessage) p;
+                        if (oldXCord != pm.xCord || oldYCord != pm.yCord) {
+                            System.out.println("Received News: X:" + oldXCord + "  Y:" + oldYCord);
+                        }
+                        oldXCord = pm.xCord;
+                        oldYCord = pm.yCord;
+
 //                    System.out.println("Received message as Server: " + pm.message);
                     }
 
-                    System.out.println("PacketClass " + p.getClass().toString());
                     PacketMessage packetMessage = new PacketMessage();
                     packetMessage.xCord = (int) gs.getWorld().getPlayer().getPosition().x;
                     packetMessage.yCord = (int) gs.getWorld().getPlayer().getPosition().y;

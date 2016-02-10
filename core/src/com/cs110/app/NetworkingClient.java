@@ -27,6 +27,11 @@ public class NetworkingClient extends Listener {
         client.addListener(new ThreadedListener(new Listener() {
             public void received(Connection c, Object p) {
                 if (p instanceof PacketMessage) {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     PacketMessage packet = (PacketMessage) p;
                     if(oldXCord != packet.xCord || oldYCord != packet.yCord){
                         System.out.println("Received News: X:" + oldXCord + "  Y:" + oldYCord);
@@ -34,8 +39,12 @@ public class NetworkingClient extends Listener {
                     oldXCord = packet.xCord;
                     oldYCord = packet.yCord;
 
+
                     //packet.player = gs.getWorld().getPlayer();
                     PacketMessage packetMessage = new PacketMessage();
+                    packetMessage.xCord = (int)gs.getWorld().getPlayer().getPosition().x;
+                    packetMessage.yCord = (int)gs.getWorld().getPlayer().getPosition().y;
+
                     c.sendUDP(packetMessage);
                 }
             }

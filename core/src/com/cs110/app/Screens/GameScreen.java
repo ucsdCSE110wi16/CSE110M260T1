@@ -35,9 +35,6 @@ public class GameScreen implements Screen {
 
     SpriteBatch batch;
 
-    public World getWorld(){
-        return world;
-    }
 
     @Override
     public void show() {

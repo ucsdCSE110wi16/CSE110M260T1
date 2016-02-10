@@ -35,6 +35,10 @@ public class GameScreen implements Screen {
 
     SpriteBatch batch;
 
+    public World getWorld(){
+        return world;
+    }
+
     @Override
     public void show() {
         //create new world with a player at the location

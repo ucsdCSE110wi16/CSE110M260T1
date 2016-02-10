@@ -31,7 +31,6 @@ public class CS110App extends Game { //The automatically generated code has Appl
 	@Override
 	public void render () {
         super.render();
-
 	}
 
 }

@@ -21,14 +21,13 @@ public class NetworkingServer extends Listener{
             public void connected(Connection c) {
                 System.out.println("Received a connection from " + c.getRemoteAddressTCP().getHostString());
                 PacketMessage packetMessage = new PacketMessage();
-//                packetMessage.message = "Hello friend! The time is " + new Date().toString();
-
                 packetMessage.xCord = (int) gs.getWorld().getPlayer().getPosition().x;
                 packetMessage.yCord = (int) gs.getWorld().getPlayer().getPosition().y;
 
                 c.sendUDP(packetMessage);
 
             }
+
 
                 public void received(Connection c, Object p) {
                     if (p instanceof PacketMessage) {

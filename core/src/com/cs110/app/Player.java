@@ -21,4 +21,6 @@ public class Player {
         bounds.height = SIZE;
         bounds.width = SIZE;
     }
+
+
 }

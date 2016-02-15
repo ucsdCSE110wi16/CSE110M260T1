@@ -23,6 +23,8 @@ public class World
     // associated with the client it is running on
 
     private Player myPlayer; //the player associated with this client, camera is centered on this
+    private Player otherPlayer; //the player associated with this client, camera is centered on this
+
     private ArrayList<Player> players; //list of all the players in the world
     private ArrayList<Obstacle> obstacles; //a list of obstacles in the map. Maybe we can have an interface
     // called Obstacle and then from there we can have multiple obstacles
@@ -34,7 +36,7 @@ public class World
         players = new ArrayList<Player>();
         obstacles = new ArrayList<Obstacle>();
         addPlayer(p);
-        setPlayer(p);
+        setSelfPlayer(p);
         createWorld();
     }
 
@@ -45,7 +47,7 @@ public class World
         addObstacle(new Obstacle(new Vector2(6, 4)));
         addObstacle(new Obstacle(new Vector2(8, 9)));
         addObstacle(new Obstacle(new Vector2(-5, -4), 10, 2));
-        addObstacle(0,0);
+        addObstacle(0, 0);
 
         //in this instance we should also probabally get all the players from the server and add them too
         // and we need to keep updating the players from the server on every render
@@ -75,6 +77,7 @@ public class World
         players.add(p);
     }
 
+
     //adds a default obstacle at the position
     private void addObstacle(float x, float y){
         obstacles.add(new Obstacle(new Vector2(x, y)));
@@ -84,15 +87,24 @@ public class World
         obstacles.add(o);
     }
     //set the main player of this world (i.e. the on camera is centered on)
-    public void setPlayer(Player p)
+    public void setSelfPlayer(Player p)
     {
         myPlayer = p;
     }
+    public void setOtherPlayer(Player p)
+    {
+        otherPlayer = p;
+        addPlayer(otherPlayer);
+    }
 
     //get the main player of this world (i.e. the on camera is centered on)
-    public Player getPlayer()
+    public Player getSelfPlayer()
     {
         return myPlayer;
+    }
+    public Player getOtherPlayer()
+    {
+        return otherPlayer;
     }
 
     public ArrayList<Obstacle> getObstacles()

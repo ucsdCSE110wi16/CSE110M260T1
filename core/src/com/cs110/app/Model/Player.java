@@ -45,7 +45,10 @@ public class Player
 
     //moves Player based on the given touchpad knob percentage
     public void move(float knobPercentageX, float knobPercentageY){
+
+
         setPosition(getPosition().x + knobPercentageX*SPEED, getPosition().y + knobPercentageY*SPEED);
+        System.out.println(getPosition().x);
     }
 
     //Launches a skillshot in the direction the player is facing, TODO: params TBD

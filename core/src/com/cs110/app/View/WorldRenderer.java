@@ -38,7 +38,7 @@ public class WorldRenderer
         camera = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT * (h/w));
 
         //centers the camera on the player
-        camera.position.set(world.getPlayer().getPosition().x, world.getPlayer().getPosition().y, 0);
+        camera.position.set(world.getSelfPlayer().getPosition().x, world.getSelfPlayer().getPosition().y, 0);
         camera.update();
 
 
@@ -49,7 +49,7 @@ public class WorldRenderer
     {
 
         //Keeping the camera the centered on the player
-        camera.position.set(world.getPlayer().getPosition().x, world.getPlayer().getPosition().y, 0);
+        camera.position.set(world.getSelfPlayer().getPosition().x, world.getSelfPlayer().getPosition().y, 0);
         camera.update();
 
         //Drawing

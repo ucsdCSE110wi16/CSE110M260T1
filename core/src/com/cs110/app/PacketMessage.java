@@ -12,8 +12,8 @@ public class PacketMessage {
 //    public boolean closeAttack = false;
 //    public boolean rangedAttack = false;
 
-    public int xCord;
-    public int yCord;
+    public float xCord;
+    public float yCord;
 
 //    public String message;
 

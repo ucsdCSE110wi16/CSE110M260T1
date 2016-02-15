@@ -34,7 +34,7 @@ public class WorldController {
 
     public WorldController(World world){
         this.world = world;
-        this.player = world.getPlayer();
+        this.player = world.getSelfPlayer();
     }
 
     /* Following methods are for keys pressed and touched */

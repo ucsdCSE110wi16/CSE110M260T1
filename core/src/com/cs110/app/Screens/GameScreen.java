@@ -79,7 +79,7 @@ public class GameScreen implements Screen {
         Moving the player
          */
         if (pad.isTouched()) {
-            world.getPlayer().move(pad.getKnobPercentX(), pad.getKnobPercentY());
+            world.getSelfPlayer().move(pad.getKnobPercentX(), pad.getKnobPercentY());
         }
 
         stage.act(delta);

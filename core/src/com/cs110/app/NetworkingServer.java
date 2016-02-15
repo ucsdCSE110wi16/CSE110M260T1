@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class NetworkingServer extends Listener{
     private static Server server;
     private static int udpPort = 27961, tcpPort = 27961;
-    private int oldXCord = 0, oldYCord = 0;
+    private float oldXCord = 0, oldYCord = 0;
     public NetworkingServer(final GameScreen gs) throws Exception{
         System.out.println("Creating the server ... ");
         server = new Server();
@@ -22,8 +22,8 @@ public class NetworkingServer extends Listener{
             public void connected(Connection c) {
                 System.out.println("Received a connection from " + c.getRemoteAddressTCP().getHostString());
                 PacketMessage packetMessage = new PacketMessage();
-                packetMessage.xCord = (int) gs.getWorld().getPlayer().getPosition().x;
-                packetMessage.yCord = (int) gs.getWorld().getPlayer().getPosition().y;
+                packetMessage.xCord = (int) gs.getWorld().getSelfPlayer().getPosition().x;
+                packetMessage.yCord = (int) gs.getWorld().getSelfPlayer().getPosition().y;
 
                 c.sendUDP(packetMessage);
 
@@ -49,8 +49,8 @@ public class NetworkingServer extends Listener{
                     }
 
                     PacketMessage packetMessage = new PacketMessage();
-                    packetMessage.xCord = (int) gs.getWorld().getPlayer().getPosition().x;
-                    packetMessage.yCord = (int) gs.getWorld().getPlayer().getPosition().y;
+                    packetMessage.xCord =  gs.getWorld().getSelfPlayer().getPosition().x;
+                    packetMessage.yCord =  gs.getWorld().getSelfPlayer().getPosition().y;
 //
 //                Scanner kboard = new Scanner(System.in);
 //                packetMessage.message = kboard.nextLine();

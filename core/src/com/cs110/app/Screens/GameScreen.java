@@ -61,7 +61,7 @@ public class GameScreen implements Screen
     public void show()
     {
         //create new world with a player at the location
-        world = new World(new Player(new Vector2(5, 5), "Player1"));
+        world = new World(new Player(new Vector2(-150, -40), "Player1"));
         renderer = new WorldRenderer(world);
         controller = new WorldController(world);
 
@@ -180,8 +180,9 @@ public class GameScreen implements Screen
         /*
         Moving the player
          */
-        if(pad.isTouched())
+        if(pad.isTouched()) {
             world.getPlayer().move(pad.getKnobPercentX(), pad.getKnobPercentY());
+        }
 
 
 

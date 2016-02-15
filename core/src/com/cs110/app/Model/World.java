@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class World
 {
 
-    static final int WORLD_WIDTH = 1000;
-    static final int WORLD_HEIGHT = 1000;
+    static final int WORLD_WIDTH = 10000;
+    static final int WORLD_HEIGHT = 10000;
 
     //since this World object is associated with client side, each client will have his own World
     // (and the worlds share the obstacles and players list). Each world will also know the player
@@ -38,15 +38,16 @@ public class World
         addPlayer(p);
         setPlayer(p);
         createWorld();
+        p.setWorld(this);
     }
 
     //creates the game world
     private void createWorld()
     {
         System.err.println("Adding new player and obstalces!!!!");
-        addObstacle(new Obstacle(new Vector2(6, 4)));
-        addObstacle(new Obstacle(new Vector2(8, 9)));
-        addObstacle(new Obstacle(new Vector2(-5, -4), 10, 2));
+        addObstacle(new Obstacle(new Vector2(60, 40)));
+        addObstacle(new Obstacle(new Vector2(89, 90)));
+        addObstacle(new Obstacle(new Vector2(-50, -40), 10, 2));
         addObstacle(0,0);
 
         //in this instance we should also probabally get all the players from the server and add them too

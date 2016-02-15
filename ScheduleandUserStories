@@ -2,6 +2,36 @@ User Stories:
 
 As a user I want to be able to use a joystick so that I can move the player
 around the world
+<<<<<<< HEAD
+	Camera - have a fixed camera on an object, joystick on screen,
+	circle/box moving
+		around
+As a player I want to be able to see other players on the map so that I can
+interact and fight with them 
+	networking - connecting to another phone and being able
+	to send data back and forth
+
+As a player I want to have a map with a variety of terrain so that it adds
+complexity to the game which allows for a more dynamic player vs player
+experience 
+	map - having a map with terrain that can interact with player
+
+As a user I want to be able to see an animated player character so that I can
+see different movements that the player character conduscts 
+	animations of the character - having the object move around  when is triggered
+
+As a user when I first start the game I want to see a game menu so that I can
+interact with different game options
+	menu - having a menu to the game 
+
+Milestone - all of us meeting and setting up an environment (We should all test libdgx beforehand)
+	- Monday Milestone - splitting up into teams: Networking vs gamedev 
+	- Monday Milestone - connection and info send between two phones; Character moving around and make a map 
+	- Monday week 5 Milestone - view other players movement; character actions 
+	- monday week 6 Milestone - have other players actions affect your player and vise versa; animations 
+	- monday week 7 Milestone - game menus + polishing/animations -
+	monday week 8
+=======
 	Camera - have a fixed camera on an object, joystick on screen, circle/box moving
 	around
 
@@ -22,14 +52,5 @@ see different movements that the player character conduscts
 As a user when I first start the game I want to see a game menu so that I can
 interact with different game options
 	menu - having a menu to the game
+>>>>>>> c8dba41e592ba980f8dded3067f01fea86827481
 
-
-Milestone - all of us meeting and setting up an environment (We should all test
-				libdgx beforehand) - Monday
-Milestone - splitting up into teams: Networking vs gamedev - Monday
-Milestone - connection and info send between two phones; Character moving around
-and make a map - Monday week 5
-Milestone - view other players movement; character actions - monday week 6
-Milestone - have other players actions affect your player and vise versa;
-animations - monday week 7
-Milestone - game menus + polishing/animations - monday week 8

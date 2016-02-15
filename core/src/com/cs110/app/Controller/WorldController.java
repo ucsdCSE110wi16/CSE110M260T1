@@ -10,6 +10,7 @@ import java.util.Map;
 /**
  * Created by Yashwanth on 1/31/16.
  */
+
 public class WorldController
 {
 
@@ -42,25 +43,7 @@ public class WorldController
 
     /* Following methods are for keys pressed and touched */
 
-    // public void upPressed()
-    // {
-    //     //The tutorial has keys.get(keys.put(Keys.LEFT, true);) but i don't see the point of the get ~Yashwanth
-    //     keys.put(Keys.LEFT, true);
-    // }
-
-    // public void downPressed()
-    // {
-    //     keys.put(Keys.DOWN, true);
-    // }
-
-    // public void leftPressed()
-    // {
-    //     keys.put(Keys.LEFT, true);
-    // }
-    // public void rightPressed()
-    // {
-    //     keys.put(Keys.RIGHT, true); // }
-    //
+    //This is simialr to the update method in screen it gets called every cycle
 
     public void buttonXPressed()
     {
@@ -98,8 +81,8 @@ public class WorldController
         player.update(delta);
     }
 
-    private void processInput()
-    {
+
+    private void processInput(){
 
     }
 

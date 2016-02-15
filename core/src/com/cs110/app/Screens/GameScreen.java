@@ -27,7 +27,6 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.cs110.app.Controller.WorldController;
-import com.cs110.app.Model.CoolDowns;
 import com.cs110.app.Model.Player;
 import com.cs110.app.Model.World;
 import com.cs110.app.View.WorldRenderer;
@@ -67,7 +66,7 @@ public class GameScreen implements Screen
     public void show()
     {
         //create new world with a player at the location
-        world = new World(new Player(new Vector2(-150, -40), "Player1"));
+        world = new World(new Player(new Vector2(300, 200), "Player1"));
         renderer = new WorldRenderer(world);
         controller = new WorldController(world);
 

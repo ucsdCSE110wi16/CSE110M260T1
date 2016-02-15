@@ -95,10 +95,11 @@ public class WorldRenderer
             rend.rect(x, y, rec.width, rec.height);
             rend.end();
 
-            rend.begin(ShapeRenderer.ShapeType.Line);
-            rend.setColor(new Color(0, 20, 3, 1));
-            rend.polygon(obj.getPolygon().getTransformedVertices());
-            rend.end();
+            //Drawing collision polygon for debug
+//            rend.begin(ShapeRenderer.ShapeType.Line);
+//            rend.setColor(new Color(0, 20, 3, 1));
+//            rend.polygon(obj.getPolygon().getTransformedVertices());
+//            rend.end();
 
 
         }
@@ -154,16 +155,9 @@ public class WorldRenderer
             rend.rect(x2, y2, rec2.width / 2, rec2.height / 2, rec2.width, rec2.height, 1f, 1f, (float) Math.toDegrees(person.getRotation()));
 
 
-            //updating hitbox rotation
-
-            System.err.println("{ Player Pos, polygon pos}: {(" + person.getPosition() + "). " +
-                    person.getPolygon1().getX() +"," + person.getPolygon1().getY() + ")}");
-
-            System.err.println(person.collides());
-
-            rend.setColor(new Color(0, 1, 1, 0));
-            rend.polygon(person.getPolygon1().getTransformedVertices());
-            rend.polygon(person.getPolygon2().getTransformedVertices());
+            //Drawing collision polygon for debug
+//            rend.setColor(new Color(0, 1, 1, 0));
+//            rend.polygon(person.getPolygon().getTransformedVertices());
 
             rend.end();
 

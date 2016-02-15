@@ -22,7 +22,7 @@ public class Player {
     public static final int IMAGE_WIDTH = 150;
     public static final int MAX_HEALTH = 100;
     public static final int MAX_ARMOR = 100;
-    public static final float SPEED = 5f;
+    public static final float SPEED = 10f;
 
     Vector2 position = new Vector2(); //position of the player character
     Vector2 acceleration = new Vector2(); //acceleration of the player character
@@ -36,8 +36,8 @@ public class Player {
     Rectangle bounds1 = new Rectangle(); //hitbox from nose to tail
     Rectangle bounds2 = new Rectangle(); //hitbox wingspan
 
-    Polygon polygon1; // polygon to represent bounds1 for collision detection
-    Polygon polygon2; //polgyon to represent bounds2 for collision detection
+    //Polygon used for collision detection
+    Polygon polygon;
     TriangleMesh triangleMesh = new TriangleMesh();
 
     private World world;
@@ -55,22 +55,22 @@ public class Player {
         Id = playerID;
         rotation = 0;
 
-        polygon1 = new Polygon(new float[]{
-                0,0,
-                bounds1.width, 0,
-                bounds1.width, bounds1.height,
-                0, bounds1.height});
-        polygon1.setOrigin(bounds1.width/2, bounds2.width/2);
-
-        polygon2 = new Polygon(new float[]{
-                0,0,
-                bounds2.width, 0,
-                bounds2.width, bounds2.height,
-                0, bounds2.height});
-        polygon2.setOrigin(bounds2.width/2, bounds2.width/2);
-
-        polygon1.setPosition(getPosition().x, getPosition().y);
-        polygon2.setPosition(getPosition().x, getPosition().y);
+        polygon = new Polygon(new float[]{
+           -IMAGE_WIDTH/4, IMAGE_HEIGHT/2, //A
+           IMAGE_WIDTH/4, IMAGE_HEIGHT/2, //B
+           IMAGE_WIDTH/4, IMAGE_HEIGHT/4, //C
+           IMAGE_WIDTH/2, IMAGE_HEIGHT/4, //D
+           IMAGE_WIDTH/2, -IMAGE_HEIGHT/4, //E
+           IMAGE_WIDTH/4, -IMAGE_HEIGHT/4, //F
+           IMAGE_WIDTH/4, -IMAGE_HEIGHT/2, //G
+           -IMAGE_WIDTH/4, -IMAGE_HEIGHT/2,//H
+           -IMAGE_WIDTH/4, -IMAGE_HEIGHT/4,//I
+           -IMAGE_WIDTH/2, -IMAGE_HEIGHT/4, //J
+           -IMAGE_WIDTH/2, IMAGE_HEIGHT/4, //K
+           -IMAGE_WIDTH/4, IMAGE_HEIGHT/4 //L
+        });
+        polygon.setOrigin(0,0);
+        polygon.setPosition(getPosition().x, getPosition().y);
 
 
         //triangleMesh = new TriangleMesh(true, 3, 3, )
@@ -87,12 +87,10 @@ public class Player {
         float xNew = getPosition().x + moveVector.x;
         float yNew = getPosition().y + moveVector.y;
 
-        getPolygon1().setPosition(xNew, yNew);
-        getPolygon2().setPosition(xNew, yNew);
+        getPolygon().setPosition(xNew, yNew);
 
         if(collides()){
-            getPolygon1().setPosition(getPosition().x, getPosition().y);
-            getPolygon2().setPosition(getPosition().x, getPosition().y);
+            getPolygon().setPosition(getPosition().x, getPosition().y);
             return;
         }
 
@@ -107,16 +105,12 @@ public class Player {
         float yNew = getPosition().y + knobPercentageY * SPEED;
         double rotNew = Math.atan2((double) knobPercentageY, (double) knobPercentageX);
 
-        getPolygon1().setPosition(xNew, yNew);
-        getPolygon2().setPosition(xNew, yNew);
-        getPolygon2().setRotation((float)(Math.toDegrees(rotNew)));
-        getPolygon1().setRotation((float)(Math.toDegrees(rotNew)));
+        getPolygon().setPosition(xNew, yNew);
+        getPolygon().setRotation((float)(Math.toDegrees(rotNew)));
 
         if(collides()){
-            getPolygon1().setPosition(getPosition().x, getPosition().y);
-            getPolygon2().setPosition(getPosition().x, getPosition().y);
-            getPolygon2().setRotation((float) Math.toDegrees(getRotation()));
-            getPolygon1().setRotation((float) Math.toDegrees(getRotation()));
+            getPolygon().setPosition(getPosition().x, getPosition().y);
+            getPolygon().setRotation((float) Math.toDegrees(getRotation()));
             return;
         }
         setRotation(rotNew);
@@ -166,8 +160,7 @@ public class Player {
     public void setRotation(double radians){
 
         rotation = radians;
-        getPolygon1().setRotation((float) (Math.toDegrees(radians)));
-        getPolygon2().setRotation((float) (Math.toDegrees(radians)));
+        getPolygon().setRotation((float) (Math.toDegrees(radians)));
     }
 
     //returns the rectangle hitbox from nose to tail of this Player
@@ -180,12 +173,7 @@ public class Player {
     }
 
     //returns polygons corresponding to the bounds
-    public Polygon getPolygon1(){
-        return polygon1;
-    }
-    public Polygon getPolygon2(){
-        return polygon2;
-    }
+    public Polygon getPolygon()  { return polygon;  }
     //TODO we might not need this anymore
     //Updates Player's position based on velocity
     public void update(float delta) {
@@ -198,15 +186,11 @@ public class Player {
     }
 
     public boolean collides(Player player){
-        return Intersector.overlapConvexPolygons(player.getPolygon1(), getPolygon1()) ||
-                Intersector.overlapConvexPolygons(player.getPolygon1(), getPolygon2()) ||
-                Intersector.overlapConvexPolygons(player.getPolygon2(), getPolygon1()) ||
-                Intersector.overlapConvexPolygons(player.getPolygon2(), getPolygon2());
+        return Intersector.overlapConvexPolygons(player.getPolygon(), getPolygon());
     }
 
     public boolean collides(Obstacle obstacle){
-        return Intersector.overlapConvexPolygons(obstacle.polygon, getPolygon1()) ||
-                Intersector.overlapConvexPolygons(obstacle.polygon, getPolygon2());
+        return Intersector.overlapConvexPolygons(obstacle.polygon, getPolygon());
     }
 
     public void setWorld(World w){

@@ -2,6 +2,7 @@ package com.cs110.app.Model;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
+import java.lang.Math;
 /**
  * Created by Yashwanth on 1/24/16.
  */
@@ -63,13 +64,15 @@ public class Player
     //if double tap on location blink onto that location TBD: determine range of blink
     public void blink(Vector2 blinkVector)
     {
-        maxBlinkDist = 100;
+        double maxBlinkDist = 300;
         //if the blink distance is too far, set it to the max
-        //if x^2+y^2 > 100^2
-        if(pow(blinkVector.x,2)+pow(blinkVector.y,2) > pow(maxBlinkDist,2)){
-
+        //if (x^2+y^2 > 100^2)
+        double hypot = blinkVector.len();
+        if(hypot > maxBlinkDist){
+            double ratio = hypot/maxBlinkDist;
+            blinkVector.setLength((float)maxBlinkDist);
         }
-        setPosition(getPosition().x+, getPosition().y);
+        setPosition(getPosition().x + blinkVector.x, getPosition().y + blinkVector.y);
     }
 
     //returns true if they are the same player

@@ -1,4 +1,4 @@
-package com.cs110.app;
+package com.cs110.app.Net;
 
 import com.badlogic.gdx.math.Vector2;
 import com.cs110.app.Model.Player;
@@ -6,9 +6,6 @@ import com.cs110.app.Screens.GameScreen;
 import com.esotericsoftware.kryonet.Server;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Connection;
-
-import java.util.Date;
-import java.util.Scanner;
 
 public class NetworkingServer extends Listener{
     private static Server server;
@@ -41,7 +38,7 @@ public class NetworkingServer extends Listener{
 
                     if (p instanceof PacketMessage) {
                         try {
-                            Thread.sleep(10);
+                            Thread.sleep(5);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

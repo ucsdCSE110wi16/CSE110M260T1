@@ -1,4 +1,4 @@
-package com.cs110.app;
+package com.cs110.app.Net;
 
 import com.cs110.app.Model.*;
 import com.cs110.app.Model.Player;
@@ -14,6 +14,11 @@ public class PacketMessage {
 
     public float xCord;
     public float yCord;
+
+    public Float shotXCord = null;
+    public Float shotYCord = null;
+
+
 
 //    public String message;
 

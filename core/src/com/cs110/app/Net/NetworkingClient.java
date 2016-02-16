@@ -1,15 +1,11 @@
-package com.cs110.app;
+package com.cs110.app.Net;
 
 import com.badlogic.gdx.math.Vector2;
-import com.cs110.app.Model.*;
 import com.cs110.app.Model.Player;
 import com.cs110.app.Screens.GameScreen;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-
-import java.util.Scanner;
-import java.util.Vector;
 
 /**
  * Created by OriGilad on 1/28/16.
@@ -37,13 +33,13 @@ public class NetworkingClient extends Listener {
             public void received(Connection c, Object p) {
                 if (p instanceof PacketMessage) {
                     try {
-                        Thread.sleep(10);
+                        Thread.sleep(5);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     PacketMessage packet = (PacketMessage) p;
                     if(oldXCord != packet.xCord || oldYCord != packet.yCord) {
-                        System.out.println("Received News: X:" + oldXCord + "  Y:" + oldYCord);
+                        //System.out.println("Received News: X:" + oldXCord + "  Y:" + oldYCord);
                         System.out.println(otherPlayer.getPosition());
                     }
                     oldXCord = packet.xCord;

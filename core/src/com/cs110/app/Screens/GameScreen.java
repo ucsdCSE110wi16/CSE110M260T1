@@ -39,7 +39,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         //create new world with a player at the location
-        world = new World(new Player(new Vector2(5, 5), "Player1"));
+        world = new World();
         renderer = new WorldRenderer(world);
 
 

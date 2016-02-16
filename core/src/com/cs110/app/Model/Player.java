@@ -48,7 +48,6 @@ public class Player
 
 
         setPosition(getPosition().x + knobPercentageX*SPEED, getPosition().y + knobPercentageY*SPEED);
-        System.out.println(getPosition().x);
     }
 
     //Launches a skillshot in the direction the player is facing, TODO: params TBD

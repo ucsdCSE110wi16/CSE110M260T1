@@ -38,7 +38,7 @@ public class WorldRenderer
         camera = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT * (h/w));
 
         //centers the camera on the player
-        camera.position.set(world.getSelfPlayer().getPosition().x, world.getSelfPlayer().getPosition().y, 0);
+//        camera.position.set(world.getSelfPlayer().getPosition().x, world.getSelfPlayer().getPosition().y, 0);
         camera.update();
 
 
@@ -71,7 +71,6 @@ public class WorldRenderer
 
         //Drawing the player
         for (Player person : world.getPlayers() ) {
-
             Rectangle rec = person.getBounds();
             float x = person.getPosition().x + rec.x;
             float y = person.getPosition().y + rec.y;

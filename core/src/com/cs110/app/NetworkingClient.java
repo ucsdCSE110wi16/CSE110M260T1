@@ -23,12 +23,15 @@ public class NetworkingClient extends Listener {
     static boolean messageReceived=false;
 
     public NetworkingClient(final GameScreen gs) throws Exception{
+        final Player myPlayer = new Player(new Vector2(5,5),"Player1");
+        final Player otherPlayer = new Player(new Vector2(7, 7), "Player2");
+        gs.getWorld().setSelfPlayer(myPlayer);
+        gs.getWorld().setOtherPlayer(otherPlayer);
         client = new Client();
         client.getKryo().register(PacketMessage.class);
         client.start();
         client.connect(5000, ip, tcpPort, udpPort);
-        final Player otherPlayer = new Player(new Vector2(5, 10), "Player2");
-        gs.getWorld().setOtherPlayer(otherPlayer);
+
 
         client.addListener(new ThreadedListener(new Listener() {
             public void received(Connection c, Object p) {
@@ -41,6 +44,7 @@ public class NetworkingClient extends Listener {
                     PacketMessage packet = (PacketMessage) p;
                     if(oldXCord != packet.xCord || oldYCord != packet.yCord) {
                         System.out.println("Received News: X:" + oldXCord + "  Y:" + oldYCord);
+                        System.out.println(otherPlayer.getPosition());
                     }
                     oldXCord = packet.xCord;
                     oldYCord = packet.yCord;

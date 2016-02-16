@@ -31,12 +31,10 @@ public class World
 
     // I am forcing player to be created with a player because there are too many places that could
     // have null pointer exceptions if done otherwise
-    public World(Player p)
+    public World()
     {
         players = new ArrayList<Player>();
         obstacles = new ArrayList<Obstacle>();
-        addPlayer(p);
-        setSelfPlayer(p);
         createWorld();
     }
 
@@ -90,6 +88,7 @@ public class World
     public void setSelfPlayer(Player p)
     {
         myPlayer = p;
+        addPlayer(myPlayer);
     }
     public void setOtherPlayer(Player p)
     {

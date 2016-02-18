@@ -38,7 +38,6 @@ public class Player {
 
     //Polygon used for collision detection
     Polygon polygon;
-    TriangleMesh triangleMesh = new TriangleMesh();
 
     private World world;
 

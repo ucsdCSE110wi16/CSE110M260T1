@@ -23,6 +23,8 @@ public class World
     // associated with the client it is running on
 
     private Player myPlayer; //the player associated with this client, camera is centered on this
+    private Player otherPlayer;
+
     private ArrayList<Player> players; //list of all the players in the world
     private ArrayList<Obstacle> obstacles; //a list of obstacles in the map. Maybe we can have an interface
     // called Obstacle and then from there we can have multiple obstacles
@@ -90,12 +92,36 @@ public class World
     public void setPlayer(Player p)
     {
         myPlayer = p;
+        p.setWorld(this);
     }
 
     //get the main player of this world (i.e. the on camera is centered on)
     public Player getPlayer()
     {
         return myPlayer;
+    }
+
+    public void setSelfPlayer(Player p)
+    {
+        myPlayer = p;
+        addPlayer(myPlayer);
+        p.setWorld(this);
+    }
+
+    public void setOtherPlayer(Player p)
+    {
+        otherPlayer = p;
+        addPlayer(otherPlayer);
+    }
+
+    //get the main player of this world (i.e. the on camera is centered on)
+    public Player getSelfPlayer()
+    {
+        return myPlayer;
+    }
+    public Player getOtherPlayer()
+    {
+        return otherPlayer;
     }
 
     public ArrayList<Obstacle> getObstacles()

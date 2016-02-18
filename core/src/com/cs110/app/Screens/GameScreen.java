@@ -59,8 +59,8 @@ public class GameScreen implements Screen
     SpriteBatch batch;
 
     public static Boolean buttonXClicked = false,
-                          buttonYClicked = false,
-                          ButtonZClicked = false;
+            buttonYClicked = false,
+            ButtonZClicked = false;
 
     @Override
     public void show()
@@ -268,6 +268,9 @@ public class GameScreen implements Screen
 
     }
 
+    public World getWorld(){
+        return world;
+    }
     @Override
     public void resize(int width, int height)
     {

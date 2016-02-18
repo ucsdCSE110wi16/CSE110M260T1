@@ -126,8 +126,8 @@ public class WorldRenderer
             spriteX -= playerSprite.getWidth()/2;
             spriteY -= playerSprite.getHeight()/2;
 
-           // spriteX = person.getPosition().x;
-           // spriteY = person.getPosition().y;
+            // spriteX = person.getPosition().x;
+            // spriteY = person.getPosition().y;
 
             spriteBatch.begin();
             //playerSprite.setPosition(spriteX, spriteY);

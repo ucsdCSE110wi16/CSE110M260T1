@@ -114,7 +114,6 @@ public class Player {
         }
         setRotation(rotNew);
         setPosition(xNew, yNew);
-
     }
 
     //Launches a skillshot in the direction the player is facing, TODO: params TBD

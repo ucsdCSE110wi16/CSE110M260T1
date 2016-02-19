@@ -12,8 +12,8 @@ public class NetworkingServer extends Listener{
     private static int udpPort = 27961, tcpPort = 27961;
     private float oldXCord = 0, oldYCord = 0;
     public NetworkingServer(final GameScreen gs) throws Exception{
-        final Player myPlayer = new Player(new Vector2(7,7),"Player1");
-        final Player otherPlayer = new Player(new Vector2(5, 5), "Player2");
+        final Player myPlayer = new Player(new Vector2(700,700),"Player1");
+        final Player otherPlayer = new Player(new Vector2(500, 500), "Player2");
         gs.getWorld().setSelfPlayer(myPlayer);
         gs.getWorld().setOtherPlayer(otherPlayer);
         System.out.println("Creating the server ... ");

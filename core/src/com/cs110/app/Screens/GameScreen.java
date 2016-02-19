@@ -66,7 +66,8 @@ public class GameScreen implements Screen
     public void show()
     {
         //create new world with a player at the location
-        world = new World(new Player(new Vector2(300, 200), "Player1"));
+        //world = new World(new Player(new Vector2(300, 200), "Player1"));
+        world = new World();
         renderer = new WorldRenderer(world);
         controller = new WorldController(world);
 

@@ -33,14 +33,14 @@ public class World
 
     // I am forcing player to be created with a player because there are too many places that could
     // have null pointer exceptions if done otherwise
-    public World(Player p)
+    public World(/*Player p*/)
     {
         players = new ArrayList<Player>();
         obstacles = new ArrayList<Obstacle>();
-        addPlayer(p);
-        setPlayer(p);
+        //addPlayer(p);
+        //setPlayer(p);
         createWorld();
-        p.setWorld(this);
+        //p.setWorld(this);
     }
 
     //creates the game world

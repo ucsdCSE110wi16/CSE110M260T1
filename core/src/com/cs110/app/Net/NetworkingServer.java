@@ -35,13 +35,9 @@ public class NetworkingServer extends Listener{
 
 
                 public void received(Connection c, Object p) {
-
+                    System.out.println("GENERAL PACKET");
                     if (p instanceof PacketMessage) {
-                        try {
-                            Thread.sleep(5);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        System.out.println("Packet of PacketMessage");
                         PacketMessage pm = (PacketMessage) p;
                         if (oldXCord != pm.xCord || oldYCord != pm.yCord) {
                             System.out.println("Received News: X:" + oldXCord + "  Y:" + oldYCord);

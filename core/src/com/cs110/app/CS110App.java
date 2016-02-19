@@ -18,8 +18,8 @@ public class CS110App extends Game { //The automatically generated code has Appl
 		setScreen(screen);
 		try {
 
-			//NS = new NetworkingServer(screen);
-            NC = new NetworkingClient(screen); // Uncomment to be client
+			NS = new NetworkingServer(screen);
+            //NC = new NetworkingClient(screen); // Uncomment to be client
 		}
 		catch(Exception e) {
 

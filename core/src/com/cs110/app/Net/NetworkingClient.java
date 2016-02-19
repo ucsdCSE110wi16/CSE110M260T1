@@ -12,7 +12,7 @@ import com.esotericsoftware.kryonet.Listener;
  */
 public class NetworkingClient extends Listener {
     static Client client;
-    static String ip="localhost";//"128.54.240.57";
+    static String ip="localhost";//"localhost";//"128.54.240.57";
     static int tcpPort = 27961, udpPort = 27961;
     float oldXCord, oldYCord;
 
@@ -32,21 +32,19 @@ public class NetworkingClient extends Listener {
 
         client.addListener(new ThreadedListener(new Listener() {
             public void received(Connection c, Object p) {
+                System.out.println("GENERAL PACKET");
                 if (p instanceof PacketMessage) {
-                    try {
-                        Thread.sleep(5);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    System.out.println("Packet of PacketMessage");
+
+
                     PacketMessage packet = (PacketMessage) p;
                     if(oldXCord != packet.xCord || oldYCord != packet.yCord) {
-                        //System.out.println("Received News: X:" + oldXCord + "  Y:" + oldYCord);
+                        System.out.println("Received News: X:" + oldXCord + "  Y:" + oldYCord);
                         System.out.println(otherPlayer.getPosition());
                     }
                     oldXCord = packet.xCord;
                     oldYCord = packet.yCord;
                     otherPlayer.setPosition(oldXCord, oldYCord);
-
 
                     //packet.player = gs.getWorld().getPlayer();
                     PacketMessage packetMessage = new PacketMessage();

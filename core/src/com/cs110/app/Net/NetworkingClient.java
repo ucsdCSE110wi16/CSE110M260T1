@@ -12,7 +12,7 @@ import com.esotericsoftware.kryonet.Listener;
  */
 public class NetworkingClient extends Listener {
     static Client client;
-    static String ip="localhost";//"128.54.240.57";
+    static String ip="137.110.92.194";//"localhost";//"128.54.240.57";
     static int tcpPort = 27961, udpPort = 27961;
     float oldXCord, oldYCord;
 

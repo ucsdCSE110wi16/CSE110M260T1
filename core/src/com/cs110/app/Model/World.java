@@ -15,37 +15,42 @@ import java.util.ArrayList;
 public class World
 {
 
-    static final int WORLD_WIDTH = 1000;
-    static final int WORLD_HEIGHT = 1000;
+    static final int WORLD_WIDTH = 10000;
+    static final int WORLD_HEIGHT = 10000;
 
     //since this World object is associated with client side, each client will have his own World
     // (and the worlds share the obstacles and players list). Each world will also know the player
     // associated with the client it is running on
 
     private Player myPlayer; //the player associated with this client, camera is centered on this
-    private Player otherPlayer; //the player associated with this client, camera is centered on this
+    private Player otherPlayer;
 
     private ArrayList<Player> players; //list of all the players in the world
     private ArrayList<Obstacle> obstacles; //a list of obstacles in the map. Maybe we can have an interface
     // called Obstacle and then from there we can have multiple obstacles
 
+    public static long gameTime = System.currentTimeMillis(); //current time in the world
+
     // I am forcing player to be created with a player because there are too many places that could
     // have null pointer exceptions if done otherwise
-    public World()
+    public World(/*Player p*/)
     {
         players = new ArrayList<Player>();
         obstacles = new ArrayList<Obstacle>();
+        //addPlayer(p);
+        //setPlayer(p);
         createWorld();
+        //p.setWorld(this);
     }
 
     //creates the game world
     private void createWorld()
     {
         System.err.println("Adding new player and obstalces!!!!");
-        addObstacle(new Obstacle(new Vector2(6, 4)));
-        addObstacle(new Obstacle(new Vector2(8, 9)));
-        addObstacle(new Obstacle(new Vector2(-5, -4), 10, 2));
-        addObstacle(0, 0);
+        addObstacle(new Obstacle(new Vector2(60, 40)));
+        addObstacle(new Obstacle(new Vector2(89, 90)));
+        addObstacle(new Obstacle(new Vector2(-50, -40), 10, 2));
+        addObstacle(0,0);
 
         //in this instance we should also probabally get all the players from the server and add them too
         // and we need to keep updating the players from the server on every render
@@ -75,7 +80,6 @@ public class World
         players.add(p);
     }
 
-
     //adds a default obstacle at the position
     private void addObstacle(float x, float y){
         obstacles.add(new Obstacle(new Vector2(x, y)));
@@ -85,11 +89,25 @@ public class World
         obstacles.add(o);
     }
     //set the main player of this world (i.e. the on camera is centered on)
+    public void setPlayer(Player p)
+    {
+        myPlayer = p;
+        p.setWorld(this);
+    }
+
+    //get the main player of this world (i.e. the on camera is centered on)
+    public Player getPlayer()
+    {
+        return myPlayer;
+    }
+
     public void setSelfPlayer(Player p)
     {
         myPlayer = p;
         addPlayer(myPlayer);
+        p.setWorld(this);
     }
+
     public void setOtherPlayer(Player p)
     {
         otherPlayer = p;

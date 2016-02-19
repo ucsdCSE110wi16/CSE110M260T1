@@ -19,8 +19,9 @@ public class NetworkingClient extends Listener {
     static boolean messageReceived=false;
 
     public NetworkingClient(final GameScreen gs) throws Exception{
-        final Player myPlayer = new Player(new Vector2(5,5),"Player1");
-        final Player otherPlayer = new Player(new Vector2(7, 7), "Player2");
+        final Player myPlayer = new Player(new Vector2(500,500),"Player1");
+        final Player otherPlayer = new Player(new Vector2(700, 700), "Player2");
+
         gs.getWorld().setSelfPlayer(myPlayer);
         gs.getWorld().setOtherPlayer(otherPlayer);
         client = new Client();

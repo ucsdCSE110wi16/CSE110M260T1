@@ -59,14 +59,15 @@ public class GameScreen implements Screen
     SpriteBatch batch;
 
     public static Boolean buttonXClicked = false,
-                          buttonYClicked = false,
-                          ButtonZClicked = false;
+            buttonYClicked = false,
+            ButtonZClicked = false;
 
     @Override
     public void show()
     {
         //create new world with a player at the location
-        world = new World(new Player(new Vector2(300, 200), "Player1"));
+        //world = new World(new Player(new Vector2(300, 200), "Player1"));
+        world = new World();
         renderer = new WorldRenderer(world);
         controller = new WorldController(world);
 
@@ -268,6 +269,9 @@ public class GameScreen implements Screen
 
     }
 
+    public World getWorld(){
+        return world;
+    }
     @Override
     public void resize(int width, int height)
     {

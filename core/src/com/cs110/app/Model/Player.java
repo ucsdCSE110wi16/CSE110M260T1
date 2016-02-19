@@ -38,7 +38,6 @@ public class Player {
 
     //Polygon used for collision detection
     Polygon polygon;
-    TriangleMesh triangleMesh = new TriangleMesh();
 
     private World world;
 
@@ -115,7 +114,6 @@ public class Player {
         }
         setRotation(rotNew);
         setPosition(xNew, yNew);
-
     }
 
     //Launches a skillshot in the direction the player is facing, TODO: params TBD

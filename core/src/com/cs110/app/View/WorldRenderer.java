@@ -47,7 +47,7 @@ public class WorldRenderer
         camera = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT * (h/w));
 
         //centers the camera on the player
-        camera.position.set(world.getPlayer().getPosition().x, world.getPlayer().getPosition().y, 0);
+        //camera.position.set(world.getPlayer().getPosition().x, world.getPlayer().getPosition().y, 0);
         camera.update();
 
         spriteBatch = new SpriteBatch();
@@ -126,8 +126,8 @@ public class WorldRenderer
             spriteX -= playerSprite.getWidth()/2;
             spriteY -= playerSprite.getHeight()/2;
 
-           // spriteX = person.getPosition().x;
-           // spriteY = person.getPosition().y;
+            // spriteX = person.getPosition().x;
+            // spriteY = person.getPosition().y;
 
             spriteBatch.begin();
             //playerSprite.setPosition(spriteX, spriteY);

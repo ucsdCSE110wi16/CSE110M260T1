@@ -27,6 +27,7 @@ public class World
 
     private ArrayList<Player> players; //list of all the players in the world
     private ArrayList<Obstacle> obstacles; //a list of obstacles in the map. Maybe we can have an interface
+    private ArrayList<Attack> attacks;
     // called Obstacle and then from there we can have multiple obstacles
 
     public static long gameTime = System.currentTimeMillis(); //current time in the world
@@ -89,6 +90,9 @@ public class World
         obstacles.add(o);
     }
     //set the main player of this world (i.e. the on camera is centered on)
+
+    public void addAttack( Attack a) { attacks.add(a); }
+    public void removeAttack(Attack a) { attacks.remove(a);}
     public void setPlayer(Player p)
     {
         myPlayer = p;

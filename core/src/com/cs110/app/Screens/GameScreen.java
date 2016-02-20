@@ -27,6 +27,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.cs110.app.Controller.WorldController;
+import com.cs110.app.Model.Attack;
 import com.cs110.app.Model.Player;
 import com.cs110.app.Model.World;
 import com.cs110.app.View.WorldRenderer;
@@ -121,11 +122,12 @@ public class GameScreen implements Screen
             public void touchUp(InputEvent event, float x, float y, int pointer, int button)
             {
                 controller.buttonXReleased();
+                world.addAttack((new Attack()));
 
                 buttonX.setTouchable(Touchable.disabled);
                 new Timer().schedule(new Timer.Task()
                 {
-                    int CD = 10;
+                    int CD = 10; // CD is cooldown
                     @Override
                     public void run()
                     {
@@ -133,7 +135,7 @@ public class GameScreen implements Screen
                         buttonX.setText(in);
                     }
 
-                },0,1,10);
+                },0,1,10); //10 is CD
                 new Timer().schedule(new Timer.Task()
                 {
                     @Override
@@ -143,7 +145,7 @@ public class GameScreen implements Screen
                         buttonX.setTouchable(Touchable.enabled);
                     }
 
-                },10,1,1);
+                },10,1,1); //10 is CD delay
             }
 
         });

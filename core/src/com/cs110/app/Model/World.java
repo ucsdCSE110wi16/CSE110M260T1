@@ -38,6 +38,7 @@ public class World
     {
         players = new ArrayList<Player>();
         obstacles = new ArrayList<Obstacle>();
+        attacks = new ArrayList<Attack>();
         //addPlayer(p);
         //setPlayer(p);
         createWorld();
@@ -92,7 +93,9 @@ public class World
     //set the main player of this world (i.e. the on camera is centered on)
 
     public void addAttack( Attack a) { attacks.add(a); }
-    public void removeAttack(Attack a) { attacks.remove(a);}
+    public void removeAttack() { attacks.remove(0);}
+
+    public ArrayList<Attack> getAttacks() {return attacks;}
     public void setPlayer(Player p)
     {
         myPlayer = p;

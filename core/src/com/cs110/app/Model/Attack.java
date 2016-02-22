@@ -12,23 +12,30 @@ public class Attack
     int velocity = 10;
     int xPos;
     int yPos;
-    int xDist;
+    double rad;
+    double xDist;
+    double yDist;
+    double CONST_FACTOR;
     boolean active = false;
     Rectangle bounds;
     int duration;
 
-    public Attack(int x, int y)
+    public Attack(int center ,double rad)
     {
-        this(x,y,555);
+        this(center,rad,555);
     }
 
-    public Attack(int x, int y, int d)
+    public Attack(int center, double rad, int d)
     {
         duration = d;
         bounds = new Rectangle(25,25,400,5000);
-        xPos = x;
-        yPos = y;
+        xPos = (int)calculateX(center,rad);
+        yPos = (int)calculateY(center, rad);
+        this.rad = rad * (180/Math.PI);
+        System.out.println(this.rad);
         xDist = 0;
+        CONST_FACTOR =1;
+        yDist = 0;
         active = true;
         velocity = 2;
     }
@@ -36,20 +43,54 @@ public class Attack
     public Rectangle getBounds() { return bounds;}
 
     public int getXPos() { return xPos;}
-    public int getXDist() { return xDist;}
+    public double getXDist() { return xDist;}
     public int getYPos() { return yPos;}
+    public double getYDist() { return yDist;}
+
+    private double calculateX(int center,double rad)
+    {
+        return Math.abs((double) center * Math.cos(rad));
+
+    }
+
+    private double calculateY(int center, double rad)
+    {
+        return Math.abs((double) center * Math.sin(rad));
+    }
     public void update()
     {
         if (active)
         {
-            xDist += velocity;
 
             //This is where I should implement the x,y position of the attack depending on player's orientation
             // ie if (player is facing left) bounds,setX(xDist)
             //    if (player is facing top ) bounds.setY(xDist)
             //    if (player is facing right ) bounds.setX( - xDist)
             //    if (player is facing bottom ) bounds.setY( -xDist)
-            bounds.setX(xDist);
+            if (rad >= 0.0 && rad <= 90) // 1st quadrant
+            {
+                xDist += CONST_FACTOR*calculateX(velocity,rad);
+                yDist += calculateY(velocity,rad);
+            }
+
+            else if (rad > 90 && rad <= 180) // 2nd quadrant
+            {
+                xDist -= CONST_FACTOR*calculateX(velocity,rad);
+                yDist += calculateY(velocity,rad);
+                CONST_FACTOR+= 0.1;
+            }
+
+            else if ( rad < 0.0 && rad > -90) // 3rd quadrant
+            {
+                xDist += CONST_FACTOR*calculateX(velocity,rad);
+                yDist -= calculateY(velocity,rad);
+            }
+
+            else                               // 4th quadrant
+            {
+                xDist -= CONST_FACTOR*calculateX(velocity,rad);
+                yDist -= calculateY(velocity,rad);
+            }
 
             if (--duration == 0)
                 active = false;

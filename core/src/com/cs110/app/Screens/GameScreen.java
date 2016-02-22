@@ -116,8 +116,10 @@ public class GameScreen implements Screen
 
                 controller.buttonXPressed();
                 buttonXClicked = true;
+                System.out.println("Rotation: " + world.getSelfPlayer().getRotation());
 
-                world.addAttack((new Attack((int)world.getSelfPlayer().getPosition().x,(int) world.getSelfPlayer().getPosition().y )));
+
+                world.addAttack((new Attack(world.getSelfPlayer().IMAGE_WIDTH/2,world.getSelfPlayer().getRotation())));
                 buttonX.setTouchable(Touchable.disabled);
 
                 new Timer().schedule(new Timer.Task()

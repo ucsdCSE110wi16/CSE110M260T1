@@ -31,7 +31,7 @@ public class Attack
         bounds = new Rectangle(25,25,400,5000);
         xPos = x + (float) calculateX(30,rad);
         yPos =  y + (float)calculateY(30,rad);
-        this.rad = rad * (180/Math.PI);
+        this.rad = rad ;
         System.out.println(this.rad);
         xDist = 0;
         CONST_FACTOR =1;
@@ -49,13 +49,17 @@ public class Attack
 
     private double calculateX(int center,double rad)
     {
-        return Math.abs((double) center * Math.cos(rad));
+        return (double) center * Math.cos(rad);
 
+    }
+
+    public boolean isActive(){
+        return active;
     }
 
     private double calculateY(int center, double rad)
     {
-        return Math.abs((double) center * Math.sin(rad));
+        return (double) center * Math.sin(rad);
     }
     public void update()
     {
@@ -64,33 +68,34 @@ public class Attack
 
             //This is where I should implement the x,y position of the attack depending on player's orientation
 
-            if (rad >= 0.0 && rad <= 90.0) // 1st quadrant
-            {
+//            if (rad >= 0.0 && rad <= 90.0) // 1st quadrant
+//            {
                 xDist += CONST_FACTOR*calculateX(velocity,rad);
-                yDist += calculateY(velocity,rad);
+                yDist += CONST_FACTOR*calculateY(velocity,rad);
+//            System.out.println(yDist);
                                 CONST_FACTOR+= 0.05;
-            }
-
-            else if (rad > 90.0 && rad <= 180.0) // 2nd quadrant
-            {
-                xDist -= CONST_FACTOR*calculateX(velocity,rad);
-                yDist += calculateY(velocity,rad);
-                CONST_FACTOR+= 0.05;
-            }
-
-            else if ( rad < 0.0 && rad > -90.0) // 3rd quadrant
-            {
-                xDist += CONST_FACTOR*calculateX(velocity,rad);
-                yDist -= calculateY(velocity,rad);
-                                CONST_FACTOR+= 0.05;
-            }
-
-            else                               // 4th quadrant
-            {
-                xDist -= CONST_FACTOR*calculateX(velocity,rad);
-                yDist -= calculateY(velocity,rad);
-                                CONST_FACTOR+= 0.05;
-            }
+//            }
+//
+//            else if (rad > 90.0 && rad <= 180.0) // 2nd quadrant
+//            {
+//                xDist -= CONST_FACTOR*calculateX(velocity,rad);
+//                yDist += calculateY(velocity,rad);
+//                CONST_FACTOR+= 0.05;
+//            }
+//
+//            else if ( rad < 0.0 && rad > -90.0) // 3rd quadrant
+//            {
+//                xDist += CONST_FACTOR*calculateX(velocity,rad);
+//                yDist -= calculateY(velocity,rad);
+//                                CONST_FACTOR+= 0.05;
+//            }
+//
+//            else                               // 4th quadrant
+//            {
+//                xDist -= CONST_FACTOR*calculateX(velocity,rad);
+//                yDist -= calculateY(velocity,rad);
+//                                CONST_FACTOR+= 0.05;
+//            }
 
             if (--duration == 0)
                 active = false;

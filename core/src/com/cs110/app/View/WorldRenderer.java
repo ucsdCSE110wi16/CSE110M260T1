@@ -164,19 +164,21 @@ public class WorldRenderer
 
         }
         for (Attack a : world.getAttacks()) {
-            float spriteX = w/2;
-            float spriteY = h/2;
-            spriteX = a.getXPos() - world.getPlayer().getPosition().x + spriteX;
-            spriteY = a.getYPos() - world.getPlayer().getPosition().y + spriteY;
-            Rectangle rec2 = world.getSelfPlayer().getBounds2();
-            float x2 = spriteX - rec2.width/2;
-            float y2 = spriteY - rec2.height/2 ;
+            if (a.isActive()) {
+                float spriteX = w / 2;
+                float spriteY = h / 2;
+                spriteX = a.getXPos() - world.getPlayer().getPosition().x + spriteX;
+                spriteY = a.getYPos() - world.getPlayer().getPosition().y + spriteY;
+                Rectangle rec2 = world.getSelfPlayer().getBounds2();
+                float x2 = spriteX - rec2.width / 2;
+                float y2 = spriteY - rec2.height / 2;
 //            Rectangle rec = a.getBounds();
 
-            rend.begin(ShapeRenderer.ShapeType.Filled);
-            rend.setColor(new Color(1, 0, 0, 1));
-            rend.rect(spriteX+(float)a.getXDist(),spriteY+(float)a.getYDist(),10,5);
-            rend.end();
+                rend.begin(ShapeRenderer.ShapeType.Filled);
+                rend.setColor(new Color(1, 0, 0, 1));
+                rend.rect(spriteX + (float) a.getXDist(), spriteY + (float) a.getYDist(), 10, 5);
+                rend.end();
+            }
         }
 
 

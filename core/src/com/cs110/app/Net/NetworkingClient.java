@@ -46,12 +46,14 @@ public class NetworkingClient extends Listener {
                     oldXCord = packet.xCord;
                     oldYCord = packet.yCord;
                     otherPlayer.setPosition(oldXCord, oldYCord);
+                    otherPlayer.setRotation(packet.rotation);
 
 
                     //packet.player = gs.getWorld().getPlayer();
                     PacketMessage packetMessage = new PacketMessage();
                     packetMessage.xCord = gs.getWorld().getSelfPlayer().getPosition().x;
                     packetMessage.yCord = gs.getWorld().getSelfPlayer().getPosition().y;
+                    packetMessage.rotation = gs.getWorld().getSelfPlayer().getRotation();
 
                     c.sendUDP(packetMessage);
                 }

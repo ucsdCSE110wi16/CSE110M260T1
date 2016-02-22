@@ -70,22 +70,8 @@ public class WorldController
     {
         TextButton x = button.get(0);
         keys.put(Keys.BUTTON_X, true);
-//                                 x.setTouchable(Touchable.disabled);
-
         System.out.println("Rotation: " + world.getSelfPlayer().getRotation());
-
-
         world.addAttack((new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation())));
-//        new Timer().schedule(new Timer.Task()
-//        {
-//            @Override
-//            public void run()
-//            {
-//                if (world.getAttacks().size() > 0)
-//                    world.removeAttack();
-//            }
-//
-//        }, 20, 1, 1); //10 is CD delay
     }
     public void buttonYPressed()
     {

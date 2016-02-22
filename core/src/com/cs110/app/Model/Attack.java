@@ -29,8 +29,8 @@ public class Attack
     {
         duration = d;
         bounds = new Rectangle(25,25,400,5000);
-        xPos = x + (float) calculateX(30,rad);
-        yPos =  y + (float)calculateY(30,rad);
+        xPos = x + (float) calculateX(70,rad);
+        yPos =  y + (float)calculateY(70,rad);
         this.rad = rad ;
         System.out.println(this.rad);
         xDist = 0;
@@ -53,7 +53,8 @@ public class Attack
 
     }
 
-    public boolean isActive(){
+    public boolean isActive()
+    {
         return active;
     }
 
@@ -68,34 +69,9 @@ public class Attack
 
             //This is where I should implement the x,y position of the attack depending on player's orientation
 
-//            if (rad >= 0.0 && rad <= 90.0) // 1st quadrant
-//            {
-                xDist += CONST_FACTOR*calculateX(velocity,rad);
-                yDist += CONST_FACTOR*calculateY(velocity,rad);
-//            System.out.println(yDist);
-                                CONST_FACTOR+= 0.05;
-//            }
-//
-//            else if (rad > 90.0 && rad <= 180.0) // 2nd quadrant
-//            {
-//                xDist -= CONST_FACTOR*calculateX(velocity,rad);
-//                yDist += calculateY(velocity,rad);
-//                CONST_FACTOR+= 0.05;
-//            }
-//
-//            else if ( rad < 0.0 && rad > -90.0) // 3rd quadrant
-//            {
-//                xDist += CONST_FACTOR*calculateX(velocity,rad);
-//                yDist -= calculateY(velocity,rad);
-//                                CONST_FACTOR+= 0.05;
-//            }
-//
-//            else                               // 4th quadrant
-//            {
-//                xDist -= CONST_FACTOR*calculateX(velocity,rad);
-//                yDist -= calculateY(velocity,rad);
-//                                CONST_FACTOR+= 0.05;
-//            }
+            xDist += CONST_FACTOR*calculateX(velocity,rad);
+            yDist += CONST_FACTOR*calculateY(velocity,rad);
+            CONST_FACTOR+= 0.05;
 
             if (--duration == 0)
                 active = false;

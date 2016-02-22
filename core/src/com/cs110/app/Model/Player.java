@@ -158,7 +158,9 @@ public class Player {
         rotation = radians;
         getPolygon().setRotation((float) (Math.toDegrees(radians)));
     }
-
+    public int getHealth() {
+        return this.health;
+    }
     //returns the rectangle hitbox from nose to tail of this Player
     public Rectangle getBounds1() {
         return bounds1;

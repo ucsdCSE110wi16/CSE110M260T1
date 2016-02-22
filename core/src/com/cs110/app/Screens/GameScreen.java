@@ -31,6 +31,8 @@ import com.cs110.app.Model.Attack;
 import com.cs110.app.Model.Player;
 import com.cs110.app.Model.World;
 import com.cs110.app.View.WorldRenderer;
+import com.badlogic.gdx.graphics.Color;
+
 
 /**
  * Created by Yashwanth on 1/25/16.
@@ -56,6 +58,7 @@ public class GameScreen implements Screen
     TextButton buttonX, buttonY, buttonZ;
     TextureAtlas buttonsAtlas;
     BitmapFont font;
+    BitmapFont healthFont;
 
     SpriteBatch batch;
 
@@ -75,6 +78,9 @@ public class GameScreen implements Screen
 
 
         batch = new SpriteBatch();
+
+        font = new BitmapFont();
+        font.setColor(Color.RED);
 
         //init touchpad
         touchPadSkin = new Skin();
@@ -119,7 +125,9 @@ public class GameScreen implements Screen
                 System.out.println("Rotation: " + world.getSelfPlayer().getRotation());
 
 
-                world.addAttack((new Attack(world.getSelfPlayer().IMAGE_WIDTH/2,world.getSelfPlayer().getRotation())));
+                //world.addAttack((new Attack(world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation())));
+                world.addAttack(new Attack(world.getSelfPlayer().getPosition().x, world.getSelfPlayer().getPosition().y,(float)world.getSelfPlayer().getRotation()));
+                world.attackOccured = true;
                 buttonX.setTouchable(Touchable.disabled);
 
                 new Timer().schedule(new Timer.Task()
@@ -133,20 +141,18 @@ public class GameScreen implements Screen
                     }
 
                 },0,1,10); //10 is CD
-                new Timer().schedule(new Timer.Task()
-                {
+                new Timer().schedule(new Timer.Task() {
                     @Override
-                    public void run()
-                    {
+                    public void run() {
                         buttonX.setText("X");
                         buttonX.setTouchable(Touchable.enabled);
-                        if (world.getAttacks().size() > 0 ) {
+                        if (world.getAttacks().size() > 0) {
                             world.removeAttack();
                             buttonXClicked = false;
                         }
                     }
 
-                },10,1,1); //10 is CD delay
+                }, 10, 1, 1); //10 is CD delay
                 return true;
             }
 
@@ -268,14 +274,12 @@ public class GameScreen implements Screen
             world.getPlayer().move(pad.getKnobPercentX(), pad.getKnobPercentY());
         }
 
-        if (buttonXClicked){
-            for (Attack a: world.getAttacks()) {
-                a.update();
-            }
+        for (Attack a: world.getAttacks()) {
+            a.update();
         }
-
-
-
+        batch.begin();
+        font.draw(batch, "Health: "+Integer.toString(world.getSelfPlayer().getHealth()), 550, 25);
+        batch.end();
         //System.err.println("Game screen rendedring");
         World.gameTime = System.currentTimeMillis();
         renderer.render();

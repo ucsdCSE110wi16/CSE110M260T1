@@ -11,14 +11,25 @@ public class CS110App extends Game { //The automatically generated code has Appl
 
 	com.cs110.app.Net.NetworkingServer NS;
 	com.cs110.app.Net.NetworkingClient NC;
+	boolean client;
+	public CS110App(boolean client) {
+		this.client = client;
+	}
 	
 	@Override
 	public void create () {
 		GameScreen screen = new GameScreen();
 		setScreen(screen);
 		try {
-			NS = new NetworkingServer(screen);
-            //NC = new NetworkingClient(screen); // Uncomment to be client
+			//NS = new NetworkingServer(screen);
+			if(client) {
+				NC = new NetworkingClient(screen); // Uncomment to be client
+				System.out.println("CLIENT");
+			}
+			else {
+				NS = new NetworkingServer(screen);
+				System.out.println("SERVER");
+			}
 		}
 		catch(Exception e) {
 

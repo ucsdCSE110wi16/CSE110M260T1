@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class WorldController
 {
-
+    public static int tapCounter;
     //These are the possible buttons that can be pressed
     enum Keys
     {

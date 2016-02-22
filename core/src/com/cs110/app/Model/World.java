@@ -28,6 +28,7 @@ public class World
     private ArrayList<Player> players; //list of all the players in the world
     private ArrayList<Obstacle> obstacles; //a list of obstacles in the map. Maybe we can have an interface
     private ArrayList<Attack> attacks;
+    public boolean attackOccured;
     // called Obstacle and then from there we can have multiple obstacles
 
     public static long gameTime = System.currentTimeMillis(); //current time in the world

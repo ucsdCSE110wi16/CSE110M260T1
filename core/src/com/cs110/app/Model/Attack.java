@@ -59,7 +59,6 @@ public class Attack
     {
         if (active)
         {
-            xDist += velocity;
 
             //This is where I should implement the x,y position of the attack depending on player's orientation
             // ie if (player is facing left) bounds,setX(xDist)
@@ -68,7 +67,7 @@ public class Attack
             //    if (player is facing bottom ) bounds.setY( -xDist)
             if (rad >= 0.0 && rad <= 90) // 1st quadrant
             {
-                xDist += calculateX(velocity,rad);
+                xDist += 2*calculateX(velocity,rad);
                 yDist += calculateY(velocity,rad);
             }
 
@@ -80,7 +79,7 @@ public class Attack
 
             else if ( rad < 0.0 && rad > -90) // 3rd quadrant
             {
-                xDist += calculateX(velocity,rad);
+                xDist += 1.5*calculateX(velocity,rad);
                 yDist -= calculateY(velocity,rad);
             }
 

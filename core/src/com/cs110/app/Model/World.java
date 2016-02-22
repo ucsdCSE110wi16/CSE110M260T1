@@ -78,16 +78,19 @@ public class World
     }
 
     //Adds a player to the world
-    public void addPlayer(Player p){
+    public void addPlayer(Player p)
+    {
         players.add(p);
     }
 
     //adds a default obstacle at the position
-    private void addObstacle(float x, float y){
+    private void addObstacle(float x, float y)
+    {
         obstacles.add(new Obstacle(new Vector2(x, y)));
     }
     //Adds an obstacle to the world
-    public void addObstacle( Obstacle o){
+    public void addObstacle( Obstacle o)
+    {
         obstacles.add(o);
     }
     //set the main player of this world (i.e. the on camera is centered on)

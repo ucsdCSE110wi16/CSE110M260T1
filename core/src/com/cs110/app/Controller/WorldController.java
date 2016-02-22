@@ -1,10 +1,17 @@
 package com.cs110.app.Controller;
 
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Timer;
+import com.cs110.app.Model.Attack;
 import com.cs110.app.Model.Player;
 import com.cs110.app.Model.World;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.soap.Text;
 
 /**
  * Created by Yashwanth on 1/31/16.
@@ -34,10 +41,25 @@ public class WorldController
         keys.put(Keys.BUTTON_Z, false);
     };
 
+    static ArrayList<TextButton> button;
+
+
     public WorldController(World world)
     {
         this.world = world;
         this.player = world.getSelfPlayer();
+        this.button = new ArrayList<TextButton>();
+    }
+
+    public void addButton (TextButton b)
+    {
+        button.add(b);
+    }
+
+    public TextButton getButton(TextButton b)
+    {
+        int index = button.indexOf(b);
+        return button.get(index);
     }
 
     /* Following methods are for keys pressed and touched */
@@ -46,21 +68,82 @@ public class WorldController
 
     public void buttonXPressed()
     {
-        keys.put(Keys.BUTTON_X,true);
+        TextButton x = button.get(0);
+        keys.put(Keys.BUTTON_X, true);
+//                                 x.setTouchable(Touchable.disabled);
 
+        System.out.println("Rotation: " + world.getSelfPlayer().getRotation());
+
+
+        world.addAttack((new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation())));
+        new Timer().schedule(new Timer.Task()
+        {
+            @Override
+            public void run()
+            {
+                if (world.getAttacks().size() > 0)
+                    world.removeAttack();
+            }
+
+        }, 20, 1, 1); //10 is CD delay
     }
     public void buttonYPressed()
     {
         keys.put(Keys.BUTTON_Y,true);
+        button.get(1).setTouchable(Touchable.disabled);
+        new Timer().schedule(new Timer.Task()
+        {
+            int CD = 10;
+            @Override
+            public void run()
+            {
+                String in = "" + CD--;
+                button.get(1).setText(in);
+            }
+
+        },0,1,10);
+        new Timer().schedule(new Timer.Task()
+        {
+            @Override
+            public void run()
+            {
+                button.get(1).setText("Y");
+                button.get(1).setTouchable(Touchable.enabled);
+            }
+
+        },10,1,1);
     }
     public void buttonZPressed()
     {
         keys.put(Keys.BUTTON_Z,true);
+        button.get(2).setTouchable(Touchable.disabled);
+        new Timer().schedule(new Timer.Task()
+        {
+            int CD = 10;
+            @Override
+            public void run()
+            {
+                String in = "" + CD--;
+                button.get(2).setText(in);
+            }
+
+        },0,1,10);
+        new Timer().schedule(new Timer.Task()
+        {
+            @Override
+            public void run()
+            {
+                button.get(2).setText("Z");
+                button.get(2).setTouchable(Touchable.enabled);
+            }
+
+        },10,1,1);
     }
 
     public void buttonXReleased()
     {
-        keys.put(Keys.BUTTON_X,false);
+        keys.put(Keys.BUTTON_X, false);
+
     }
 
     public void buttonYReleased()
@@ -81,7 +164,8 @@ public class WorldController
     }
 
 
-    private void processInput(){
+    private void processInput()
+    {
 
     }
 

@@ -49,6 +49,8 @@ public class NetworkingServer extends Listener{
                         oldXCord = pm.xCord;
                         oldYCord = pm.yCord;
                         otherPlayer.setPosition(oldXCord, oldYCord);
+                        otherPlayer.setRotation(pm.rotation);
+
 
 //                    System.out.println("Received message as Server: " + pm.message);
                     }
@@ -56,6 +58,8 @@ public class NetworkingServer extends Listener{
                     PacketMessage packetMessage = new PacketMessage();
                     packetMessage.xCord =  gs.getWorld().getSelfPlayer().getPosition().x;
                     packetMessage.yCord =  gs.getWorld().getSelfPlayer().getPosition().y;
+                    packetMessage.rotation = gs.getWorld().getSelfPlayer().getRotation();
+
 //
 //                Scanner kboard = new Scanner(System.in);
 //                packetMessage.message = kboard.nextLine();

@@ -17,7 +17,7 @@ public class NetworkingClient extends Listener {
     private GameScreen gs;
     private Connection connect;
     static Client client;
-    static String ip="localhost";//"137.110.91.137";
+    static String ip="localhost";//"137.110.91.137";=
     static int tcpPort = 27961, udpPort = 27961;
     float oldXCord, oldYCord;
 

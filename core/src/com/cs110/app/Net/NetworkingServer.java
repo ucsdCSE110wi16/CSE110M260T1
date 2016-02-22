@@ -46,19 +46,19 @@ public class NetworkingServer extends Listener{
 
                         PacketMessage pm = (PacketMessage) p;
                         if (oldXCord != pm.xCord || oldYCord != pm.yCord) {
-                            System.out.println("Received News: X:" + oldXCord + "  Y:" + oldYCord);
+                            //System.out.println("Received News: X:" + oldXCord + "  Y:" + oldYCord);
                         }
                         oldXCord = pm.xCord;
                         oldYCord = pm.yCord;
                         otherPlayer.setPosition(oldXCord, oldYCord);
                         otherPlayer.setRotation(pm.rotation);
-                        if (pm.shotRad != null) {
-                            System.out.println("ATTACK Recieved");
-                            System.out.println("x" + pm.shotXCord);
-                            System.out.println("y" + pm.shotYCord);
-                            System.out.println("rad" + pm.shotRad);
-                            gs.getWorld().addAttack(new Attack(pm.shotXCord, pm.shotYCord, pm.shotRad));
-                        }
+//                        if (pm.shotRad != null) {
+//                            System.out.println("ATTACK Recieved");
+//                            System.out.println("x" + pm.shotXCord);
+//                            System.out.println("y" + pm.shotYCord);
+//                            System.out.println("rad" + pm.shotRad);
+//                            gs.getWorld().addAttack(new Attack(pm.shotXCord, pm.shotYCord, pm.shotRad));
+//                        }
 
 
 //                    System.out.println("Received message as Server: " + pm.message);

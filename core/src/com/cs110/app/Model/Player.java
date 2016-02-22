@@ -3,9 +3,8 @@ package com.cs110.app.Model;
 import com.badlogic.gdx.graphics.g3d.particles.values.MeshSpawnShapeValue;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
-
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created by Yashwanth on 1/24/16.
@@ -66,6 +65,8 @@ public class Player {
            -IMAGE_WIDTH/2, -IMAGE_HEIGHT/4, //J
            -IMAGE_WIDTH/2, IMAGE_HEIGHT/4, //K
            -IMAGE_WIDTH/4, IMAGE_HEIGHT/4 //L
+
+           //
         });
         polygon.setOrigin(0,0);
         polygon.setPosition(getPosition().x, getPosition().y);
@@ -103,14 +104,14 @@ public class Player {
         float yNew = getPosition().y + knobPercentageY * SPEED;
         double rotNew = Math.atan2((double) knobPercentageY, (double) knobPercentageX);
 
-        getPolygon().setPosition(xNew, yNew);
-        getPolygon().setRotation((float)(Math.toDegrees(rotNew)));
-
-        if(collides()){
-            getPolygon().setPosition(getPosition().x, getPosition().y);
-            getPolygon().setRotation((float) Math.toDegrees(getRotation()));
-            return;
-        }
+//        getPolygon().setPosition(xNew, yNew);
+//        getPolygon().setRotation((float) (Math.toDegrees(rotNew)));
+//
+//        if(collides()){
+//            getPolygon().setPosition(getPosition().x, getPosition().y);
+//            getPolygon().setRotation((float) Math.toDegrees(getRotation()));
+//            return;
+//        }
         setRotation(rotNew);
         setPosition(xNew, yNew);
     }
@@ -151,13 +152,31 @@ public class Player {
 
     //Sets the position to the passed in x and y
     public void setPosition(float x, float y) {
+
+        getPolygon().setPosition(x, y);
+
+        if(collides()){
+            getPolygon().setPosition(getPosition().x, getPosition().y);
+           return;
+        }
+
         position.set(x, y);
     }
 
     public void setRotation(double radians){
 
+
+        //getPolygon().setPosition(xNew, yNew);
+        getPolygon().setRotation((float)(Math.toDegrees(radians)));
+
+        if(collides()){
+            //getPolygon().setPosition(getPosition().x, getPosition().y);
+            getPolygon().setRotation((float) Math.toDegrees(getRotation()));
+            return;
+        }
+
         rotation = radians;
-        getPolygon().setRotation((float) (Math.toDegrees(radians)));
+        //getPolygon().setRotation((float) (Math.toDegrees(radians)));
     }
     public int getHealth() {
         return this.health;

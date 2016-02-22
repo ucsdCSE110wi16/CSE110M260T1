@@ -47,7 +47,8 @@ public class CS110App extends Game { //The automatically generated code has Appl
 		if(client && NC != null) {
 			NC.update();
 		}
-		else if(NS != null) {
+		else if(NS!= null) {
+			//System.out.println("update");
 			NS.update();
 		}
 

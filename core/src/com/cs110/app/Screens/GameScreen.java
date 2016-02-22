@@ -116,13 +116,15 @@ public class GameScreen implements Screen
 
                 controller.buttonXPressed();
                 buttonXClicked = true;
+                System.out.println("Rotation: " + world.getSelfPlayer().getRotation());
 
-                world.addAttack((new Attack((int)world.getSelfPlayer().getPosition().x,(int) world.getSelfPlayer().getPosition().y )));
+
+                world.addAttack((new Attack(world.getSelfPlayer().IMAGE_WIDTH/2,world.getSelfPlayer().getRotation())));
                 buttonX.setTouchable(Touchable.disabled);
 
                 new Timer().schedule(new Timer.Task()
                 {
-                    int CD = 10; // CD is cooldown
+                    int CD = 3; // CD is cooldown
                     @Override
                     public void run()
                     {
@@ -130,7 +132,7 @@ public class GameScreen implements Screen
                         buttonX.setText(in);
                     }
 
-                },0,1,10); //10 is CD
+                },0,1,3); //10 is CD
                 new Timer().schedule(new Timer.Task()
                 {
                     @Override
@@ -144,7 +146,7 @@ public class GameScreen implements Screen
                         }
                     }
 
-                },10,1,1); //10 is CD delay
+                },3,1,1); //10 is CD delay
                 return true;
             }
 

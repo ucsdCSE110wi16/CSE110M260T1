@@ -124,7 +124,7 @@ public class GameScreen implements Screen
 
                 new Timer().schedule(new Timer.Task()
                 {
-                    int CD = 3; // CD is cooldown
+                    int CD = 10; // CD is cooldown
                     @Override
                     public void run()
                     {
@@ -132,7 +132,7 @@ public class GameScreen implements Screen
                         buttonX.setText(in);
                     }
 
-                },0,1,3); //10 is CD
+                },0,1,10); //10 is CD
                 new Timer().schedule(new Timer.Task()
                 {
                     @Override
@@ -146,7 +146,7 @@ public class GameScreen implements Screen
                         }
                     }
 
-                },3,1,1); //10 is CD delay
+                },10,1,1); //10 is CD delay
                 return true;
             }
 

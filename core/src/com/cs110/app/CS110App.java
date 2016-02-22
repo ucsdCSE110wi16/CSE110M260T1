@@ -40,10 +40,12 @@ public class CS110App extends Game { //The automatically generated code has Appl
 	@Override
 	public void render () {
         super.render();
-		if(client) {
+		if(client && NC!= null) {
+			//System.out.println("update");
 			NC.update();
 		}
-		else {
+		else if(NS!= null) {
+			//System.out.println("update");
 			NS.update();
 		}
 	}

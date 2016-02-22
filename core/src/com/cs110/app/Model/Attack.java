@@ -2,6 +2,7 @@ package com.cs110.app.Model;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created by clarencenguyen on 2/19/16.
@@ -10,21 +11,39 @@ public class Attack
 {
 
     int velocity = 10;
-    int xPos;
-    int yPos;
-    double rad;
+    public int xPos;
+    public int yPos;
+    public double rad;
     double xDist;
     double yDist;
     double CONST_FACTOR;
     boolean active = false;
     Rectangle bounds;
     int duration;
+    public int center;
+
+    public Vector2 position;
+    public Vector2 velocity2;
 
     public Attack(int center ,double rad)
     {
         this(center,rad,555);
     }
-
+    public Attack(float xPos, float yPos, float rad) {
+        this.xPos = (int)xPos;
+        this.yPos = (int)yPos;
+        System.out.println("new attack");
+        System.out.println(this.xPos);
+        System.out.println(this.yPos);
+        this.rad = (double)rad;
+        duration = 555;
+        bounds = new Rectangle(25,25,400,5000);
+        xDist = 0;
+        CONST_FACTOR =1;
+        yDist = 0;
+        active = true;
+        velocity = 2;
+    }
     public Attack(int center, double rad, int d)
     {
         duration = d;
@@ -38,6 +57,7 @@ public class Attack
         yDist = 0;
         active = true;
         velocity = 2;
+        this.center = center;
     }
 
     public Rectangle getBounds() { return bounds;}
@@ -59,9 +79,7 @@ public class Attack
     }
     public void update()
     {
-        if (active)
-        {
-
+        if (active) {
             //This is where I should implement the x,y position of the attack depending on player's orientation
             // ie if (player is facing left) bounds,setX(xDist)
             //    if (player is facing top ) bounds.setY(xDist)

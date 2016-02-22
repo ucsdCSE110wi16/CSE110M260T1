@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
  * Created by clarencenguyen on 1/28/16.
  */
 public class Obstacle {
-    static final float SIZE = 20f;
+    static final float SIZE = 200f;
 
     Rectangle bounds = new Rectangle();
     Vector2 position;

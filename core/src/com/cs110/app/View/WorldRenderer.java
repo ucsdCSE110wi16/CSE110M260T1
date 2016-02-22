@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
+import com.cs110.app.Model.Attack;
 import com.cs110.app.Model.Obstacle;
 import com.cs110.app.Model.Player;
 import com.cs110.app.Model.World;
@@ -32,7 +33,6 @@ public class WorldRenderer
     private SpriteBatch spriteBatch;
     private Texture playerTexture;
     private Sprite playerSprite;
-
     //Constructor takes in a world to render as the parameter
     public WorldRenderer(World world)
     {
@@ -142,8 +142,8 @@ public class WorldRenderer
             //drawing debug shape
             Rectangle rec1 = person.getBounds1();
             Rectangle rec2 = person.getBounds2();
-            float x = recX - rec1.width/2; //- rec.x;
-            float y = recY - rec1.height/2; //- rec.y;
+            float x= recX - rec1.width/2; //- rec.x;
+            float y= recY - rec1.height/2; //- rec.y;
             float x2 = recX - rec2.width/2;
             float y2 = recY - rec2.height/2;
 
@@ -153,16 +153,30 @@ public class WorldRenderer
             rend.setColor(new Color(1, 0, 0, 1));
             rend.rect(x, y, rec1.width / 2, rec1.height / 2, rec1.width, rec1.height, 1f, 1f, (float) Math.toDegrees(person.getRotation()));
             rend.rect(x2, y2, rec2.width / 2, rec2.height / 2, rec2.width, rec2.height, 1f, 1f, (float) Math.toDegrees(person.getRotation()));
-
-
+            rend.end();
             //Drawing collision polygon for debug
 //            rend.setColor(new Color(0, 1, 1, 0));
 //            rend.polygon(person.getPolygon().getTransformedVertices());
 
+//            rend.end();
+
+
+
+        }
+        for (Attack a : world.getAttacks()) {
+            float spriteX = w/2;
+            float spriteY = h/2;
+            spriteX = a.getXPos() - world.getPlayer().getPosition().x + spriteX;
+            spriteY = a.getYPos() - world.getPlayer().getPosition().y + spriteY;
+            Rectangle rec2 = world.getSelfPlayer().getBounds2();
+            float x2 = spriteX - rec2.width/2;
+            float y2 = spriteY - rec2.height/4 ;
+            Rectangle rec = a.getBounds();
+
+            rend.begin(ShapeRenderer.ShapeType.Filled);
+            rend.setColor(new Color(1, 0, 0, 1));
+            rend.rect(x2+ a.getXDist() +100,y2+ a.getBounds().getY() ,10,5);
             rend.end();
-
-
-
         }
 
 

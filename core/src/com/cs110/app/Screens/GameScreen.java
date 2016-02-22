@@ -27,6 +27,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.cs110.app.Controller.WorldController;
+import com.cs110.app.Model.Attack;
 import com.cs110.app.Model.Player;
 import com.cs110.app.Model.World;
 import com.cs110.app.View.WorldRenderer;
@@ -114,18 +115,14 @@ public class GameScreen implements Screen
             {
 
                 controller.buttonXPressed();
-                return true;
-            }
+                buttonXClicked = true;
 
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button)
-            {
-                controller.buttonXReleased();
-
+                world.addAttack((new Attack((int)world.getSelfPlayer().getPosition().x,(int) world.getSelfPlayer().getPosition().y )));
                 buttonX.setTouchable(Touchable.disabled);
+
                 new Timer().schedule(new Timer.Task()
                 {
-                    int CD = 10;
+                    int CD = 10; // CD is cooldown
                     @Override
                     public void run()
                     {
@@ -133,7 +130,7 @@ public class GameScreen implements Screen
                         buttonX.setText(in);
                     }
 
-                },0,1,10);
+                },0,1,10); //10 is CD
                 new Timer().schedule(new Timer.Task()
                 {
                     @Override
@@ -141,9 +138,20 @@ public class GameScreen implements Screen
                     {
                         buttonX.setText("X");
                         buttonX.setTouchable(Touchable.enabled);
+                        if (world.getAttacks().size() > 0 ) {
+                            world.removeAttack();
+                            buttonXClicked = false;
+                        }
                     }
 
-                },10,1,1);
+                },10,1,1); //10 is CD delay
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button)
+            {
+                controller.buttonXReleased();
             }
 
         });
@@ -256,6 +264,12 @@ public class GameScreen implements Screen
          */
         if(pad.isTouched()) {
             world.getPlayer().move(pad.getKnobPercentX(), pad.getKnobPercentY());
+        }
+
+        if (buttonXClicked){
+            for (Attack a: world.getAttacks()) {
+                a.update();
+            }
         }
 
 

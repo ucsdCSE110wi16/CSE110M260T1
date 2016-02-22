@@ -11,3 +11,8 @@
 ```
 ./gradlew desktop:run -PappArgs="['server']"
 ```
+
+
+### Example image
+
+![Image of Game](http://i.imgur.com/ZDCPFB7.png)

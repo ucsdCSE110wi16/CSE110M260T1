@@ -193,10 +193,13 @@ public class GameScreen implements Screen
         }
 
 //        if (buttonXClicked){
-            for (Attack a: world.getAttacks()) {
+        if (world.getAttacks().size() > 0) {
+            for (Attack a : world.getAttacks()) {
                 a.update();
             }
+        }
 //        }
+        controller.processInput();
 
 
 

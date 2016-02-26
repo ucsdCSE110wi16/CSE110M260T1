@@ -28,7 +28,7 @@ public class WorldRenderer
     private World world; //this is the world that this object will render
     private OrthographicCamera camera; //the camera viewing the world
     private ShapeRenderer rend = new ShapeRenderer(); //the renderer
-
+    private ShapeRenderer rendsecond = new ShapeRenderer(); //the renderer
     //spritebatch for drawing
     private SpriteBatch spriteBatch;
     private Texture playerTexture;
@@ -56,7 +56,8 @@ public class WorldRenderer
     }
 
     //loads the images to be used
-    private void loadTextures(){
+    private void loadTextures()
+    {
         playerTexture = new Texture("spaceshipSprite.png");
     }
 
@@ -105,7 +106,8 @@ public class WorldRenderer
         }
 
         //Drawing the player
-        for (Player person : world.getPlayers() ) {
+        for (Player person : world.getPlayers() )
+        {
 
             //drawing image
 
@@ -163,8 +165,11 @@ public class WorldRenderer
 
 
         }
-        for (Attack a : world.getAttacks()) {
-            if (a.isActive()) {
+
+        for (Attack a : world.getAttacks())
+        {
+            if (a.isActive())
+            {
                 float spriteX = w / 2;
                 float spriteY = h / 2;
                 spriteX = a.getXPos() - world.getPlayer().getPosition().x + spriteX;
@@ -172,11 +177,36 @@ public class WorldRenderer
                 Rectangle rec2 = world.getSelfPlayer().getBounds2();
                 float x2 = spriteX - rec2.width / 2;
                 float y2 = spriteY - rec2.height / 2;
-//            Rectangle rec = a.getBounds();
+                Rectangle rec = a.getBounds();
 
                 rend.begin(ShapeRenderer.ShapeType.Filled);
-                rend.setColor(new Color(1, 0, 0, 1));
-                rend.rect(spriteX + (float) a.getXDist(), spriteY + (float) a.getYDist(), 10, 5);
+
+                if (a.getType() == 0)
+                {
+                    rend.setColor(new Color(0, 0, 15, 1));
+                    rend.circle(spriteX + (float) a.getXDist(), spriteY + (float) a.getYDist(), (rec.getWidth()+ rec.getHeight()));
+                }
+
+                else if (a.getType() == 1)
+                {
+                    rend.setColor(new Color(1, 0, 0, 1));
+                    rend.circle(spriteX + (float) a.getXDist(), spriteY + (float) a.getYDist(), rec.getWidth() + rec.getHeight());
+                }
+
+                else
+                {
+                    rend.setColor(new Color(0, 1, 0, 1));
+
+                    for (int i = 2; i > 0; i--)
+                    {
+                        rend.circle(spriteX + (float) a.getXDist(), spriteY + (float) a.getYDist(), rec.getWidth() + rec.getHeight());
+                        rend.circle(spriteX + (float) (-1*a.getXDist() ), spriteY + (float) a.getYDist() , rec.getWidth() + rec.getHeight());
+                        rend.circle(spriteX + (float) a.getXDist(), spriteY + (float) (-1*a.getYDist() ), rec.getWidth() + rec.getHeight());
+                        rend.circle(spriteX + (float) (-1*a.getXDist() ), spriteY + (float) (-1*a.getYDist() ), rec.getWidth() + rec.getHeight());
+                    }
+
+                }
+
                 rend.end();
             }
         }

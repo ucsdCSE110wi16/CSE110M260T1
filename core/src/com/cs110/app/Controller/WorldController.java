@@ -19,6 +19,8 @@ import javax.xml.soap.Text;
 
 public class WorldController
 {
+    int durationY;
+    int durationZ;
 
     //These are the possible buttons that can be pressed
     enum Keys
@@ -42,10 +44,14 @@ public class WorldController
     };
 
     static ArrayList<TextButton> button;
+    boolean buttonYPress = false;
+    boolean buttonZPress = false;
 
 
     public WorldController(World world)
     {
+        durationY = 0;
+        durationZ = 0;
         this.world = world;
         this.player = world.getSelfPlayer();
         this.button = new ArrayList<TextButton>();
@@ -71,59 +77,25 @@ public class WorldController
         TextButton x = button.get(0);
         keys.put(Keys.BUTTON_X, true);
         System.out.println("Rotation: " + world.getSelfPlayer().getRotation());
-        world.addAttack((new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation())));
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,1);
     }
     public void buttonYPressed()
     {
         keys.put(Keys.BUTTON_Y,true);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,0);
         button.get(1).setTouchable(Touchable.disabled);
-        new Timer().schedule(new Timer.Task()
-        {
-            int CD = 10;
-            @Override
-            public void run()
-            {
-                String in = "" + CD--;
-                button.get(1).setText(in);
-            }
-
-        },0,1,10);
-        new Timer().schedule(new Timer.Task()
-        {
-            @Override
-            public void run()
-            {
-                button.get(1).setText("Y");
-                button.get(1).setTouchable(Touchable.enabled);
-            }
-
-        },10,1,1);
+        buttonYPress = true;
+        durationY = 0;
     }
     public void buttonZPressed()
     {
         keys.put(Keys.BUTTON_Z,true);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,2);
         button.get(2).setTouchable(Touchable.disabled);
-        new Timer().schedule(new Timer.Task()
-        {
-            int CD = 10;
-            @Override
-            public void run()
-            {
-                String in = "" + CD--;
-                button.get(2).setText(in);
-            }
+        buttonZPress = true;
+        durationZ = 0;
 
-        },0,1,10);
-        new Timer().schedule(new Timer.Task()
-        {
-            @Override
-            public void run()
-            {
-                button.get(2).setText("Z");
-                button.get(2).setTouchable(Touchable.enabled);
-            }
 
-        },10,1,1);
     }
 
     public void buttonXReleased()
@@ -150,8 +122,30 @@ public class WorldController
     }
 
 
-    private void processInput()
+    public void processInput()
     {
+        if(buttonYPress && ++durationY == 500)
+        {
+            button.get(1).setText("Y");
+            button.get(1).setTouchable(Touchable.enabled);
+            buttonYPress = false;
+        }
+
+        else if (buttonYPress)
+            button.get(1).setText("" + durationY/100);
+
+        if (buttonZPress && ++durationZ == 200)
+        {
+            button.get(2).setText("Z");
+            button.get(2).setTouchable(Touchable.enabled);
+            buttonZPress = false;
+        }
+
+        else if (buttonZPress)
+            button.get(2).setText("" + durationZ/100);
+
+        durationZ++;
+
 
     }
 

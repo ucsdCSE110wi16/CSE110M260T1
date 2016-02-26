@@ -3,6 +3,8 @@ package com.cs110.app.Model;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Yashwanth on 1/24/16.
@@ -27,7 +29,7 @@ public class World
 
     private ArrayList<Player> players; //list of all the players in the world
     private ArrayList<Obstacle> obstacles; //a list of obstacles in the map. Maybe we can have an interface
-    private ArrayList<Attack> attacks;
+    private List<Attack> attacks;
     // called Obstacle and then from there we can have multiple obstacles
 
     public static long gameTime = System.currentTimeMillis(); //current time in the world
@@ -38,7 +40,7 @@ public class World
     {
         players = new ArrayList<Player>();
         obstacles = new ArrayList<Obstacle>();
-        attacks = new ArrayList<Attack>();
+        attacks = new CopyOnWriteArrayList<Attack>();
         //addPlayer(p);
         //setPlayer(p);
         createWorld();
@@ -96,9 +98,14 @@ public class World
     //set the main player of this world (i.e. the on camera is centered on)
 
     public void addAttack( Attack a) { attacks.add(a); }
-    public void removeAttack() { attacks.remove(0);}
+    public void removeAttack(){ attacks.remove(0);}
 
-    public ArrayList<Attack> getAttacks() {return attacks;}
+    public void removeAttack(Attack a ) {
+       int index = attacks.indexOf(a);
+        attacks.remove(index);
+    }
+
+    public List<Attack> getAttacks() {return attacks;}
     public void setPlayer(Player p)
     {
         myPlayer = p;

@@ -203,6 +203,10 @@ public class WorldRenderer
                         rend.circle(spriteX + (float) (-1*a.getXDist() ), spriteY + (float) a.getYDist() , rec.getWidth() + rec.getHeight());
                         rend.circle(spriteX + (float) a.getXDist(), spriteY + (float) (-1*a.getYDist() ), rec.getWidth() + rec.getHeight());
                         rend.circle(spriteX + (float) (-1*a.getXDist() ), spriteY + (float) (-1*a.getYDist() ), rec.getWidth() + rec.getHeight());
+                        rend.circle(spriteX + (float) (-1*a.getXDist() + 20 ), spriteY + (float) (-1*a.getYDist() + 20 ), rec.getWidth() + rec.getHeight());
+//                        rend.circle(spriteX + (float) (-1*a.getXDist() - 20 ), spriteY + (float) (-1*a.getYDist() - 20 ), rec.getWidth() + rec.getHeight());
+//                        rend.circle(spriteX + (float) (-1*a.getXDist() - 20 ), spriteY + (float) (-1*a.getYDist() + 20 ), rec.getWidth() + rec.getHeight());
+//                        rend.circle(spriteX + (float) (-1*a.getXDist() + 20 ), spriteY + (float) (-1*a.getYDist() - 20 ), rec.getWidth() + rec.getHeight());
                     }
 
                 }

@@ -106,9 +106,9 @@ public class GameScreen implements Screen
         buttonZ.pad(30);
         buttonX.pad(30);
         buttonY.pad(30);
-        controller.addButton(buttonX);
-        controller.addButton(buttonY);
-        controller.addButton(buttonZ);
+        controller.addButton(buttonX,'x');
+        controller.addButton(buttonY, 'y');
+        controller.addButton(buttonZ, 'z');
         //Adding on-touch listeners for buttons
         buttonX.addListener(new ClickListener()
         {

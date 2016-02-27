@@ -43,29 +43,32 @@ public class WorldController
         keys.put(Keys.BUTTON_Z, false);
     };
 
-    static ArrayList<TextButton> button;
-    boolean buttonYPress = false;
-    boolean buttonZPress = false;
+//    static ArrayList<TextButton> button;
+    static Map<Keys, TextButton> button = new HashMap<Keys, TextButton>();
+    static Map<Keys, Integer> duration = new HashMap<Keys, Integer>();
+    static Map<Keys,Integer> coolDown = new HashMap<Keys, Integer>();
 
+    static
+    {
+        duration.put(Keys.BUTTON_X,0);
+        duration.put(Keys.BUTTON_Y,0);
+        duration.put(Keys.BUTTON_Z,0);
+        coolDown.put(Keys.BUTTON_X,0);
+        coolDown.put(Keys.BUTTON_Y,500);
+        coolDown.put(Keys.BUTTON_Z,200);
+    }
 
     public WorldController(World world)
     {
-        durationY = 0;
-        durationZ = 0;
         this.world = world;
         this.player = world.getSelfPlayer();
-        this.button = new ArrayList<TextButton>();
     }
 
-    public void addButton (TextButton b)
+    public void addButton (TextButton b , char type)
     {
-        button.add(b);
-    }
-
-    public TextButton getButton(TextButton b)
-    {
-        int index = button.indexOf(b);
-        return button.get(index);
+        if (type =='x')  button.put(Keys.BUTTON_X, b);
+        else if (type =='y')  button.put(Keys.BUTTON_Y, b);
+        else    button.put(Keys.BUTTON_Z, b);
     }
 
     /* Following methods are for keys pressed and touched */
@@ -74,7 +77,7 @@ public class WorldController
 
     public void buttonXPressed()
     {
-        TextButton x = button.get(0);
+        TextButton x = button.get(Keys.BUTTON_X);
         keys.put(Keys.BUTTON_X, true);
         System.out.println("Rotation: " + world.getSelfPlayer().getRotation());
         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,1);
@@ -83,19 +86,15 @@ public class WorldController
     {
         keys.put(Keys.BUTTON_Y,true);
         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,0);
-        button.get(1).setTouchable(Touchable.disabled);
-        buttonYPress = true;
-        durationY = 0;
+        button.get(Keys.BUTTON_Y).setTouchable(Touchable.disabled);
+        duration.put(Keys.BUTTON_Y,0);
     }
     public void buttonZPressed()
     {
         keys.put(Keys.BUTTON_Z,true);
         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,2);
-        button.get(2).setTouchable(Touchable.disabled);
-        buttonZPress = true;
-        durationZ = 0;
-
-
+        button.get(Keys.BUTTON_Z).setTouchable(Touchable.disabled);
+        duration.put(Keys.BUTTON_Z,0);
     }
 
     public void buttonXReleased()
@@ -104,14 +103,20 @@ public class WorldController
 
     }
 
+    private String getButtonText(Keys k)
+    {
+        if (k == Keys.BUTTON_X)  return "X";
+        else if (k == Keys.BUTTON_Y)  return "Y";
+        else return "Z";
+    }
+
+
     public void buttonYReleased()
     {
-        keys.put(Keys.BUTTON_Y,false);
     }
 
     public void buttonZReleased()
     {
-        keys.put(Keys.BUTTON_Z,false);
     }
 
     //This is similar to the update method in screen it gets called every cycle
@@ -121,31 +126,33 @@ public class WorldController
         player.update(delta);
     }
 
+    private void updateAttack(Keys k)
+    {
+        if(keys.get(k) && duration.get(k).equals(coolDown.get(k)))
+        {
+            button.get(k).setText(getButtonText(k));
+            button.get(k).setTouchable(Touchable.enabled);
+            keys.put(k,false);
+        }
+
+        else if(keys.get(k))
+        {
+            button.get(k).setText("" + duration.get(k)/100);
+            duration.put(k,duration.get(k) + 1);
+        }
+
+        else
+            return;
+
+    }
+
+
 
     public void processInput()
     {
-        if(buttonYPress && ++durationY == 500)
-        {
-            button.get(1).setText("Y");
-            button.get(1).setTouchable(Touchable.enabled);
-            buttonYPress = false;
-        }
 
-        else if (buttonYPress)
-            button.get(1).setText("" + durationY/100);
-
-        if (buttonZPress && ++durationZ == 200)
-        {
-            button.get(2).setText("Z");
-            button.get(2).setTouchable(Touchable.enabled);
-            buttonZPress = false;
-        }
-
-        else if (buttonZPress)
-            button.get(2).setText("" + durationZ/100);
-
-        durationZ++;
-
+        updateAttack(Keys.BUTTON_Y);
+        updateAttack(Keys.BUTTON_Z);
 
     }
 

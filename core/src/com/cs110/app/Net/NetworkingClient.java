@@ -17,7 +17,7 @@ public class NetworkingClient extends Listener {
     private GameScreen gs;
     private Connection connect;
     static Client client;
-    static String ip="localhost";//"localhost";//"128.54.240.57";
+    static String ip="localhost";//"137.110.91.137";=
     static int tcpPort = 27961, udpPort = 27961;
     float oldXCord, oldYCord;
 
@@ -42,7 +42,7 @@ public class NetworkingClient extends Listener {
                 connect = c;
             }
             public void received(Connection c, Object p) {
-
+                connect = c;
                 if (p instanceof PacketMessage) {
                     try {
                         Thread.sleep(5);
@@ -52,19 +52,19 @@ public class NetworkingClient extends Listener {
                     PacketMessage packet = (PacketMessage) p;
                     if (oldXCord != packet.xCord || oldYCord != packet.yCord) {
                         //System.out.println("Received News: X:" + oldXCord + "  Y:" + oldYCord);
-                        System.out.println(otherPlayer.getPosition());
+                        //System.out.println(otherPlayer.getPosition());
                     }
                     oldXCord = packet.xCord;
                     oldYCord = packet.yCord;
                     otherPlayer.setPosition(oldXCord, oldYCord);
                     otherPlayer.setRotation(packet.rotation);
-                    if (packet.shotRad != null) {
+                    /*if (packet.shotRad != null) {
                         System.out.println("ATTACK Recieved");
                         System.out.println("x" + packet.shotXCord);
                         System.out.println("y" + packet.shotYCord);
                         System.out.println("rad" + packet.shotRad);
                         gs.getWorld().addAttack(new Attack(packet.shotXCord, packet.shotYCord, packet.shotRad));
-                    }
+                    }*/
 
 
                     //packet.player = gs.getWorld().getPlayer();
@@ -77,30 +77,32 @@ public class NetworkingClient extends Listener {
     }
 
 
-    public void update(){
-        PacketMessage packetMessage = new PacketMessage();
-        packetMessage.xCord = gs.getWorld().getSelfPlayer().getPosition().x;
-        packetMessage.yCord = gs.getWorld().getSelfPlayer().getPosition().y;
-        packetMessage.rotation = gs.getWorld().getSelfPlayer().getRotation();
-        if (gs.getWorld().attackOccured) {
-            gs.getWorld().attackOccured = false;
-            ArrayList<Attack> attacks = gs.getWorld().getAttacks();
-            if (attacks.size() > 0) {
-                packetMessage.shotXCord = gs.getWorld().getSelfPlayer().getPosition().x;
-                packetMessage.shotYCord = gs.getWorld().getSelfPlayer().getPosition().y;
-                packetMessage.shotRad = (float)attacks.get(0).rad;
-                System.out.println("ATTACK SEND");
-                System.out.println("shotXCord" + packetMessage.shotXCord);
-                System.out.println("shotYCord" + packetMessage.shotYCord);
-                System.out.println("pXCord" + gs.getWorld().getSelfPlayer().getPosition().x);
-                System.out.println("pYCord" + gs.getWorld().getSelfPlayer().getPosition().y);
-                System.out.println("rad" + packetMessage.shotRad);
+    public void update() {
+        if (client.isConnected() && connect != null) {
+            PacketMessage packetMessage = new PacketMessage();
+            packetMessage.xCord = gs.getWorld().getSelfPlayer().getPosition().x;
+            packetMessage.yCord = gs.getWorld().getSelfPlayer().getPosition().y;
+            packetMessage.rotation = gs.getWorld().getSelfPlayer().getRotation();
+            if (gs.getWorld().attackOccured) {
+                gs.getWorld().attackOccured = false;
+                ArrayList<Attack> attacks = gs.getWorld().getAttacks();
+                if (attacks.size() > 0) {
+                    packetMessage.shotXCord = gs.getWorld().getSelfPlayer().getPosition().x;
+                    packetMessage.shotYCord = gs.getWorld().getSelfPlayer().getPosition().y;
+                    packetMessage.shotRad = (float) attacks.get(0).rad;
+                    System.out.println("ATTACK SEND");
+                    System.out.println("shotXCord" + packetMessage.shotXCord);
+                    System.out.println("shotYCord" + packetMessage.shotYCord);
+                    System.out.println("pXCord" + gs.getWorld().getSelfPlayer().getPosition().x);
+                    System.out.println("pYCord" + gs.getWorld().getSelfPlayer().getPosition().y);
+                    System.out.println("rad" + packetMessage.shotRad);
 
+                }
             }
+            System.out.println("sending to server");
+            connect.sendUDP(packetMessage);
         }
-
-        connect.sendUDP(packetMessage);
-        }
+    }
     //}
 //    public static void main(String args[]) throws Exception{
 //

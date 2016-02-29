@@ -53,20 +53,33 @@ public class Player {
         rotation = 0;
 
         polygon = new Polygon(new float[]{
-           -IMAGE_WIDTH/4, IMAGE_HEIGHT/2, //A
-           IMAGE_WIDTH/4, IMAGE_HEIGHT/2, //B
-           IMAGE_WIDTH/4, IMAGE_HEIGHT/4, //C
-           IMAGE_WIDTH/2, IMAGE_HEIGHT/4, //D
-           IMAGE_WIDTH/2, -IMAGE_HEIGHT/4, //E
-           IMAGE_WIDTH/4, -IMAGE_HEIGHT/4, //F
-           IMAGE_WIDTH/4, -IMAGE_HEIGHT/2, //G
-           -IMAGE_WIDTH/4, -IMAGE_HEIGHT/2,//H
-           -IMAGE_WIDTH/4, -IMAGE_HEIGHT/4,//I
-           -IMAGE_WIDTH/2, -IMAGE_HEIGHT/4, //J
-           -IMAGE_WIDTH/2, IMAGE_HEIGHT/4, //K
-           -IMAGE_WIDTH/4, IMAGE_HEIGHT/4 //L
+//           -IMAGE_WIDTH/4, IMAGE_HEIGHT/2, //A
+//           IMAGE_WIDTH/4, IMAGE_HEIGHT/2, //B
+//           IMAGE_WIDTH/4, IMAGE_HEIGHT/4, //C
+//           IMAGE_WIDTH/2, IMAGE_HEIGHT/4, //D
+//           IMAGE_WIDTH/2, -IMAGE_HEIGHT/4, //E
+//           IMAGE_WIDTH/4, -IMAGE_HEIGHT/4, //F
+//           IMAGE_WIDTH/4, -IMAGE_HEIGHT/2, //G
+//           -IMAGE_WIDTH/4, -IMAGE_HEIGHT/2,//H
+//           -IMAGE_WIDTH/4, -IMAGE_HEIGHT/4,//I
+//           -IMAGE_WIDTH/2, -IMAGE_HEIGHT/4, //J
+//           -IMAGE_WIDTH/2, IMAGE_HEIGHT/4, //K
+//           -IMAGE_WIDTH/4, IMAGE_HEIGHT/4 //L
+
 
            //
+                -IMAGE_WIDTH/4, IMAGE_HEIGHT/2, //A
+                IMAGE_WIDTH/4, IMAGE_HEIGHT/2, //B
+                IMAGE_WIDTH/4, IMAGE_HEIGHT/4, //C
+                IMAGE_WIDTH/2, IMAGE_HEIGHT/4, //D
+                IMAGE_WIDTH/2, -IMAGE_HEIGHT/4, //E
+                IMAGE_WIDTH/4, -IMAGE_HEIGHT/4, //F
+                IMAGE_WIDTH/4, -IMAGE_HEIGHT/2, //G
+                -IMAGE_WIDTH/4, -IMAGE_HEIGHT/2,//H
+                -IMAGE_WIDTH/4, -IMAGE_HEIGHT/4,//I
+                -IMAGE_WIDTH/2, -IMAGE_HEIGHT/4, //J
+                -IMAGE_WIDTH/2, IMAGE_HEIGHT/4, //K
+                -IMAGE_WIDTH/4, IMAGE_HEIGHT/4 //L
         });
         polygon.setOrigin(0,0);
         polygon.setPosition(getPosition().x, getPosition().y);

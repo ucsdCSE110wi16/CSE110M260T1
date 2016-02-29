@@ -34,7 +34,7 @@ public class CS110App extends Game { //The automatically generated code has Appl
 				System.out.print("SERVER READY");
 				System.out.println("SERVER");
 			}
-			NS = new NetworkingServer(screen);
+//			NS = new NetworkingServer(screen);
 //            NC = new NetworkingClient(screen); // Uncomment to be client
 		}
 		catch(Exception e) {

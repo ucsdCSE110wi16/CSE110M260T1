@@ -43,7 +43,7 @@ public class NetworkingServer extends Listener{
 
 
                 public void received(Connection c, Object p) {
-                    System.out.println("GENERAL PACKET");
+                    //System.out.println("GENERAL PACKET");
                     if (p instanceof PacketMessage) {
 
                         PacketMessage pm = (PacketMessage) p;
@@ -55,7 +55,8 @@ public class NetworkingServer extends Listener{
                         otherPlayer.setPosition(oldXCord, oldYCord);
                         otherPlayer.setRotation(pm.rotation);
                         if(pm.attackType != null){
-                            //Attack t = new Attack(oldXCord, oldYCord,otherPlayer.IMAGE_WIDTH/2 + 15, pm.rotation, gs.getWorld(), pm.attackType);
+                            System.out.println("ATTACKED");
+                            Attack t = new Attack(oldXCord, oldYCord,otherPlayer.IMAGE_WIDTH/2 + 15, pm.rotation, gs.getWorld(), pm.attackType);
                         }
 //                        if (pm.shotRad != null) {
 //                            System.out.println("ATTACK Recieved");
@@ -104,11 +105,11 @@ public class NetworkingServer extends Listener{
             packetMessage.rotation = gs.getWorld().getSelfPlayer().getRotation();
             if (gs.getWorld().attackOccured) {
                 gs.getWorld().attackOccured = false;
-//                ArrayList<Attack> attacks = gs.getWorld().getAttacks();
-//                for(int i = 0; i<attacks.size(); i++){
-//                    packetMessage.attackType = attacks.get(i).getType();
-//                    connect.sendUDP(packetMessage);
-//                }
+                List<Attack> attacks = gs.getWorld().getAttacks();
+                for(int i = 0; i<attacks.size(); i++){
+                    packetMessage.attackType = attacks.get(i).getType();
+                    connect.sendUDP(packetMessage);
+                }
 
                 }
 

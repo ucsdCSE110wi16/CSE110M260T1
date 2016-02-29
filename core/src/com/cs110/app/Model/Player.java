@@ -102,6 +102,7 @@ public class Player {
 
         float xNew = getPosition().x + knobPercentageX * SPEED;
         float yNew = getPosition().y + knobPercentageY * SPEED;
+        //System.out.println(xNew + "   " + yNew);
         double rotNew = Math.atan2((double) knobPercentageY, (double) knobPercentageX);
 
 //        getPolygon().setPosition(xNew, yNew);

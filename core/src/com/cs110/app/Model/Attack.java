@@ -53,8 +53,10 @@ public class Attack
     }
     public Attack(int center, double rad, int d){}
 
+    //MAIN CONSTRUCTOR
     public Attack(float x, float y,int center, double rad, int d,World w)
     {
+        w.attackOccured = true;
         this.w = w;
         w.addAttack(this);
         duration = d;

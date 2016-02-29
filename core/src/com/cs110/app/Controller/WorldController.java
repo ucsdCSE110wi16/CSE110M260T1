@@ -24,6 +24,7 @@ import javax.xml.soap.Text;
  */
 
 
+
 public class WorldController implements GestureDetector.GestureListener
 {   private final long tapDiff = 500; //50 ms window to double tap
     private long tapStartTime = 0;
@@ -121,6 +122,10 @@ public class WorldController implements GestureDetector.GestureListener
     int durationY;
     int durationZ;
 
+    public static int tapCounter;
+    //private tapStartTime;
+
+
 
     //These are the possible buttons that can be pressed
     enum Keys
@@ -144,7 +149,7 @@ public class WorldController implements GestureDetector.GestureListener
         keys.put(Keys.BUTTON_Z, false);
     };
 
-//    static ArrayList<TextButton> button;
+    //    static ArrayList<TextButton> button;
     static Map<Keys, TextButton> button = new HashMap<Keys, TextButton>();
     static Map<Keys, Integer> duration = new HashMap<Keys, Integer>();
     static Map<Keys,Integer> coolDown = new HashMap<Keys, Integer>();
@@ -194,9 +199,12 @@ public class WorldController implements GestureDetector.GestureListener
     {
         keys.put(Keys.BUTTON_Z,true);
         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,2);
-         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,2);
-         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,2);
-         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,2);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation() + Math.PI/8,world,2);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation() - Math.PI/8,world,2);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation() + Math.PI/16,world,2);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation() - Math.PI/16,world,2);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation() + Math.PI/32,world,2);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation() - Math.PI/32,world,2);
         button.get(Keys.BUTTON_Z).setTouchable(Touchable.disabled);
         duration.put(Keys.BUTTON_Z,0);
     }

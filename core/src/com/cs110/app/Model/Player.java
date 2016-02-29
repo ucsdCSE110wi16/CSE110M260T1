@@ -23,6 +23,7 @@ public class Player {
     public static final int MAX_HEALTH = 100;
     public static final int MAX_ARMOR = 100;
     public static final float SPEED = 10f;
+    
 
     Vector2 position = new Vector2(); //position of the player character
     Vector2 acceleration = new Vector2(); //acceleration of the player character

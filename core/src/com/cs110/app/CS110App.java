@@ -21,8 +21,6 @@ public class CS110App extends Game { //The automatically generated code has Appl
 	
 	@Override
 	public void create () {
-        //PlayerScreen screenp = new PlayerScreen();
-        //GameScreen screen = new GameScreen();
         MenuScreen screen = new MenuScreen(this);
 		setScreen(screen);
 

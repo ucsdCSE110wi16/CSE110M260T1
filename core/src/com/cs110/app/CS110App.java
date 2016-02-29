@@ -22,12 +22,16 @@ public class CS110App extends Game { //The automatically generated code has Appl
 		setScreen(screen);
 		try {
 			//NS = new NetworkingServer(screen);
+			System.out.print("start");
+			System.out.print("start2");
 			if(client) {
 				NC = new NetworkingClient(screen); // Uncomment to be client
+				System.out.print("CLIENT READY");
 				System.out.println("CLIENT");
 			}
 			else {
 				NS = new NetworkingServer(screen);
+				System.out.print("SERVER READY");
 				System.out.println("SERVER");
 			}
 		}
@@ -40,14 +44,14 @@ public class CS110App extends Game { //The automatically generated code has Appl
 	@Override
 	public void render () {
         super.render();
-		if(client && NC!= null) {
-			//System.out.println("update");
+		if(client && NC != null) {
 			NC.update();
 		}
 		else if(NS!= null) {
 			//System.out.println("update");
 			NS.update();
 		}
+
 	}
 
 }

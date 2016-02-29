@@ -9,6 +9,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Connection;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NetworkingServer extends Listener{
     private static Server server;
@@ -100,7 +101,7 @@ public class NetworkingServer extends Listener{
             packetMessage.rotation = gs.getWorld().getSelfPlayer().getRotation();
             if (gs.getWorld().attackOccured) {
                 gs.getWorld().attackOccured = false;
-                ArrayList<Attack> attacks = gs.getWorld().getAttacks();
+                List<Attack> attacks = gs.getWorld().getAttacks();
                 if (attacks.size() > 0) {
                     packetMessage.shotXCord = gs.getWorld().getSelfPlayer().getPosition().x;
                     packetMessage.shotYCord = gs.getWorld().getSelfPlayer().getPosition().y;

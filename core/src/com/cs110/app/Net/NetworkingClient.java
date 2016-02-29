@@ -82,22 +82,14 @@ public class NetworkingClient extends Listener {
             packetMessage.xCord = gs.getWorld().getSelfPlayer().getPosition().x;
             packetMessage.yCord = gs.getWorld().getSelfPlayer().getPosition().y;
             packetMessage.rotation = gs.getWorld().getSelfPlayer().getRotation();
-            if (gs.getWorld().attackOccured) {
-                gs.getWorld().attackOccured = false;
-                ArrayList<Attack> attacks = gs.getWorld().getAttacks();
-                if (attacks.size() > 0) {
-                    packetMessage.shotXCord = gs.getWorld().getSelfPlayer().getPosition().x;
-                    packetMessage.shotYCord = gs.getWorld().getSelfPlayer().getPosition().y;
-                    packetMessage.shotRad = (float) attacks.get(0).rad;
-                    System.out.println("ATTACK SEND");
-                    System.out.println("shotXCord" + packetMessage.shotXCord);
-                    System.out.println("shotYCord" + packetMessage.shotYCord);
-                    System.out.println("pXCord" + gs.getWorld().getSelfPlayer().getPosition().x);
-                    System.out.println("pYCord" + gs.getWorld().getSelfPlayer().getPosition().y);
-                    System.out.println("rad" + packetMessage.shotRad);
-
-                }
-            }
+//            if (gs.getWorld().attackOccured) {
+//                gs.getWorld().attackOccured = false;
+//                ArrayList<Attack> attacks = gs.getWorld().getAttacks();
+//                if (attacks.size() > 0) {
+//
+//
+//                }
+//            }
             System.out.println("sending to server");
             connect.sendUDP(packetMessage);
         }

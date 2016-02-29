@@ -28,7 +28,7 @@ public class Player {
     Vector2 acceleration = new Vector2(); //acceleration of the player character
     Vector2 velocity = new Vector2(); //velocity of the player character
 
-    private int health; // the health of the player
+    public int health; // the health of the player
     private int armor;  // armor of the player
     private String Id; // the Id of the player
     private double rotation; //angle of the player in radians, (java math sin and cos use radians)

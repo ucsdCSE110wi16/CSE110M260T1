@@ -1,5 +1,7 @@
 package com.cs110.app.Model;
 
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Shape;
@@ -23,6 +25,7 @@ public class Attack
     Rectangle bounds;
     int duration;
     World w;
+    Polygon polygon; //used for collision detection
 
     public Attack(float x, float y, int center ,double rad,World w)
     {
@@ -34,14 +37,18 @@ public class Attack
         this.w = w;
         w.addAttack(this);
         duration = d;
-        xPos = x + (float) calculateX(70,rad);
-        yPos =  y + (float)calculateY(70,rad);
+//        xPos = x + (float) calculateX(70 + 20,rad);
+//        yPos =  y + (float)calculateY(70 + 20, rad);
+
+        xPos = x + (float) calculateX(center,rad);
+        yPos =  y + (float)calculateY(center, rad);
         this.rad = rad ;
         xDist = 0;
         CONST_FACTOR =1;
         yDist = 0;
         active = true;
         velocity = 2;
+        //polygon = new Polygon(new float[] {10, 10,});
     }
 
     public Attack(float x,float y, int center, double rad, World w, int type)
@@ -49,13 +56,32 @@ public class Attack
         this(x,y,center,rad,555,w);
         this.type = type;
 
-        if (type == 1)  //rapid fire attack
-            bounds = new Rectangle(x,y,5,5);
+        if (type == 1) {  //rapid fire attack
+            bounds = new Rectangle(x, y, 5, 5);
 
+
+        }
         else if (type == 0) //big ball attack
-            bounds = new Rectangle(x,y,100,100);
+            bounds = new Rectangle(x,y,25,25);
         else
             bounds = new Rectangle(x,y,3,3);
+
+
+        float width = bounds.width + 5;
+        float diag_dist = (float) (width/Math.sqrt(2));
+        polygon = new Polygon(new float[]{
+                0, width, //A
+                diag_dist, diag_dist,//B
+                width, 0, //C
+                diag_dist, -diag_dist, //D
+                0, -width, //E
+                -diag_dist, -diag_dist, //F
+                -width, 0, //G
+                -diag_dist, diag_dist,//H
+        });
+
+        polygon.setOrigin(0,0);
+        polygon.setPosition(xPos, yPos);
     }
 
 
@@ -89,8 +115,11 @@ public class Attack
             //This is where I should implement the x,y position of the attack depending on player's orientation
 
             xDist += CONST_FACTOR*calculateX(velocity,rad);
-            yDist += CONST_FACTOR*calculateY(velocity,rad);
+            yDist += CONST_FACTOR*calculateY(velocity, rad);
             CONST_FACTOR+= 0.05;
+            polygon.setPosition((float)(xPos + xDist), (float) (yPos + yDist));
+            if(getType()!= 2)
+                collidesWithPlayer();
 
             if (--duration == 0)
             {
@@ -99,5 +128,20 @@ public class Attack
             }
         }
     }
+
+    public Polygon getPolygon(){
+        return polygon;
+    }
+
+    private void collidesWithPlayer(){
+        for( Player chimichanga : w.getPlayers()){
+            if(Intersector.overlapConvexPolygons(chimichanga.getPolygon(), getPolygon())){
+                chimichanga.health -= 10;
+                active = false;
+            }
+
+        }
+    }
+
 
 }

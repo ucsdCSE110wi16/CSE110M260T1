@@ -80,7 +80,7 @@ public class WorldController implements GestureDetector.GestureListener
             //gets the spot we want to move to.
             Vector2 movePos = topLeft.add(x,-y);
 
-            world.getSelfPlayer().blink(new Vector2(movePos.x, movePos.y));
+            world.getSelfPlayer().setPosition(movePos.x, movePos.y);
             
             return true;
         }

@@ -9,6 +9,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Connection;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NetworkingServer extends Listener{
     private static Server server;
@@ -20,6 +21,7 @@ public class NetworkingServer extends Listener{
         this.gs = gs;
         final Player myPlayer = new Player(new Vector2(700,700),"Player1");
         final Player otherPlayer = new Player(new Vector2(500, 500), "Player2");
+        otherPlayer.setWorld(gs.getWorld());
         gs.getWorld().setSelfPlayer(myPlayer);
         gs.getWorld().setOtherPlayer(otherPlayer);
         System.out.println("Creating the server ... ");
@@ -41,7 +43,7 @@ public class NetworkingServer extends Listener{
 
 
                 public void received(Connection c, Object p) {
-
+                    System.out.println("GENERAL PACKET");
                     if (p instanceof PacketMessage) {
 
                         PacketMessage pm = (PacketMessage) p;
@@ -52,6 +54,9 @@ public class NetworkingServer extends Listener{
                         oldYCord = pm.yCord;
                         otherPlayer.setPosition(oldXCord, oldYCord);
                         otherPlayer.setRotation(pm.rotation);
+                        if(pm.attackType != null){
+                            //Attack t = new Attack(oldXCord, oldYCord,otherPlayer.IMAGE_WIDTH/2 + 15, pm.rotation, gs.getWorld(), pm.attackType);
+                        }
 //                        if (pm.shotRad != null) {
 //                            System.out.println("ATTACK Recieved");
 //                            System.out.println("x" + pm.shotXCord);
@@ -99,19 +104,14 @@ public class NetworkingServer extends Listener{
             packetMessage.rotation = gs.getWorld().getSelfPlayer().getRotation();
             if (gs.getWorld().attackOccured) {
                 gs.getWorld().attackOccured = false;
-                ArrayList<Attack> attacks = gs.getWorld().getAttacks();
-                if (attacks.size() > 0) {
-                    packetMessage.shotXCord = gs.getWorld().getSelfPlayer().getPosition().x;
-                    packetMessage.shotYCord = gs.getWorld().getSelfPlayer().getPosition().y;
-                    packetMessage.shotRad = (float)attacks.get(0).rad;
-                    System.out.println("ATTACK SEND");
-                    System.out.println("shotXCord" + packetMessage.shotXCord);
-                    System.out.println("shotYCord" + packetMessage.shotYCord);
-                    System.out.println("pXCord" + gs.getWorld().getSelfPlayer().getPosition().x);
-                    System.out.println("pYCord" + gs.getWorld().getSelfPlayer().getPosition().y);
-                    System.out.println("rad" + packetMessage.shotRad);
+//                ArrayList<Attack> attacks = gs.getWorld().getAttacks();
+//                for(int i = 0; i<attacks.size(); i++){
+//                    packetMessage.attackType = attacks.get(i).getType();
+//                    connect.sendUDP(packetMessage);
+//                }
+
                 }
-            }
+
             connect.sendUDP(packetMessage);
         }
     }

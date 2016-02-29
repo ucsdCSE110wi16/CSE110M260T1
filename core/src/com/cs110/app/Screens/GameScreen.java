@@ -112,47 +112,24 @@ public class GameScreen implements Screen
         buttonZ.pad(30);
         buttonX.pad(30);
         buttonY.pad(30);
-
+        controller.addButton(buttonX,'x');
+        controller.addButton(buttonY, 'y');
+        controller.addButton(buttonZ, 'z');
         //Adding on-touch listeners for buttons
         buttonX.addListener(new ClickListener()
         {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
             {
-
                 controller.buttonXPressed();
-                buttonXClicked = true;
-                System.out.println("Rotation: " + world.getSelfPlayer().getRotation());
-
-
-                //world.addAttack((new Attack(world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation())));
-                world.addAttack(new Attack(world.getSelfPlayer().getPosition().x, world.getSelfPlayer().getPosition().y,(float)world.getSelfPlayer().getRotation()));
-                world.attackOccured = true;
-                buttonX.setTouchable(Touchable.disabled);
-
-                new Timer().schedule(new Timer.Task()
-                {
-                    int CD = 10; // CD is cooldown
-                    @Override
-                    public void run()
-                    {
-                        String in = "" + CD--;
-                        buttonX.setText(in);
-                    }
-
-                },0,1,10); //10 is CD
-                new Timer().schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        buttonX.setText("X");
-                        buttonX.setTouchable(Touchable.enabled);
-                        if (world.getAttacks().size() > 0) {
-                            world.removeAttack();
-                            buttonXClicked = false;
-                        }
-                    }
-
-                }, 10, 1, 1); //10 is CD delay
+//                buttonXClicked = true;
+//                System.out.println("Rotation: " + world.getSelfPlayer().getRotation());
+//
+//
+//                //world.addAttack((new Attack(world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation())));
+//                world.addAttack(new Attack(world.getSelfPlayer().getPosition().x, world.getSelfPlayer().getPosition().y,(float)world.getSelfPlayer().getRotation()));
+//                world.attackOccured = true;
+//                buttonX.setTouchable(Touchable.disabled);
                 return true;
             }
 
@@ -176,29 +153,6 @@ public class GameScreen implements Screen
             public void touchUp(InputEvent event, float x, float y, int pointer, int button)
             {
                 controller.buttonYReleased();
-
-                buttonY.setTouchable(Touchable.disabled);
-                new Timer().schedule(new Timer.Task()
-                {
-                    int CD = 10;
-                    @Override
-                    public void run()
-                    {
-                        String in = "" + CD--;
-                        buttonY.setText(in);
-                    }
-
-                },0,1,10);
-                new Timer().schedule(new Timer.Task()
-                {
-                    @Override
-                    public void run()
-                    {
-                        buttonY.setText("Y");
-                        buttonY.setTouchable(Touchable.enabled);
-                    }
-
-                },10,1,1);
             }
         });
 
@@ -214,30 +168,7 @@ public class GameScreen implements Screen
             public void touchUp(InputEvent event, float x, float y, int pointer, int button)
             {
                 controller.buttonZReleased();
-
-                buttonZ.setTouchable(Touchable.disabled);
-                new Timer().schedule(new Timer.Task()
-                {
-                    int CD = 10;
-                    @Override
-                    public void run()
-                    {
-                        String in = "" + CD--;
-                        buttonZ.setText(in);
-                    }
-
-                },0,1,10);
-                new Timer().schedule(new Timer.Task()
-                {
-                    @Override
-                    public void run()
-                    {
-                        buttonZ.setText("Z");
-                        buttonZ.setTouchable(Touchable.enabled);
-                    }
-
-                },10,1,1);
-            }
+                }
         });
 
         //The 20 is how much distance touchpad has to be moved before detecting the motion
@@ -274,12 +205,19 @@ public class GameScreen implements Screen
             world.getPlayer().move(pad.getKnobPercentX(), pad.getKnobPercentY());
         }
 
-        for (Attack a: world.getAttacks()) {
-            a.update();
-        }
         batch.begin();
         font.draw(batch, "Health: "+Integer.toString(world.getSelfPlayer().getHealth()), 550, 25);
         batch.end();
+        if (world.getAttacks().size() > 0) {
+            for (Attack a : world.getAttacks()) {
+                a.update();
+            }
+        }
+//        }
+        controller.processInput();
+
+
+
         //System.err.println("Game screen rendedring");
         World.gameTime = System.currentTimeMillis();
         renderer.render();

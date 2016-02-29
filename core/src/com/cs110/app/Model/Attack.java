@@ -51,6 +51,7 @@ public class Attack
         //polygon = new Polygon(new float[] {10, 10,});
     }
 
+    //Main constructor
     public Attack(float x,float y, int center, double rad, World w, int type)
     {
         this(x,y,center,rad,555,w);
@@ -118,8 +119,7 @@ public class Attack
             yDist += CONST_FACTOR*calculateY(velocity, rad);
             CONST_FACTOR+= 0.05;
             polygon.setPosition((float)(xPos + xDist), (float) (yPos + yDist));
-            if(getType()!= 2)
-                collidesWithPlayer();
+            collidesWithPlayer();
 
             if (--duration == 0)
             {

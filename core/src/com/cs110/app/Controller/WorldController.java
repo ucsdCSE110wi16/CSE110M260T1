@@ -92,13 +92,14 @@ public class WorldController
     public void buttonZPressed()
     {
         keys.put(Keys.BUTTON_Z,true);
-        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,2);
-        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation() + Math.PI/8,world,2);
-        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation() - Math.PI/8,world,2);
-        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation() + Math.PI/16,world,2);
-        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation() - Math.PI/16,world,2);
-        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation() + Math.PI/32,world,2);
-        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation() - Math.PI/32,world,2);
+        int bufferVal = 15;
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2 + bufferVal, world.getSelfPlayer().getRotation(),world,2);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2 + bufferVal, world.getSelfPlayer().getRotation() + Math.PI/8,world,2);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2 + bufferVal, world.getSelfPlayer().getRotation() - Math.PI/8,world,2);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2 + bufferVal, world.getSelfPlayer().getRotation() + Math.PI/16,world,2);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2 + bufferVal, world.getSelfPlayer().getRotation() - Math.PI/16,world,2);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2 + bufferVal, world.getSelfPlayer().getRotation() + Math.PI/32,world,2);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2 + bufferVal, world.getSelfPlayer().getRotation() - Math.PI/32,world,2);
         button.get(Keys.BUTTON_Z).setTouchable(Touchable.disabled);
         duration.put(Keys.BUTTON_Z,0);
     }

@@ -20,6 +20,7 @@ public class NetworkingServer extends Listener{
         this.gs = gs;
         final Player myPlayer = new Player(new Vector2(700,700),"Player1");
         final Player otherPlayer = new Player(new Vector2(500, 500), "Player2");
+        otherPlayer.setWorld(gs.getWorld());
         gs.getWorld().setSelfPlayer(myPlayer);
         gs.getWorld().setOtherPlayer(otherPlayer);
         System.out.println("Creating the server ... ");

@@ -1,8 +1,10 @@
 package com.cs110.app.Screens;
 
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,18 +26,18 @@ import com.cs110.app.View.WorldRenderer;
 /**
  * Created by caeleanbarnes on 2/28/16.
  */
-public class MenuScreen implements Screen {
-
+public class ClientScreen implements Screen {
+    String ip;
     Skin buttonSkin;
     TextButton.TextButtonStyle textbuttonStyle;
-    TextButton buttonServer, buttonClient;
+    TextButton buttonPlay;
     BitmapFont font;
     Stage stage; //The stage which the touchpad belong to
     private CS110App g;
-//    private WorldRenderer renderer;
+    //    private WorldRenderer renderer;
 //    private World world;
 //    private WorldController controller;
-    public MenuScreen(CS110App g) {
+    public ClientScreen(CS110App g) {
         this.g = g;
     }
 
@@ -57,12 +59,11 @@ public class MenuScreen implements Screen {
         textbuttonStyle.down = buttonSkin.getDrawable("buttonDown");
         textbuttonStyle.checked = buttonSkin.getDrawable("button");
 
-        buttonServer = new TextButton("Start Server",textbuttonStyle);
-
-        buttonServer.addListener(new ClickListener() {
+        buttonPlay = new TextButton(" Start Game ",textbuttonStyle);
+        buttonPlay.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                g.start(true);
+                g.start(false);
                 return true;
             }
 
@@ -72,32 +73,25 @@ public class MenuScreen implements Screen {
             }
 
         });
+        buttonPlay.pad(20);
+            Input.TextInputListener listen = new Input.TextInputListener() {
+                @Override
+                public void input(String text) {
+                    ip = text;
+                    System.out.println(ip);
+                }
 
-        buttonClient = new TextButton(" Start Client ",textbuttonStyle);
-        buttonClient.addListener(new ClickListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//                g.start(false);
-                g.setScreen(new ClientScreen(g));
-                return true;
-            }
+                @Override
+                public void canceled() {
 
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
-            }
-
-        });
-
-        buttonClient.pad(20);
-        buttonServer.pad(20);
+                }
+            };
+            Gdx.input.getTextInput(listen, "Enter the Server's IP address", "", "");
         HorizontalGroup group = new HorizontalGroup();
         group.pad(180);
         group.align(Align.bottom);
         group.space(50);
-
-        group.addActor(buttonServer);
-        group.addActor(buttonClient);
+        group.addActor(buttonPlay);
         //add touchpad to the stage
         stage = new Stage();
         stage.addActor(group);
@@ -108,13 +102,13 @@ public class MenuScreen implements Screen {
     {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    //    renderer.render();
+        //    renderer.render();
         stage.act(delta);
         stage.draw();
 
     }
 
-//    public World getWorld(){
+    //    public World getWorld(){
 //        return world;
 //    }
     @Override

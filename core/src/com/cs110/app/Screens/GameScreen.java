@@ -1,6 +1,7 @@
 package com.cs110.app.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Screen;
@@ -40,6 +41,7 @@ import com.cs110.app.View.WorldRenderer;
 //This is the screen that is shown when the the game itself is being played
 public class GameScreen implements Screen
 {
+
 
     private World world;
     private WorldRenderer renderer;
@@ -233,7 +235,7 @@ public class GameScreen implements Screen
 
         //Adds the pad and on-screen buttons to group
         HorizontalGroup group = new HorizontalGroup();
-        group.pad(0,50,250,0);
+        group.pad(0, 50, 250, 0);
         group.align(Align.left);
         group.addActor(pad);
         group.addActor(buttonX);
@@ -245,10 +247,13 @@ public class GameScreen implements Screen
         stage = new Stage();
         stage.addActor(group);
 
+
         //instantiating myGestureDetector
         //myGestureDetector = new GestureDetector (this);
-
-        Gdx.input.setInputProcessor(stage);
+        InputMultiplexer im = new InputMultiplexer();
+        im.addProcessor(new GestureDetector(controller));
+        im.addProcessor(stage);
+        Gdx.input.setInputProcessor(im);
     }
 
     @Override

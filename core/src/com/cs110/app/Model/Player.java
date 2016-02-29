@@ -132,6 +132,7 @@ public class Player {
 
     public void blink(Vector2 blinkVector)
     {
+        /* Checking the distance. Making sure you can't blink past a certain amount
         double maxBlinkDist = 300;
         //if the blink distance is too far, set it to the max
         //if (x^2+y^2 > 100^2)
@@ -140,7 +141,10 @@ public class Player {
             double ratio = hypot/maxBlinkDist;
             blinkVector.setLength((float)maxBlinkDist);
         }
-        setPosition(getPosition().x + blinkVector.x, getPosition().y + blinkVector.y);
+
+        */
+
+        move(blinkVector);
 
     }
 

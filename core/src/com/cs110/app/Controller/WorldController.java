@@ -1,17 +1,28 @@
 package com.cs110.app.Controller;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
+
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Timer;
+import com.cs110.app.Model.Attack;
+
 import com.cs110.app.Model.Player;
 import com.cs110.app.Model.World;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.soap.Text;
 
 /**
  * Created by Yashwanth on 1/31/16.
  */
+
 
 public class WorldController implements GestureDetector.GestureListener
 {   private final long tapDiff = 500; //50 ms window to double tap
@@ -25,8 +36,25 @@ public class WorldController implements GestureDetector.GestureListener
     @Override
     public boolean tap(float x, float y, int count, int button) {
         long currTime = World.gameTime;
-        System.out.println("x: " + x);
-        System.out.println("y: " + y);
+
+
+        //dont want to blink if we are on attack buttons
+        if(x>=270 && x<=530 && y>=324 && y<=400) {
+            return false;
+        }
+
+        //dont blink if we are on the move pad
+        if(x>=48 && x<=253 && y>=252 && y<=459) {
+            return false;
+        }
+
+        /*
+        if(player==null) {
+            System.out.println("Player is null");
+            return false;
+        }
+        */
+
         if(currTime - tapStartTime > tapDiff) {
             tapStartTime = currTime;
 
@@ -38,11 +66,11 @@ public class WorldController implements GestureDetector.GestureListener
 
             //vector of the click from window's topLeft
             Vector2 clickPos = new Vector2(x,y);
-            System.out.println("clickPos x: " + clickPos.x);
-            System.out.println("clickPos y: " + clickPos.y);
+
+
 
             //position of player in GAMESCREEN, not window
-            Vector2 currPos = player.getPosition();
+            Vector2 currPos = world.getSelfPlayer().getPosition();
 
 
             //gets the topLeft corner of the window in GAMESCREEN coordinates
@@ -51,7 +79,7 @@ public class WorldController implements GestureDetector.GestureListener
             //gets the spot we want to move to.
             Vector2 movePos = topLeft.add(x,-y);
 
-            player.setPosition(movePos.x, movePos.y);
+            world.getSelfPlayer().blink(new Vector2(movePos.x, movePos.y));
             
             return true;
         }
@@ -89,6 +117,11 @@ public class WorldController implements GestureDetector.GestureListener
         return false;
     }
 
+
+    int durationY;
+    int durationZ;
+
+
     //These are the possible buttons that can be pressed
     enum Keys
     {
@@ -111,10 +144,32 @@ public class WorldController implements GestureDetector.GestureListener
         keys.put(Keys.BUTTON_Z, false);
     };
 
+//    static ArrayList<TextButton> button;
+    static Map<Keys, TextButton> button = new HashMap<Keys, TextButton>();
+    static Map<Keys, Integer> duration = new HashMap<Keys, Integer>();
+    static Map<Keys,Integer> coolDown = new HashMap<Keys, Integer>();
+
+    static
+    {
+        duration.put(Keys.BUTTON_X,0);
+        duration.put(Keys.BUTTON_Y,0);
+        duration.put(Keys.BUTTON_Z,0);
+        coolDown.put(Keys.BUTTON_X,0);
+        coolDown.put(Keys.BUTTON_Y,500);
+        coolDown.put(Keys.BUTTON_Z,200);
+    }
+
     public WorldController(World world)
     {
         this.world = world;
-        this.player = world.getPlayer();
+        this.player = world.getSelfPlayer();
+    }
+
+    public void addButton (TextButton b , char type)
+    {
+        if (type =='x')  button.put(Keys.BUTTON_X, b);
+        else if (type =='y')  button.put(Keys.BUTTON_Y, b);
+        else    button.put(Keys.BUTTON_Z, b);
     }
 
     /* Following methods are for keys pressed and touched */
@@ -123,31 +178,49 @@ public class WorldController implements GestureDetector.GestureListener
 
     public void buttonXPressed()
     {
-        keys.put(Keys.BUTTON_X,true);
-
+        TextButton x = button.get(Keys.BUTTON_X);
+        keys.put(Keys.BUTTON_X, true);
+        System.out.println("Rotation: " + world.getSelfPlayer().getRotation());
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2 + 15, world.getSelfPlayer().getRotation(),world,1);
     }
     public void buttonYPressed()
     {
         keys.put(Keys.BUTTON_Y,true);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2 + 35, world.getSelfPlayer().getRotation(),world,0);
+        button.get(Keys.BUTTON_Y).setTouchable(Touchable.disabled);
+        duration.put(Keys.BUTTON_Y,0);
     }
     public void buttonZPressed()
     {
         keys.put(Keys.BUTTON_Z,true);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,2);
+         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,2);
+         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,2);
+         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,2);
+        button.get(Keys.BUTTON_Z).setTouchable(Touchable.disabled);
+        duration.put(Keys.BUTTON_Z,0);
     }
 
     public void buttonXReleased()
     {
-        keys.put(Keys.BUTTON_X,false);
+        keys.put(Keys.BUTTON_X, false);
+
     }
+
+    private String getButtonText(Keys k)
+    {
+        if (k == Keys.BUTTON_X)  return "X";
+        else if (k == Keys.BUTTON_Y)  return "Y";
+        else return "Z";
+    }
+
 
     public void buttonYReleased()
     {
-        keys.put(Keys.BUTTON_Y,false);
     }
 
     public void buttonZReleased()
     {
-        keys.put(Keys.BUTTON_Z,false);
     }
 
     //This is similar to the update method in screen it gets called every cycle
@@ -157,8 +230,33 @@ public class WorldController implements GestureDetector.GestureListener
         player.update(delta);
     }
 
+    private void updateAttack(Keys k)
+    {
+        if(keys.get(k) && duration.get(k).equals(coolDown.get(k)))
+        {
+            button.get(k).setText(getButtonText(k));
+            button.get(k).setTouchable(Touchable.enabled);
+            keys.put(k,false);
+        }
 
-    private void processInput(){
+        else if(keys.get(k))
+        {
+            button.get(k).setText("" + duration.get(k)/100);
+            duration.put(k,duration.get(k) + 1);
+        }
+
+        else
+            return;
+
+    }
+
+
+
+    public void processInput()
+    {
+
+        updateAttack(Keys.BUTTON_Y);
+        updateAttack(Keys.BUTTON_Z);
 
     }
 

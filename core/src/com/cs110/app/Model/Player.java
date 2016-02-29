@@ -28,7 +28,7 @@ public class Player {
     Vector2 acceleration = new Vector2(); //acceleration of the player character
     Vector2 velocity = new Vector2(); //velocity of the player character
 
-    private int health; // the health of the player
+    public int health; // the health of the player
     private int armor;  // armor of the player
     private String Id; // the Id of the player
     private double rotation; //angle of the player in radians, (java math sin and cos use radians)
@@ -114,7 +114,6 @@ public class Player {
         }
         setRotation(rotNew);
         setPosition(xNew, yNew);
-
     }
 
 
@@ -132,19 +131,18 @@ public class Player {
 
     public void blink(Vector2 blinkVector)
     {
-        /* Checking the distance. Making sure you can't blink past a certain amount
-        double maxBlinkDist = 300;
-        //if the blink distance is too far, set it to the max
-        //if (x^2+y^2 > 100^2)
-        double hypot = blinkVector.len();
-        if(hypot > maxBlinkDist){
-            double ratio = hypot/maxBlinkDist;
-            blinkVector.setLength((float)maxBlinkDist);
+        float xNew = blinkVector.x;
+        float yNew = blinkVector.y;
+
+        getPolygon().setPosition(xNew, yNew);
+
+        if(collides()){
+            getPolygon().setPosition(getPosition().x, getPosition().y);
+            return;
         }
 
-        */
+        setPosition(blinkVector.x, blinkVector.y);
 
-        move(blinkVector);
 
     }
 

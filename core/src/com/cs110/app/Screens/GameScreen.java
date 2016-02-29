@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.cs110.app.Controller.WorldController;
+import com.cs110.app.Model.Attack;
 import com.cs110.app.Model.Player;
 import com.cs110.app.Model.World;
 import com.cs110.app.View.WorldRenderer;
@@ -65,14 +66,15 @@ public class GameScreen implements Screen
     SpriteBatch batch;
 
     public static Boolean buttonXClicked = false,
-                          buttonYClicked = false,
-                          ButtonZClicked = false;
+            buttonYClicked = false,
+            ButtonZClicked = false;
 
     @Override
     public void show()
     {
         //create new world with a player at the location
-        world = new World(new Player(new Vector2(300, 200), "Player1"));
+        //world = new World(new Player(new Vector2(300, 200), "Player1"));
+        world = new World();
         renderer = new WorldRenderer(world);
         controller = new WorldController(world);
 
@@ -109,15 +111,17 @@ public class GameScreen implements Screen
         buttonZ.pad(30);
         buttonX.pad(30);
         buttonY.pad(30);
-
+        controller.addButton(buttonX,'x');
+        controller.addButton(buttonY, 'y');
+        controller.addButton(buttonZ, 'z');
         //Adding on-touch listeners for buttons
         buttonX.addListener(new ClickListener()
         {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
             {
-
                 controller.buttonXPressed();
+                buttonXClicked = true;
                 return true;
             }
 
@@ -125,29 +129,6 @@ public class GameScreen implements Screen
             public void touchUp(InputEvent event, float x, float y, int pointer, int button)
             {
                 controller.buttonXReleased();
-
-                buttonX.setTouchable(Touchable.disabled);
-                new Timer().schedule(new Timer.Task()
-                {
-                    int CD = 10;
-                    @Override
-                    public void run()
-                    {
-                        String in = "" + CD--;
-                        buttonX.setText(in);
-                    }
-
-                },0,1,10);
-                new Timer().schedule(new Timer.Task()
-                {
-                    @Override
-                    public void run()
-                    {
-                        buttonX.setText("X");
-                        buttonX.setTouchable(Touchable.enabled);
-                    }
-
-                },10,1,1);
             }
 
         });
@@ -164,29 +145,6 @@ public class GameScreen implements Screen
             public void touchUp(InputEvent event, float x, float y, int pointer, int button)
             {
                 controller.buttonYReleased();
-
-                buttonY.setTouchable(Touchable.disabled);
-                new Timer().schedule(new Timer.Task()
-                {
-                    int CD = 10;
-                    @Override
-                    public void run()
-                    {
-                        String in = "" + CD--;
-                        buttonY.setText(in);
-                    }
-
-                },0,1,10);
-                new Timer().schedule(new Timer.Task()
-                {
-                    @Override
-                    public void run()
-                    {
-                        buttonY.setText("Y");
-                        buttonY.setTouchable(Touchable.enabled);
-                    }
-
-                },10,1,1);
             }
         });
 
@@ -202,30 +160,7 @@ public class GameScreen implements Screen
             public void touchUp(InputEvent event, float x, float y, int pointer, int button)
             {
                 controller.buttonZReleased();
-
-                buttonZ.setTouchable(Touchable.disabled);
-                new Timer().schedule(new Timer.Task()
-                {
-                    int CD = 10;
-                    @Override
-                    public void run()
-                    {
-                        String in = "" + CD--;
-                        buttonZ.setText(in);
-                    }
-
-                },0,1,10);
-                new Timer().schedule(new Timer.Task()
-                {
-                    @Override
-                    public void run()
-                    {
-                        buttonZ.setText("Z");
-                        buttonZ.setTouchable(Touchable.enabled);
-                    }
-
-                },10,1,1);
-            }
+                }
         });
 
         //The 20 is how much distance touchpad has to be moved before detecting the motion
@@ -269,6 +204,15 @@ public class GameScreen implements Screen
             world.getPlayer().move(pad.getKnobPercentX(), pad.getKnobPercentY());
         }
 
+//        if (buttonXClicked){
+        if (world.getAttacks().size() > 0) {
+            for (Attack a : world.getAttacks()) {
+                a.update();
+            }
+        }
+//        }
+        controller.processInput();
+
 
 
         //System.err.println("Game screen rendedring");
@@ -280,6 +224,9 @@ public class GameScreen implements Screen
 
     }
 
+    public World getWorld(){
+        return world;
+    }
     @Override
     public void resize(int width, int height)
     {

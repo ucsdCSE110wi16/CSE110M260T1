@@ -80,12 +80,12 @@ public class WorldController
         TextButton x = button.get(Keys.BUTTON_X);
         keys.put(Keys.BUTTON_X, true);
         System.out.println("Rotation: " + world.getSelfPlayer().getRotation());
-        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,1);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2 + 15, world.getSelfPlayer().getRotation(),world,1);
     }
     public void buttonYPressed()
     {
         keys.put(Keys.BUTTON_Y,true);
-        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2, world.getSelfPlayer().getRotation(),world,0);
+        new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y,world.getSelfPlayer().IMAGE_WIDTH / 2 + 35, world.getSelfPlayer().getRotation(),world,0);
         button.get(Keys.BUTTON_Y).setTouchable(Touchable.disabled);
         duration.put(Keys.BUTTON_Y,0);
     }

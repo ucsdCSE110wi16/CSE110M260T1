@@ -1,10 +1,14 @@
 package com.cs110.app;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.cs110.app.Model.Player;
 import com.cs110.app.Net.NetworkingClient;
 import com.cs110.app.Net.NetworkingServer;
 import com.cs110.app.Screens.GameScreen;
+import com.cs110.app.Screens.MenuScreen;
+import com.cs110.app.Screens.PlayerScreen;
 
 public class CS110App extends Game { //The automatically generated code has ApplicationAdapter, but
                                     // game allows for screens
@@ -14,18 +18,35 @@ public class CS110App extends Game { //The automatically generated code has Appl
 	
 	@Override
 	public void create () {
-		GameScreen screen = new GameScreen();
+        //PlayerScreen screenp = new PlayerScreen();
+        //GameScreen screen = new GameScreen();
+        MenuScreen screen = new MenuScreen(this);
 		setScreen(screen);
-		try {
-
-			NS = new NetworkingServer(screen);
-            //NC = new NetworkingClient(screen); // Uncomment to be client
-		}
-		catch(Exception e) {
-
-		}
+//
+//		try {
+//
+//			//NS = new NetworkingServer(screenp);
+//            //NC = new NetworkingClient(screen); // Uncomment to be client
+//		}
+//		catch(Exception e) {
+//
+//		}
 
 	}
+    public void start(boolean server) {
+        GameScreen screen = new GameScreen();
+        setScreen(screen);
+        try {
+            if(server)
+                NS = new NetworkingServer(screen);
+            else
+                NC = new NetworkingClient(screen); // Uncomment to be client
+        }
+        catch(Exception e) {
+
+        }
+    }
+
 
 	@Override
 	public void render () {

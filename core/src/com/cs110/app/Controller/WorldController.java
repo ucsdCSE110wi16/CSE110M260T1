@@ -1,9 +1,15 @@
 package com.cs110.app.Controller;
 
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Vector2;
+
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Timer;
 import com.cs110.app.Model.Attack;
+
 import com.cs110.app.Model.Player;
 import com.cs110.app.Model.World;
 
@@ -17,10 +23,109 @@ import javax.xml.soap.Text;
  * Created by Yashwanth on 1/31/16.
  */
 
-public class WorldController
-{
+
+
+public class WorldController implements GestureDetector.GestureListener
+{   private final long tapDiff = 500; //50 ms window to double tap
+    private long tapStartTime = 0;
+
+    @Override
+    public boolean touchDown(float x, float y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean tap(float x, float y, int count, int button) {
+        long currTime = World.gameTime;
+
+
+        //dont want to blink if we are on attack buttons
+        if(x>=270 && x<=530 && y>=324 && y<=400) {
+            return false;
+        }
+
+        //dont blink if we are on the move pad
+        if(x>=48 && x<=253 && y>=252 && y<=459) {
+            return false;
+        }
+
+        /*
+        if(player==null) {
+            System.out.println("Player is null");
+            return false;
+        }
+        */
+
+        if(currTime - tapStartTime > tapDiff) {
+            tapStartTime = currTime;
+
+        }
+        else {
+            int wMid = Gdx.graphics.getWidth()/2;
+            int hMid = Gdx.graphics.getHeight()/2;
+
+
+            //vector of the click from window's topLeft
+            Vector2 clickPos = new Vector2(x,y);
+
+
+
+            //position of player in GAMESCREEN, not window
+            Vector2 currPos = world.getSelfPlayer().getPosition();
+
+
+            //gets the topLeft corner of the window in GAMESCREEN coordinates
+            Vector2 topLeft = currPos.add(-wMid,hMid);
+
+            //gets the spot we want to move to.
+            Vector2 movePos = topLeft.add(x,-y);
+
+            world.getSelfPlayer().blink(new Vector2(movePos.x, movePos.y));
+            
+            return true;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean longPress(float x, float y) {
+        return false;
+    }
+
+    @Override
+    public boolean fling(float velocityX, float velocityY, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean pan(float x, float y, float deltaX, float deltaY) {
+        return false;
+    }
+
+    @Override
+    public boolean panStop(float x, float y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean zoom(float initialDistance, float distance) {
+        return false;
+    }
+
+    @Override
+    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
+        return false;
+    }
+
+
+    int durationY;
+    int durationZ;
+
     public static int tapCounter;
     //private tapStartTime;
+
+
 
     //These are the possible buttons that can be pressed
     enum Keys
@@ -30,6 +135,7 @@ public class WorldController
 
     private World world;
     private Player player;
+    public static int tapCount=0;
 
     //This is a map associating each button with a boolean determining whether the key has been pressed or not
 
@@ -161,6 +267,10 @@ public class WorldController
         updateAttack(Keys.BUTTON_Y);
         updateAttack(Keys.BUTTON_Z);
 
+    }
+
+    public void blinkPressed(Vector2 blinkVector) {
+        player.blink(blinkVector);
     }
 
 }

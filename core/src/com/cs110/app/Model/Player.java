@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
-
+import java.lang.Math;
 import javafx.scene.shape.TriangleMesh;
 
 /**
@@ -116,6 +116,7 @@ public class Player {
         setPosition(xNew, yNew);
     }
 
+
     //Launches a skillshot in the direction the player is facing, TODO: params TBD
     public void skillshot(Vector2 attackVector) {
 
@@ -127,7 +128,21 @@ public class Player {
     }
 
     //if double tap on location blink onto that location TBD: determine range of blink
-    public void blink(Vector2 blinkVector) {
+
+    public void blink(Vector2 blinkVector)
+    {
+        float xNew = blinkVector.x;
+        float yNew = blinkVector.y;
+
+        getPolygon().setPosition(xNew, yNew);
+
+        if(collides()){
+            getPolygon().setPosition(getPosition().x, getPosition().y);
+            return;
+        }
+
+        setPosition(blinkVector.x, blinkVector.y);
+
 
     }
 

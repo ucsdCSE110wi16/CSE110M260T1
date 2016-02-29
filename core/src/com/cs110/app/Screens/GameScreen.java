@@ -1,6 +1,7 @@
 package com.cs110.app.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Screen;
@@ -9,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -40,6 +43,7 @@ import com.cs110.app.View.WorldRenderer;
 public class GameScreen implements Screen
 {
 
+
     private World world;
     private WorldRenderer renderer;
     private WorldController controller;
@@ -56,6 +60,8 @@ public class GameScreen implements Screen
     TextButton buttonX, buttonY, buttonZ;
     TextureAtlas buttonsAtlas;
     BitmapFont font;
+    GestureDetector gestureDetector;
+
 
     SpriteBatch batch;
 
@@ -71,7 +77,6 @@ public class GameScreen implements Screen
         world = new World();
         renderer = new WorldRenderer(world);
         controller = new WorldController(world);
-
 
 
         batch = new SpriteBatch();
@@ -160,11 +165,12 @@ public class GameScreen implements Screen
 
         //The 20 is how much distance touchpad has to be moved before detecting the motion
         pad = new Touchpad(10, touchpadStyle);
-        pad.setBounds(30, 30, 200, 200);
+        pad.setBounds(90, 60, 200, 200);
+
 
         //Adds the pad and on-screen buttons to group
         HorizontalGroup group = new HorizontalGroup();
-        group.pad(0,50,250,0);
+        group.pad(0, 50, 250, 0);
         group.align(Align.left);
         group.addActor(pad);
         group.addActor(buttonX);
@@ -176,7 +182,13 @@ public class GameScreen implements Screen
         stage = new Stage();
         stage.addActor(group);
 
-        Gdx.input.setInputProcessor(stage);
+
+        //instantiating myGestureDetector
+        //myGestureDetector = new GestureDetector (this);
+        InputMultiplexer im = new InputMultiplexer();
+        im.addProcessor(new GestureDetector(controller));
+        im.addProcessor(stage);
+        Gdx.input.setInputProcessor(im);
     }
 
     @Override

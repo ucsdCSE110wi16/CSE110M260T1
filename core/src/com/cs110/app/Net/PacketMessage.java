@@ -15,10 +15,9 @@ public class PacketMessage {
     public float xCord;
     public float yCord;
 
-  //  public double angle;
+    public double rotation;
+    public Integer attackType = null;
 
-    public Float shotXCord = null;
-    public Float shotYCord = null;
 
 
 

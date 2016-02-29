@@ -15,6 +15,10 @@ public class CS110App extends Game { //The automatically generated code has Appl
 
 	com.cs110.app.Net.NetworkingServer NS;
 	com.cs110.app.Net.NetworkingClient NC;
+	boolean client;
+	public CS110App(boolean client) {
+		this.client = client;
+	}
 	
 	@Override
 	public void create () {
@@ -22,27 +26,17 @@ public class CS110App extends Game { //The automatically generated code has Appl
         //GameScreen screen = new GameScreen();
         MenuScreen screen = new MenuScreen(this);
 		setScreen(screen);
-//
-//		try {
-//
-//			//NS = new NetworkingServer(screenp);
-//            //NC = new NetworkingClient(screen); // Uncomment to be client
-//		}
-//		catch(Exception e) {
-//
-//		}
 
 	}
     public void start(boolean server) {
         GameScreen screen = new GameScreen();
         setScreen(screen);
         try {
-            if(server)
+            if (server)
                 NS = new NetworkingServer(screen);
             else
                 NC = new NetworkingClient(screen); // Uncomment to be client
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
 
         }
     }
@@ -51,6 +45,14 @@ public class CS110App extends Game { //The automatically generated code has Appl
 	@Override
 	public void render () {
         super.render();
+		if(client && NC != null) {
+			NC.update();
+		}
+		else if(NS!= null) {
+			//System.out.println("update");
+			NS.update();
+		}
+
 	}
 
 }

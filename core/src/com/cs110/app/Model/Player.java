@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.List;
+import java.lang.Math;
 
 /**
  * Created by Yashwanth on 1/24/16.
@@ -25,7 +26,6 @@ public class Player {
     public static final float SPEED = 10f;
 
     private List<Attack> attacks;
-
 
     Vector2 position = new Vector2(); //position of the player character
     Vector2 acceleration = new Vector2(); //acceleration of the player character
@@ -135,6 +135,7 @@ public class Player {
         setPosition(xNew, yNew);
     }
 
+
     //Launches a skillshot in the direction the player is facing, TODO: params TBD
     public void skillshot(Vector2 attackVector) {
 
@@ -146,7 +147,21 @@ public class Player {
     }
 
     //if double tap on location blink onto that location TBD: determine range of blink
-    public void blink(Vector2 blinkVector) {
+
+    public void blink(Vector2 blinkVector)
+    {
+        float xNew = blinkVector.x;
+        float yNew = blinkVector.y;
+
+        getPolygon().setPosition(xNew, yNew);
+
+        if(collides()){
+            getPolygon().setPosition(getPosition().x, getPosition().y);
+            return;
+        }
+
+        setPosition(blinkVector.x, blinkVector.y);
+
 
     }
 

@@ -204,23 +204,16 @@ public class WorldRenderer
                     for (int i = 2; i > 0; i--)
                     {
                         rend.circle(spriteX + (float) a.getXDist(), spriteY + (float) a.getYDist(), rec.getWidth() + rec.getHeight());
-//                        rend.circle(spriteX + (float) (-1*a.getXDist() ), spriteY + (float) a.getYDist() , rec.getWidth() + rec.getHeight());
-//                        rend.circle(spriteX + (float) a.getXDist(), spriteY + (float) (-1*a.getYDist() ), rec.getWidth() + rec.getHeight());
-//                        rend.circle(spriteX + (float) (-1*a.getXDist() ), spriteY + (float) (-1*a.getYDist() ), rec.getWidth() + rec.getHeight());
-//                        rend.circle(spriteX + (float) (-1*a.getXDist() + 20 ), spriteY + (float) (-1*a.getYDist() + 20 ), rec.getWidth() + rec.getHeight());
-//                        rend.circle(spriteX + (float) (-1*a.getXDist() - 20 ), spriteY + (float) (-1*a.getYDist() - 20 ), rec.getWidth() + rec.getHeight());
-//                        rend.circle(spriteX + (float) (-1*a.getXDist() - 20 ), spriteY + (float) (-1*a.getYDist() + 20 ), rec.getWidth() + rec.getHeight());
-//                        rend.circle(spriteX + (float) (-1*a.getXDist() + 20 ), spriteY + (float) (-1*a.getYDist() - 20 ), rec.getWidth() + rec.getHeight());
                     }
 
                 }
 
                 //Comment following two to ignore collision debug rendering
                 rend.end();
-                rend.begin(ShapeRenderer.ShapeType.Line);
-                rend.setColor(new Color(0, 1, 1, 0));
-                rend.polygon(a.getPolygon().getTransformedVertices());
-                rend.end();
+//                rend.begin(ShapeRenderer.ShapeType.Line);
+//                rend.setColor(new Color(0, 1, 1, 0));
+//                rend.polygon(a.getPolygon().getTransformedVertices());
+//                rend.end();
             }
         }
 

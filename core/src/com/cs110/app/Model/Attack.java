@@ -83,14 +83,15 @@ public class Attack
             center = type;
         }
         w.attackOccured = true;
+
         this.w = w;
         w.addAttack(this);
         duration = d;
 //        xPos = x + (float) calculateX(70 + 20,rad);
 //        yPos =  y + (float)calculateY(70 + 20, rad);
 
-        xPos = x + (float) calculateX(center,rad);
-        yPos =  y + (float)calculateY(center, rad);
+//        xPos = x + (float) calculateX(center,rad);
+//        yPos =  y + (float)calculateY(center, rad);
         this.rad = rad ;
         xDist = 0;
         CONST_FACTOR =1;
@@ -105,36 +106,51 @@ public class Attack
     public Attack(float x,float y, double rad, World w, int type)
     {
         this(x,y,rad,555,w, type);
+
         this.type = type;
 
-        if (type == 1) {  //rapid fire attack
+        if (type == 1)    //rapid fire attack
+        {
             bounds = new Rectangle(x, y, 5, 5);
-
-
+            reCalc(x,y,center+15,rad);
         }
-        else if (type == 0) //big ball attack
-            bounds = new Rectangle(x,y,25,25);
+
+        else if (type == 0)   //big ball attack
+        {
+            bounds = new Rectangle(x, y, 25, 25);
+            reCalc(x, y,center + 35, rad);
+        }
+
         else
-            bounds = new Rectangle(x,y,3,3);
+        {
+            bounds = new Rectangle(x, y, 3, 3);
+            reCalc(x,y,center+15,rad);
+        }
 
 
         float width = bounds.width + 5;
         float diag_dist = (float) (width/Math.sqrt(2));
-        polygon = new Polygon(new float[]{
-                0, width, //A
-                diag_dist, diag_dist,//B
-                width, 0, //C
-                diag_dist, -diag_dist, //D
-                0, -width, //E
-                -diag_dist, -diag_dist, //F
-                -width, 0, //G
-                -diag_dist, diag_dist,//H
-        });
+        polygon = new Polygon(new float[]
+                              {
+                                  0, width, //A
+                                  diag_dist, diag_dist,//B
+                                  width, 0, //C
+                                  diag_dist, -diag_dist, //D
+                                  0, -width, //E
+                                  -diag_dist, -diag_dist, //F
+                                  -width, 0, //G
+                                  -diag_dist, diag_dist,//H
+                              });
 
         polygon.setOrigin(0,0);
         polygon.setPosition(xPos, yPos);
     }
 
+    public void reCalc(float x, float y, int center, double rad )
+    {
+        xPos = x + (float) calculateX(center,rad);
+        yPos = y + (float) calculateY(center, rad);
+    }
 
     public Rectangle getBounds() { return bounds;}
     public int getType() { return type;}
@@ -178,13 +194,17 @@ public class Attack
         }
     }
 
-    public Polygon getPolygon(){
+    public Polygon getPolygon()
+    {
         return polygon;
     }
 
-    private void collidesWithPlayer(){
-        for( Player chimichanga : w.getPlayers()){
-            if(Intersector.overlapConvexPolygons(chimichanga.getPolygon(), getPolygon())){
+    private void collidesWithPlayer()
+    {
+        for( Player chimichanga : w.getPlayers())
+        {
+            if(Intersector.overlapConvexPolygons(chimichanga.getPolygon(), getPolygon()))
+            {
                 chimichanga.health -= 10;
                 active = false;
             }

@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.List;
+
 /**
  * Created by Yashwanth on 1/24/16.
  */
@@ -21,6 +23,9 @@ public class Player {
     public static final int MAX_HEALTH = 100;
     public static final int MAX_ARMOR = 100;
     public static final float SPEED = 10f;
+
+    private List<Attack> attacks;
+
 
     Vector2 position = new Vector2(); //position of the player character
     Vector2 acceleration = new Vector2(); //acceleration of the player character

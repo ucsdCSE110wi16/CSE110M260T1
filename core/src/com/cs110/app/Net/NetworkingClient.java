@@ -39,10 +39,11 @@ public class NetworkingClient extends Listener {
 
 
         client.addListener(new ThreadedListener(new Listener() {
-            public void connected(Connection c){
+            public void connected(Connection c) {
                 System.out.println("Client Connected");
                 connect = c;
             }
+
             public void received(Connection c, Object p) {
                 connect = c;
                 if (p instanceof PacketMessage) {
@@ -50,7 +51,7 @@ public class NetworkingClient extends Listener {
 
 
                     PacketMessage packet = (PacketMessage) p;
-                    if(oldXCord != packet.xCord || oldYCord != packet.yCord) {
+                    if (oldXCord != packet.xCord || oldYCord != packet.yCord) {
 //                        System.out.println("Received News: X:" + oldXCord + "  Y:" + oldYCord);
 //                        System.out.println(otherPlayer.getPosition());
 
@@ -59,6 +60,16 @@ public class NetworkingClient extends Listener {
                     oldYCord = packet.yCord;
                     otherPlayer.setPosition(oldXCord, oldYCord);
                     otherPlayer.setRotation(packet.rotation);
+                    if (packet.attackType != null) {
+                        if (packet.attackType == 2) {
+                            new Attack(oldXCord, oldYCord, packet.rotation, gs.getWorld(), packet.attackType, "server");
+                            new Attack(oldXCord, oldYCord, packet.rotation + Math.PI / 8, gs.getWorld(), packet.attackType, "server");
+                            new Attack(oldXCord, oldYCord, packet.rotation - Math.PI / 8, gs.getWorld(), packet.attackType, "server");
+                            new Attack(oldXCord, oldYCord, packet.rotation + Math.PI / 4, gs.getWorld(), packet.attackType, "server");
+                        } else {
+                            Attack t = new Attack(oldXCord, oldYCord, packet.rotation, gs.getWorld(), packet.attackType, "server");
+                        }
+                    }
                     /*if (packet.shotRad != null) {
                         System.out.println("ATTACK Recieved");
                         System.out.println("x" + packet.shotXCord);
@@ -87,13 +98,20 @@ public class NetworkingClient extends Listener {
                 gs.getWorld().attackOccured = false;
                 List<Attack> attacks = gs.getWorld().getAttacks();
                 for(int i = 0; i<attacks.size(); i++){
-                    packetMessage.attackType = attacks.get(i).getType();
-                    connect.sendUDP(packetMessage);
+                    Attack shot = attacks.get(i);
+                    if(shot.drawn == false && (shot.getSenderID() == null || !shot.getSenderID().equals("server"))) {
+                        packetMessage.attackType = attacks.get(i).getType();
+                        connect.sendUDP(packetMessage);
+                        packetMessage.attackType = null;
+                        shot.drawn = true;
+                    }
                 }
 
             }
             //System.out.println("sending to server");
-            connect.sendUDP(packetMessage);
+            else {
+                connect.sendUDP(packetMessage);
+            }
         }
     }
     //}

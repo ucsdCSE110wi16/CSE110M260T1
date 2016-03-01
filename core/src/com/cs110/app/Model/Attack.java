@@ -22,10 +22,12 @@ public class Attack
     double yDist;
     int type;
     double CONST_FACTOR;
+    public boolean drawn = false;
     boolean active = false;
     Rectangle bounds;
     int duration;
     public int center;
+    private String senderID;
 
     public Vector2 position;
     public Vector2 velocity2;
@@ -34,7 +36,7 @@ public class Attack
 
     public Attack(float x, float y, int center ,double rad,World w)
     {
-        this(x,y,center,rad,555,w);
+        this(x,y,rad,555,w, center);
     }
     public Attack(float xPos, float yPos, float rad) {
         this.xPos = (int)xPos;
@@ -53,9 +55,33 @@ public class Attack
     }
     public Attack(int center, double rad, int d){}
 
+    //FOR NETWORKING ONLY
+
+
+    public Attack(float x,float y, double rad, World w, int type, String sender){
+        this(x,y,rad,w,type);
+        setSenderID(sender);
+    }
+
+
+
     //MAIN CONSTRUCTOR
-    public Attack(float x, float y,int center, double rad, int d,World w)
+    public Attack(float x, float y, double rad, int d,World w, int type)
     {
+        int center;
+
+        if (type == 1) {  //rapid fire attack
+            center = w.getSelfPlayer().IMAGE_WIDTH / 2 + 15;
+        }
+        else if (type == 0) { //big ball attack
+            center = w.getSelfPlayer().IMAGE_WIDTH / 2 + 35;
+        }
+        else if (type == 2){
+            center = w.getSelfPlayer().IMAGE_WIDTH / 2;
+        }
+        else{
+            center = type;
+        }
         w.attackOccured = true;
         this.w = w;
         w.addAttack(this);
@@ -75,9 +101,10 @@ public class Attack
         //polygon = new Polygon(new float[] {10, 10,});
     }
 
-    public Attack(float x,float y, int center, double rad, World w, int type)
+    //MAIN CONSTRUCTOR
+    public Attack(float x,float y, double rad, World w, int type)
     {
-        this(x,y,center,rad,555,w);
+        this(x,y,rad,555,w, type);
         this.type = type;
 
         if (type == 1) {  //rapid fire attack
@@ -163,6 +190,14 @@ public class Attack
             }
 
         }
+    }
+
+    public void setSenderID(String id){
+        senderID = id;
+    }
+
+    public String getSenderID(){
+        return senderID;
     }
 
 

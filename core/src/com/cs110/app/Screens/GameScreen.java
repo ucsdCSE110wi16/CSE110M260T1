@@ -204,13 +204,11 @@ public class GameScreen implements Screen
             world.getPlayer().move(pad.getKnobPercentX(), pad.getKnobPercentY());
         }
 
-//        if (buttonXClicked){
         if (world.getAttacks().size() > 0) {
             for (Attack a : world.getAttacks()) {
                 a.update();
             }
         }
-//        }
         controller.processInput();
 
 

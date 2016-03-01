@@ -43,7 +43,7 @@ public class NetworkingServer extends Listener{
 
 
                 public void received(Connection c, Object p) {
-                    System.out.println("GENERAL PACKET");
+                    //System.out.println("GENERAL PACKET");
                     if (p instanceof PacketMessage) {
 
                         PacketMessage pm = (PacketMessage) p;
@@ -55,7 +55,15 @@ public class NetworkingServer extends Listener{
                         otherPlayer.setPosition(oldXCord, oldYCord);
                         otherPlayer.setRotation(pm.rotation);
                         if(pm.attackType != null){
-                            //Attack t = new Attack(oldXCord, oldYCord,otherPlayer.IMAGE_WIDTH/2 + 15, pm.rotation, gs.getWorld(), pm.attackType);
+                            if(pm.attackType == 2){
+                                Attack t1 = new Attack(oldXCord,oldYCord, pm.rotation ,gs.getWorld(),pm.attackType, "client");
+                                Attack t2 = new Attack(oldXCord,oldYCord, pm.rotation + Math.PI/8,gs.getWorld(),pm.attackType, "client");
+                                Attack t3 = new Attack(oldXCord,oldYCord, pm.rotation - Math.PI/8,gs.getWorld(),pm.attackType, "client");
+                                Attack t4 = new Attack(oldXCord,oldYCord, pm.rotation + Math.PI/4,gs.getWorld(),pm.attackType, "client");
+                            }
+                            else{
+                                Attack t = new Attack(oldXCord, oldYCord, pm.rotation, gs.getWorld(), pm.attackType, "client");
+                            }
                         }
 //                        if (pm.shotRad != null) {
 //                            System.out.println("ATTACK Recieved");
@@ -104,15 +112,22 @@ public class NetworkingServer extends Listener{
             packetMessage.rotation = gs.getWorld().getSelfPlayer().getRotation();
             if (gs.getWorld().attackOccured) {
                 gs.getWorld().attackOccured = false;
-//                ArrayList<Attack> attacks = gs.getWorld().getAttacks();
-//                for(int i = 0; i<attacks.size(); i++){
-//                    packetMessage.attackType = attacks.get(i).getType();
-//                    connect.sendUDP(packetMessage);
-//                }
-
+                List<Attack> attacks = gs.getWorld().getAttacks();
+                for(int i = 0; i<attacks.size(); i++){
+                    Attack shot = attacks.get(i);
+                    if(shot.drawn == false && (shot.getSenderID() == null ||!shot.getSenderID().equals("client"))) {
+                        packetMessage.attackType = attacks.get(i).getType();
+                        connect.sendUDP(packetMessage);
+                        packetMessage.attackType = null;
+                        shot.drawn = true;
+                    }
                 }
 
-            connect.sendUDP(packetMessage);
+
+                }
+            else{
+                connect.sendUDP(packetMessage);
+            }
         }
     }
 

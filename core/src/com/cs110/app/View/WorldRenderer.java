@@ -108,7 +108,6 @@ public class WorldRenderer
         //Drawing the player
         for (Player person : world.getPlayers() )
         {
-
             //drawing image
 
             //want to get the position of the player relative to the player the camera is centered on
@@ -116,6 +115,7 @@ public class WorldRenderer
 
             float spriteX = w/2;
             float spriteY = h/2;
+
 
             //setting draw spot based on position relative to player in center
             spriteX = person.getPosition().x - world.getPlayer().getPosition().x + spriteX;
@@ -157,8 +157,8 @@ public class WorldRenderer
             rend.rect(x2, y2, rec2.width / 2, rec2.height / 2, rec2.width, rec2.height, 1f, 1f, (float) Math.toDegrees(person.getRotation()));
            // rend.end();
             //Drawing collision polygon for debug
-            rend.setColor(new Color(0, 1, 1, 0));
-            rend.polygon(person.getPolygon().getTransformedVertices());
+//            rend.setColor(new Color(0, 1, 1, 0));
+//            rend.polygon(person.getPolygon().getTransformedVertices());
 
             rend.end();
 

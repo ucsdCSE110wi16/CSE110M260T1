@@ -19,13 +19,17 @@ public class NetworkingClient extends Listener {
     private Connection connect;
     static Client client;
 
-    static String ip="localhost";//"137.110.91.137";
+    static String ip;//"137.110.91.137";
     static int tcpPort = 27961, udpPort = 27961;
     float oldXCord, oldYCord;
 
     static boolean messageReceived=false;
+    public NetworkingClient(final GameScreen gs) throws Exception {
+        this(gs, "localhost");
 
-    public NetworkingClient(final GameScreen gs) throws Exception{
+    }
+    public NetworkingClient(final GameScreen gs, String ip) throws Exception {
+        this.ip = ip;
         this.gs = gs;
         final Player myPlayer = new Player(new Vector2(500,500),"Player1");
         final Player otherPlayer = new Player(new Vector2(700, 700), "Player2");
@@ -34,6 +38,7 @@ public class NetworkingClient extends Listener {
         gs.getWorld().setOtherPlayer(otherPlayer);
         client = new Client();
         client.getKryo().register(PacketMessage.class);
+        client.getKryo().register(ConnectMessage.class);
         client.start();
         client.connect(5000, ip, tcpPort, udpPort);
 

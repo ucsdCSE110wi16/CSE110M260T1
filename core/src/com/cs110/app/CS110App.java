@@ -3,7 +3,10 @@ import com.badlogic.gdx.Game;
 import com.cs110.app.Net.NetworkingClient;
 import com.cs110.app.Net.NetworkingServer;
 import com.cs110.app.Screens.GameScreen;
-import com.cs110.app.Screens.MenuScreen;
+import com.cs110.app.Screens.ScreenEnum;
+import com.cs110.app.Screens.ScreenManager;
+import com.cs110.app.Screens.ServerWaitingScreen;
+
 
 public class CS110App extends Game { //The automatically generated code has ApplicationAdapter, but
 	// game allows for screens
@@ -18,13 +21,12 @@ public class CS110App extends Game { //The automatically generated code has Appl
 
 	@Override
 	public void create() {
-		MenuScreen screen = new MenuScreen(this);
-		setScreen(screen);
-
-
+		ScreenManager.getInstance().initialize(this);
+		ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU);
 	}
 
 	public void start(boolean server) {
+		System.out.println("STARTED");
 		GameScreen screen = new GameScreen();
 		setScreen(screen);
 		try {
@@ -34,6 +36,26 @@ public class CS110App extends Game { //The automatically generated code has Appl
 				NC = new NetworkingClient(screen); // Uncomment to be client
 		} catch (Exception e) {
 
+		}
+	}
+
+	public void startServer(ServerWaitingScreen s){
+		try {
+			NS = new NetworkingServer(s);
+		}
+		catch(Exception e){}
+	}
+
+	public void startClient(GameScreen s, String ip){
+		try {
+			NC = new NetworkingClient(s, ip);
+		}
+		catch(Exception e){}
+	}
+
+	public void setGameScreen(GameScreen s) {
+		if(NS != null) {
+			NS.startGame(s);
 		}
 	}
 
@@ -47,6 +69,5 @@ public class CS110App extends Game { //The automatically generated code has Appl
 			//System.out.println("update");
 			NS.update();
 		}
-
 	}
 }

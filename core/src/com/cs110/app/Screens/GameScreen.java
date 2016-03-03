@@ -64,6 +64,9 @@ public class GameScreen implements Screen
     BitmapFont font;
     BitmapFont healthFont;
     GestureDetector gestureDetector;
+    private boolean show;
+    private boolean changeScreen;
+    private ScreenEnum newScreen;
 
     SpriteBatch batch;
 
@@ -201,11 +204,19 @@ public class GameScreen implements Screen
         im.addProcessor(new GestureDetector(controller));
         im.addProcessor(stage);
         Gdx.input.setInputProcessor(im);
+        show = true;
     }
 
     @Override
     public void render(float delta)
     {
+        if(! show) {
+            return;
+        }
+        if (changeScreen) {
+            System.out.println("MENU change screen in render");
+            ScreenManager.getInstance().showScreen(newScreen);
+        }
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -269,6 +280,11 @@ public class GameScreen implements Screen
     public void dispose()
     {
 
+    }
+
+    public void disconnect(){
+        newScreen = ScreenEnum.MAIN_MENU;
+        changeScreen = true;
     }
 
     /**************************** Input Processes **************************************/

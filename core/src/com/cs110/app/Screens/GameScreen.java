@@ -42,7 +42,7 @@ import com.badlogic.gdx.graphics.Color;
  */
 
 //This is the screen that is shown when the the game itself is being played
-public class GameScreen implements Screen
+public class GameScreen extends BaseScreen
 {
 
 
@@ -77,6 +77,8 @@ public class GameScreen implements Screen
     @Override
     public void show()
     {
+        displayBackButton = false;
+        super.show();
         System.out.println("SHOW CALLED GAME");
         //create new world with a player at the location
         //world = new World(new Player(new Vector2(300, 200), "Player1"));
@@ -214,10 +216,6 @@ public class GameScreen implements Screen
         if(! show) {
             return;
         }
-        if (changeScreen) {
-            System.out.println("MENU change screen in render");
-            ScreenManager.getInstance().showScreen(newScreen);
-        }
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -247,6 +245,7 @@ public class GameScreen implements Screen
 
         stage.act(delta);
         stage.draw();
+        super.update(delta);
 
     }
 
@@ -284,8 +283,10 @@ public class GameScreen implements Screen
     }
 
     public void disconnect(){
+        displayErrorMessage("disconnection");
         newScreen = ScreenEnum.MAIN_MENU;
         changeScreen = true;
+        serverclient = true;
     }
 
     /**************************** Input Processes **************************************/

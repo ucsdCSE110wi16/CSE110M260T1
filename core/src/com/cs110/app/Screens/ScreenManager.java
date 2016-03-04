@@ -42,10 +42,10 @@ public class ScreenManager {
         CS110App app = (CS110App)game;
 
         // Get current screen to dispose it
-        Screen currentScreen = game.getScreen();
+        BaseScreen currentScreen = (BaseScreen)game.getScreen();
 
         // Create new Screen
-        Screen newScreen = screenEnum.getScreen(params);
+        BaseScreen newScreen = screenEnum.getScreen(params);
 
         // Change to Game, make sure Client is set
         if(screenEnum == ScreenEnum.GAME && ! (app.RUN_TYPE == RunEnum.SINGLE_PLAYER)) {
@@ -55,9 +55,8 @@ public class ScreenManager {
                     app.setClient((GameScreen) newScreen, (String) params[1]);
                 }
                 catch(Exception e) {
-                    BaseScreen b = (BaseScreen)currentScreen;
-                    b.displayErrorMessage(e.toString());
-                    b.resetScreenChange();
+                    currentScreen.displayErrorMessage(e.toString());
+                    currentScreen.resetScreenChange();
                     return;
                 }
             }
@@ -83,6 +82,10 @@ public class ScreenManager {
         //Stop Networking if MainMenu
         if(screenEnum == ScreenEnum.MAIN_MENU) {
             app.stopNetworking();
+            if(params.length > 1 && (Boolean)params[0]){
+                newScreen.displayErrorMessage("Other player disconnected");
+            }
+
         }
     }
 }

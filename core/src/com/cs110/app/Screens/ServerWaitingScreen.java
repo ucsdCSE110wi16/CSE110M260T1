@@ -28,7 +28,7 @@ import com.cs110.app.View.WorldRenderer;
 /**
  * Created by marcof on 3/2/16.
  */
-public class ServerWaitingScreen implements Screen{
+public class ServerWaitingScreen extends BaseScreen{
     SpriteBatch spriteBatch;
     BitmapFont font;
     private boolean changeScreen;
@@ -43,6 +43,7 @@ public class ServerWaitingScreen implements Screen{
         newScreen = ScreenEnum.GAME;
     }
     public void show() {
+        super.show();
         spriteBatch = new SpriteBatch();
         font = new BitmapFont();
     }
@@ -57,6 +58,7 @@ public class ServerWaitingScreen implements Screen{
         spriteBatch.begin();
         font.draw(spriteBatch, "Waiting for challenger", 5, 25);
         spriteBatch.end();
+        super.update(delta);
     }
 
     @Override

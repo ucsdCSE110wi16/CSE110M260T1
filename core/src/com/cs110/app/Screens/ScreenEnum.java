@@ -10,7 +10,7 @@ import com.badlogic.gdx.Screen;
 public enum ScreenEnum {
     MAIN_MENU {
         public Screen getScreen(Object... params) {
-            return new MenuScreen();
+                return new MenuScreen();
         }
     },
     WAITING {

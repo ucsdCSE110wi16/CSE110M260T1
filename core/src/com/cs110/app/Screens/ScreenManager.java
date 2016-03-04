@@ -2,7 +2,9 @@ package com.cs110.app.Screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.math.Vector2;
 import com.cs110.app.CS110App;
+import com.cs110.app.Model.Player;
 
 /**
  * Created by marcof on 3/2/16.
@@ -40,24 +42,45 @@ public class ScreenManager {
 
         // Show new screen
         Screen newScreen = screenEnum.getScreen(params);
+        if(screenEnum == ScreenEnum.GAME) {
+            CS110App app = (CS110App)game;
+
+            if(params.length >= 2) {
+                boolean set = app.setClient((GameScreen) newScreen, (String) params[1]);
+                if(!set && currentScreen instanceof BaseScreen) {
+                    BaseScreen b = (BaseScreen)currentScreen;
+                    b.displayErrorMessage("Couldn't connect to " + params[1]);
+                    b.resetScreenChange();
+                    return;
+                }
+            }
+
+            app.startGame((GameScreen) newScreen);
+            System.out.println("STARTED THE GAME AHAHH");
+            // start
+
+
+        }
+        System.out.println("setScreen");
         game.setScreen(newScreen);
+
+        if(screenEnum == ScreenEnum.GAME && params.length == 1 && (Integer)params[0] == 5) {
+            // Local game
+            Player myPlayer = new Player(new Vector2(700,700),"Player1");
+            GameScreen gs = (GameScreen)newScreen;
+            gs.getWorld().setSelfPlayer(myPlayer);
+        }
 
         if(screenEnum == ScreenEnum.WAITING) {
             CS110App app = (CS110App)game;
-            app.startServer((ServerWaitingScreen)newScreen);
+            app.setServer((ServerWaitingScreen) newScreen);
+        }
+        if(screenEnum == ScreenEnum.MAIN_MENU) {
+            CS110App app = (CS110App)game;
+            app.stopNetworking();
         }
 
-        if(screenEnum == ScreenEnum.GAME) {
-            if(params.length >= 2) {
-                CS110App app = (CS110App)game;
-                System.out.println(params[1]);
-                app.startClient((GameScreen)newScreen, (String)params[1]);
-            }
-            else {
-                CS110App app = (CS110App) game;
-                app.setGameScreen((GameScreen) newScreen);
-            }
-        }
+
 
         // Dispose previous screen
         /*if (currentScreen != null) {

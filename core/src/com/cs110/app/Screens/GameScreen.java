@@ -77,6 +77,7 @@ public class GameScreen implements Screen
     @Override
     public void show()
     {
+        System.out.println("SHOW CALLED GAME");
         //create new world with a player at the location
         //world = new World(new Player(new Vector2(300, 200), "Player1"));
         world = new World();
@@ -228,7 +229,7 @@ public class GameScreen implements Screen
         }
 
         batch.begin();
-        font.draw(batch, "Health: "+Integer.toString(world.getSelfPlayer().getHealth()), 550, 25);
+        //font.draw(batch, "Health: "+Integer.toString(world.getSelfPlayer().getHealth()), 550, 25);
         batch.end();
 
         if (world.getAttacks().size() > 0) {

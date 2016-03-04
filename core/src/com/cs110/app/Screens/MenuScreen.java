@@ -38,35 +38,26 @@ import java.util.Iterator;
 /**
  * Created by caeleanbarnes on 2/28/16.
  */
-public class MenuScreen implements Screen {
+public class MenuScreen extends BaseScreen {
 
     Skin buttonSkin;
     TextButton.TextButtonStyle textbuttonStyle;
     TextButton buttonServer, buttonClient;
     BitmapFont font;
     BitmapFont fontIPTitle;
-    Stage stage; //The stage which the touchpad belong to
     static String ipStatus;
     SpriteBatch spriteBatch;
     public static Texture backgroundTexture;
     public static Sprite backgroundSprite;
-    private CS110App g;
-    private boolean changeScreen;
-    private ScreenEnum newScreen;
-    private int serverclient = 0;
-    private String clientip;
-
-    public MenuScreen(CS110App g) {
-        this.g = g;
-        this.ipStatus = "Checking IP Address";
-    }
 
     public MenuScreen() {
         this.ipStatus = "Checking IP Address";
+        displayBackButton = false;
     }
 
 
     public void show() {
+        super.show();
         // Get IP ADDRESS
         HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
         HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://checkip.amazonaws.com/").build();
@@ -110,11 +101,21 @@ public class MenuScreen implements Screen {
                 Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
                     @Override
                     public void handleHttpResponse(HttpResponse httpResponse) {
-                        System.out.println(httpResponse.getStatus());
-                        System.out.println(httpResponse.getResultAsString());
-                        System.out.println("ran");
-                        changeScreen = true;
-                        newScreen = ScreenEnum.WAITING;
+                        System.out.println(httpResponse.getStatus().getStatusCode());
+                        if(CS110App.local) {
+                            changeScreen = true;
+                            newScreen = ScreenEnum.WAITING;
+                        }
+                        else {
+                            if (httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
+                                System.out.println(httpResponse.getStatus());
+                                System.out.println(httpResponse.getResultAsString());
+                                changeScreen = true;
+                                newScreen = ScreenEnum.WAITING;
+                            } else {
+                                displayErrorMessage("Server Error");
+                            }
+                        }
 
                     }
 
@@ -128,8 +129,6 @@ public class MenuScreen implements Screen {
                         System.out.println("failure2");
                     }
                 });
-                //g.start(true);
-                //g.start(true);
                 return true;
             }
 
@@ -145,57 +144,56 @@ public class MenuScreen implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 //              //get current games from the server
-                HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-                Net.HttpRequest httpRequest = requestBuilder.newRequest().method(Net.HttpMethods.GET).url("http://192.168.99.100/games/").build();
-                Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
-                    @Override
-                    public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                        System.out.println(httpResponse.getStatus());
-                        String jsonString = httpResponse.getResultAsString();
-                        System.out.println(jsonString);
-                        try {
-                            JsonValue root = new JsonReader().parse(jsonString);
-                            System.out.println(root);
-                            if(root.size > 0){
-                                //There are games pick first one
-                                //jank
-                                JsonValue game = root.get(0);
-                                System.out.println(game);
-                                System.out.println(game.size);
-                                System.out.println(game.get("id"));
-                                System.out.println(game.get("ip"));
-                                System.out.println(game.get("start"));
-                                changeScreen = true;
-                                newScreen = ScreenEnum.GAME;
-                                serverclient = 1;
-                                clientip = game.get("ip").asString();
+                if(CS110App.local) {
+                    changeScreen = true;
+                    newScreen = ScreenEnum.GAME;
+                    serverclient = true;
+                    clientip = "127.0.0.1";
+                }
+                else {
+                    HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
+                    Net.HttpRequest httpRequest = requestBuilder.newRequest().method(Net.HttpMethods.GET).url("http://192.168.99.100/games/").build();
+                    Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
+                        @Override
+                        public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                            System.out.println(httpResponse.getStatus());
+                            String jsonString = httpResponse.getResultAsString();
+                            System.out.println(jsonString);
+                            if(httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
+                                try {
+                                    JsonValue root = new JsonReader().parse(jsonString);
+                                    System.out.println(root);
+                                    if (root.size > 0) {
+                                        JsonValue game = root.get(0);
+                                        changeScreen = true;
+                                        newScreen = ScreenEnum.GAME;
+                                        serverclient = false;
+                                        clientip = game.get("ip").asString();
+                                    } else {
+                                        System.out.println("NO GAMES AVAILABLE");
+                                    }
 
-
+                                } catch (Exception e) {
+                                    System.out.println(e);
+                                    System.out.println("FAILURE");
+                                }
                             }
                             else {
-                                System.out.println("NO GAMES AVAILABLE");
+                                displayErrorMessage("Backend Server error");
                             }
-
                         }
-                        catch(Exception e) {
-                            System.out.println(e);
-                            System.out.println("FAILURE");
+
+                        @Override
+                        public void failed(Throwable t) {
+                            MenuScreen.ipStatus = "failed to get IP";
                         }
-                    }
 
-                    @Override
-                    public void failed(Throwable t) {
-                        MenuScreen.ipStatus = "failed to get IP";
-                    }
-
-                    @Override
-                    public void cancelled() {
-                        MenuScreen.ipStatus = "failed to get IP";
-                    }
-                });
-                //changeScreen = true;
-                //newScreen = ScreenEnum.GAME;
-                //serverclient = 1;
+                        @Override
+                        public void cancelled() {
+                            MenuScreen.ipStatus = "failed to get IP";
+                        }
+                    });
+                }
                 return true;
             }
 
@@ -216,18 +214,14 @@ public class MenuScreen implements Screen {
         group.addActor(buttonServer);
         group.addActor(buttonClient);
         //add touchpad to the stage
-        stage = new Stage();
+        //stage = new Stage();
         stage.addActor(group);
 
-        Gdx.input.setInputProcessor(stage);
+        //Gdx.input.setInputProcessor(stage);
     }
 
     public void render(float delta)
     {
-        if (changeScreen) {
-            System.out.println("MENU change screen in render");
-            ScreenManager.getInstance().showScreen(newScreen, serverclient, clientip);
-        }
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //    renderer.render();
@@ -237,8 +231,9 @@ public class MenuScreen implements Screen {
         fontIPTitle.draw(spriteBatch, "IP Address: ", 5, 50);
 
         spriteBatch.end();
-        stage.act(delta);
-        stage.draw();
+        //stage.act(delta);
+        //stage.draw();
+        super.update(delta);
 
 
     }

@@ -18,6 +18,8 @@ public class NetworkingServer extends Listener implements NetworkingBase{
     Player myPlayer;
     Player otherPlayer;
     private static ServerWaitingScreen currentScreen;
+    int tick = 0;
+    int networkTick = 0;
 
     private static int udpPort = 27961, tcpPort = 27961;
     private float oldXCord = 0, oldYCord = 0;
@@ -41,6 +43,14 @@ public class NetworkingServer extends Listener implements NetworkingBase{
             public void received(Connection c, Object p) {
                 if (p instanceof PacketMessage) {
                     PacketMessage pm = (PacketMessage) p;
+                    if(networkTick == 0){
+                        networkTick = pm.tick;
+                    }
+                    else if(pm.tick > networkTick){
+                        networkTick = pm.tick;
+                    }
+                    else
+                        return;
                     oldXCord = pm.xCord;
                     oldYCord = pm.yCord;
                     otherPlayer.setPosition(oldXCord, oldYCord);
@@ -78,6 +88,7 @@ public class NetworkingServer extends Listener implements NetworkingBase{
     public void update(){
         if(connect != null){
             PacketMessage packetMessage = new PacketMessage();
+            packetMessage.tick = tick++;
             packetMessage.xCord =  gs.getWorld().getSelfPlayer().getPosition().x;
             packetMessage.yCord =  gs.getWorld().getSelfPlayer().getPosition().y;
             packetMessage.rotation = gs.getWorld().getSelfPlayer().getRotation();

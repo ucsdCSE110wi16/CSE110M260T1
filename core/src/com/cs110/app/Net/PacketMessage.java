@@ -18,6 +18,7 @@ public class PacketMessage {
     public double rotation;
     public Integer attackType = null;
 
+    public int tick;
 
 
 

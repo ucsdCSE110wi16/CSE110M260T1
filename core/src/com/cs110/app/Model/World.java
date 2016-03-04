@@ -17,8 +17,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class World
 {
 
-    static final int WORLD_WIDTH = 10000;
-    static final int WORLD_HEIGHT = 10000;
+    public static final int WORLD_WIDTH = 5000;
+    public static final int WORLD_HEIGHT = 5000;
 
     //since this World object is associated with client side, each client will have his own World
     // (and the worlds share the obstacles and players list). Each world will also know the player
@@ -56,6 +56,16 @@ public class World
         addObstacle(new Obstacle(new Vector2(89, 90)));
         addObstacle(new Obstacle(new Vector2(-50, -40), 10, 2));
         addObstacle(0,0);
+
+        //creating the borders
+        //left border
+        addObstacle(new Obstacle(new Vector2(-WORLD_WIDTH/2, -WORLD_HEIGHT/2), 10, WORLD_HEIGHT));
+        //right border
+        addObstacle(new Obstacle(new Vector2(WORLD_WIDTH/2, -WORLD_HEIGHT/2), 10, WORLD_HEIGHT));
+        //top border
+        addObstacle(new Obstacle(new Vector2(-WORLD_WIDTH/2, WORLD_HEIGHT/2), WORLD_WIDTH, 10));
+        //bot border
+        addObstacle(new Obstacle(new Vector2(-WORLD_WIDTH/2, -WORLD_HEIGHT/2), WORLD_WIDTH, 10));
 
         //in this instance we should also probabally get all the players from the server and add them too
         // and we need to keep updating the players from the server on every render

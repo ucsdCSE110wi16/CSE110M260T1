@@ -32,7 +32,9 @@ public class WorldRenderer
     //spritebatch for drawing
     private SpriteBatch spriteBatch;
     private Texture playerTexture;
+    private Texture background;
     private Sprite playerSprite;
+    private Sprite backgroundSprite;
     //Constructor takes in a world to render as the parameter
     public WorldRenderer(World world)
     {
@@ -53,21 +55,26 @@ public class WorldRenderer
         spriteBatch = new SpriteBatch();
         loadTextures();
         playerSprite = new Sprite(playerTexture);
+        backgroundSprite = new Sprite(background/*, 5000, 5000*/);
     }
 
     //loads the images to be used
     private void loadTextures()
     {
         playerTexture = new Texture("spaceshipSprite.png");
+        background = new Texture("stars.jpg");
     }
 
     //Draw the world and set the camera
     public void render()
     {
 
+
+
         //Keeping the camera the centered on the player
         camera.position.set(world.getPlayer().getPosition().x, world.getPlayer().getPosition().y, 0);
         camera.update();
+
 
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -75,6 +82,38 @@ public class WorldRenderer
         //Drawing
         //rend.setProjectionMatrix(camera.combined);
 //        spriteBatch.setProjectionMatrix(camera.combined);
+
+        //Drawing background
+        spriteBatch.begin();
+        //playerSprite.setPosition(spriteX, spriteY);
+
+        //bot left
+        backgroundSprite.setPosition(w/2 - world.getPlayer().getPosition().x - World.WORLD_WIDTH/2,
+                h / 2 - world.getPlayer().getPosition().y - World.WORLD_HEIGHT/2 );
+
+        //playerSprite.setSize(2, 1);
+        //playerSprite.setSize(person.getBounds().width,person.getBounds().height);
+
+        backgroundSprite.draw(spriteBatch);
+
+        //top left
+        backgroundSprite.setPosition(w / 2 - world.getPlayer().getPosition().x - World.WORLD_WIDTH / 2,
+                h / 2 - world.getPlayer().getPosition().y + World.WORLD_HEIGHT / 2 - backgroundSprite.getRegionHeight());
+
+        backgroundSprite.draw(spriteBatch);
+
+        //top right
+        backgroundSprite.setPosition(w / 2 - world.getPlayer().getPosition().x + World.WORLD_WIDTH / 2 - backgroundSprite.getRegionWidth(),
+                h / 2 - world.getPlayer().getPosition().y + World.WORLD_HEIGHT / 2 - backgroundSprite.getRegionHeight());
+
+        backgroundSprite.draw(spriteBatch);
+        //bot right
+        backgroundSprite.setPosition(w / 2 - world.getPlayer().getPosition().x + World.WORLD_WIDTH / 2 - backgroundSprite.getRegionWidth(),
+                h / 2 - world.getPlayer().getPosition().y - World.WORLD_HEIGHT / 2);
+
+
+        backgroundSprite.draw(spriteBatch);
+        spriteBatch.end();
 
 
         //Drawing the obstacles

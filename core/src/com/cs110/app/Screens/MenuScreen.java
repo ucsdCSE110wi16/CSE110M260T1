@@ -18,6 +18,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.Timer;
 import com.cs110.app.CS110App;
 import com.cs110.app.Controller.WorldController;
@@ -25,33 +29,36 @@ import com.cs110.app.Model.World;
 import com.cs110.app.View.WorldRenderer;
 import com.badlogic.gdx.Net.*;
 import com.badlogic.gdx.net.*;
+import java.awt.Menu;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+
 
 /**
  * Created by caeleanbarnes on 2/28/16.
  */
-public class MenuScreen implements Screen {
+public class MenuScreen extends BaseScreen {
 
     Skin buttonSkin;
     TextButton.TextButtonStyle textbuttonStyle;
     TextButton buttonServer, buttonClient;
     BitmapFont font;
     BitmapFont fontIPTitle;
-    Stage stage; //The stage which the touchpad belong to
     static String ipStatus;
     SpriteBatch spriteBatch;
     public static Texture backgroundTexture;
     public static Sprite backgroundSprite;
-    private CS110App g;
-//    private WorldRenderer renderer;
-//    private World world;
-//    private WorldController controller;
-    public MenuScreen(CS110App g) {
-        this.g = g;
+
+    public MenuScreen() {
         this.ipStatus = "Checking IP Address";
+        displayBackButton = false;
     }
 
 
     public void show() {
+        super.show();
+        // Get IP ADDRESS
         HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
         HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://checkip.amazonaws.com/").build();
         Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
@@ -89,7 +96,39 @@ public class MenuScreen implements Screen {
         buttonServer.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                g.start(true);
+                HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
+                final HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://192.168.99.100/game/create").build();
+                Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
+                    @Override
+                    public void handleHttpResponse(HttpResponse httpResponse) {
+                        System.out.println(httpResponse.getStatus().getStatusCode());
+                        if(CS110App.local) {
+                            changeScreen = true;
+                            newScreen = ScreenEnum.WAITING;
+                        }
+                        else {
+                            if (httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
+                                System.out.println(httpResponse.getStatus());
+                                System.out.println(httpResponse.getResultAsString());
+                                changeScreen = true;
+                                newScreen = ScreenEnum.WAITING;
+                            } else {
+                                displayErrorMessage("Server Error");
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void failed(Throwable t) {
+                        System.out.println("failure1");
+                    }
+
+                    @Override
+                    public void cancelled() {
+                        System.out.println("failure2");
+                    }
+                });
                 return true;
             }
 
@@ -104,8 +143,57 @@ public class MenuScreen implements Screen {
         buttonClient.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//                g.start(false);
-                g.setScreen(new ClientScreen(g));
+//              //get current games from the server
+                if(CS110App.local) {
+                    changeScreen = true;
+                    newScreen = ScreenEnum.GAME;
+                    serverclient = true;
+                    clientip = "127.0.0.1";
+                }
+                else {
+                    HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
+                    Net.HttpRequest httpRequest = requestBuilder.newRequest().method(Net.HttpMethods.GET).url("http://192.168.99.100/games/").build();
+                    Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
+                        @Override
+                        public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                            System.out.println(httpResponse.getStatus());
+                            String jsonString = httpResponse.getResultAsString();
+                            System.out.println(jsonString);
+                            if(httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
+                                try {
+                                    JsonValue root = new JsonReader().parse(jsonString);
+                                    System.out.println(root);
+                                    if (root.size > 0) {
+                                        JsonValue game = root.get(0);
+                                        changeScreen = true;
+                                        newScreen = ScreenEnum.GAME;
+                                        serverclient = false;
+                                        clientip = game.get("ip").asString();
+                                    } else {
+                                        System.out.println("NO GAMES AVAILABLE");
+                                    }
+
+                                } catch (Exception e) {
+                                    System.out.println(e);
+                                    System.out.println("FAILURE");
+                                }
+                            }
+                            else {
+                                displayErrorMessage("Backend Server error");
+                            }
+                        }
+
+                        @Override
+                        public void failed(Throwable t) {
+                            MenuScreen.ipStatus = "failed to get IP";
+                        }
+
+                        @Override
+                        public void cancelled() {
+                            MenuScreen.ipStatus = "failed to get IP";
+                        }
+                    });
+                }
                 return true;
             }
 
@@ -126,10 +214,10 @@ public class MenuScreen implements Screen {
         group.addActor(buttonServer);
         group.addActor(buttonClient);
         //add touchpad to the stage
-        stage = new Stage();
+        //stage = new Stage();
         stage.addActor(group);
 
-        Gdx.input.setInputProcessor(stage);
+        //Gdx.input.setInputProcessor(stage);
     }
 
     public void render(float delta)
@@ -143,8 +231,9 @@ public class MenuScreen implements Screen {
         fontIPTitle.draw(spriteBatch, "IP Address: ", 5, 50);
 
         spriteBatch.end();
-        stage.act(delta);
-        stage.draw();
+        //stage.act(delta);
+        //stage.draw();
+        super.update(delta);
 
 
     }
@@ -182,3 +271,4 @@ public class MenuScreen implements Screen {
 
     }
 }
+

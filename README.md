@@ -2,14 +2,28 @@
 
 ### For development
 
-##### Run client
+##### Run the game only
 ```
-./gradlew desktop:run -PappArgs="['client']"
+./gradlew desktop:run -PappArgs="['gameonly']"
 ```
 
-##### Run server
+##### Run local server/client
 ```
-./gradlew desktop:run -PappArgs="['server']"
+./gradlew desktop:run -PappArgs="['local']"
+./gradlew desktop:run -PappArgs="['local']"
+```
+
+### For production
+
+##### Run backend server
+```
+cd server
+docker-compose up
+```
+
+##### Run a client
+```
+./gradlew desktop:run
 ```
 
 

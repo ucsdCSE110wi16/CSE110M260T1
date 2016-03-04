@@ -14,48 +14,39 @@ import java.util.List;
 /**
  * Created by OriGilad on 1/28/16.
  */
-public class NetworkingClient extends Listener {
+public class NetworkingClient extends Listener implements NetworkingBase {
     private GameScreen gs;
     private Connection connect;
     static Client client;
+    Player myPlayer;
+    Player otherPlayer;
 
-    static String ip="localhost";//"137.110.91.137";
+    static String ip;
     static int tcpPort = 27961, udpPort = 27961;
     float oldXCord, oldYCord;
-
     static boolean messageReceived=false;
 
-    public NetworkingClient(final GameScreen gs) throws Exception{
+    public NetworkingClient(final GameScreen gs) throws Exception {
+        this(gs, "localhost");
+
+    }
+    public NetworkingClient(final GameScreen gs, String ip) throws Exception {
+        this.ip = ip;
         this.gs = gs;
-        final Player myPlayer = new Player(new Vector2(500,500),"Player1");
-        final Player otherPlayer = new Player(new Vector2(700, 700), "Player2");
-        otherPlayer.setWorld(gs.getWorld());
-        gs.getWorld().setSelfPlayer(myPlayer);
-        gs.getWorld().setOtherPlayer(otherPlayer);
         client = new Client();
         client.getKryo().register(PacketMessage.class);
         client.start();
         client.connect(5000, ip, tcpPort, udpPort);
-
-
         client.addListener(new ThreadedListener(new Listener() {
             public void connected(Connection c) {
                 System.out.println("Client Connected");
                 connect = c;
             }
-
             public void received(Connection c, Object p) {
                 connect = c;
                 if (p instanceof PacketMessage) {
-                    //System.out.println("Packet of PacketMessage");
-
-
                     PacketMessage packet = (PacketMessage) p;
-                    if (oldXCord != packet.xCord || oldYCord != packet.yCord) {
-//                        System.out.println("Received News: X:" + oldXCord + "  Y:" + oldYCord);
-//                        System.out.println(otherPlayer.getPosition());
-
-                    }
+                    if (oldXCord != packet.xCord || oldYCord != packet.yCord) {}
                     oldXCord = packet.xCord;
                     oldYCord = packet.yCord;
                     otherPlayer.setPosition(oldXCord, oldYCord);
@@ -70,15 +61,6 @@ public class NetworkingClient extends Listener {
                             Attack t = new Attack(oldXCord, oldYCord, packet.rotation, gs.getWorld(), packet.attackType, "server");
                         }
                     }
-                    /*if (packet.shotRad != null) {
-                        System.out.println("ATTACK Recieved");
-                        System.out.println("x" + packet.shotXCord);
-                        System.out.println("y" + packet.shotYCord);
-                        System.out.println("rad" + packet.shotRad);
-                        gs.getWorld().addAttack(new Attack(packet.shotXCord, packet.shotYCord, packet.shotRad));
-                    }*/
-
-                    //packet.player = gs.getWorld().getPlayer();
 
                 }
             }
@@ -86,7 +68,6 @@ public class NetworkingClient extends Listener {
         System.out.println("Client is now waiting");
 
     }
-
 
     public void update() {
         if (client.isConnected() && connect != null) {
@@ -108,22 +89,24 @@ public class NetworkingClient extends Listener {
                 }
 
             }
-            //System.out.println("sending to server");
             else {
                 connect.sendUDP(packetMessage);
             }
         }
     }
-    //}
-//    public static void main(String args[]) throws Exception{
-//
-//        NetworkingClient c = new NetworkingClient();
-//
-//
-//
-//
-//    }
 
+    public void startGame(GameScreen gs) {
+        System.out.println("STARTED GAME");
+        myPlayer = new Player(new Vector2(500,500),"Player1");
+        otherPlayer = new Player(new Vector2(700, 700), "Player2");
+        otherPlayer.setWorld(gs.getWorld());
+        gs.getWorld().setSelfPlayer(myPlayer);
+        gs.getWorld().setOtherPlayer(otherPlayer);
+    }
+
+    public void stop() {
+        client.stop();
+    }
 
 
 }

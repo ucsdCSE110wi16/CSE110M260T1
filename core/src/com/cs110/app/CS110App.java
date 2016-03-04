@@ -1,39 +1,81 @@
 package com.cs110.app;
 import com.badlogic.gdx.Game;
+import com.cs110.app.Net.NetworkingBase;
 import com.cs110.app.Net.NetworkingClient;
 import com.cs110.app.Net.NetworkingServer;
 import com.cs110.app.Screens.GameScreen;
-import com.cs110.app.Screens.MenuScreen;
+import com.cs110.app.Screens.ScreenEnum;
+import com.cs110.app.Screens.ScreenManager;
+import com.cs110.app.Screens.ServerWaitingScreen;
+import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.Server;
+
 
 public class CS110App extends Game { //The automatically generated code has ApplicationAdapter, but
 	// game allows for screens
 
-	com.cs110.app.Net.NetworkingServer NS;
-	com.cs110.app.Net.NetworkingClient NC;
-	boolean client;
+	NetworkingBase network;
+	public static boolean local;
+	public static boolean gameOnly;
 
-	public CS110App(boolean client) {
-		this.client = client;
+	public CS110App(int type) {
+		if(type == 0){
+			local = true;
+		}
+		else {
+			local = false;
+		}
+		if(type== 1){
+			CS110App.gameOnly = true;
+		}
 	}
 
 	@Override
 	public void create() {
-		MenuScreen screen = new MenuScreen(this);
-		setScreen(screen);
-
-
+		if(CS110App.gameOnly){
+			ScreenManager.getInstance().initialize(this);
+			ScreenManager.getInstance().showScreen(ScreenEnum.GAME, 5);
+			return;
+		}
+		ScreenManager.getInstance().initialize(this);
+		ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU, local);
 	}
 
-	public void start(boolean server) {
-		GameScreen screen = new GameScreen();
-		setScreen(screen);
-		try {
-			if (server)
-				NS = new NetworkingServer(screen);
-			else
-				NC = new NetworkingClient(screen); // Uncomment to be client
-		} catch (Exception e) {
 
+	public void setServer(ServerWaitingScreen s){
+		try {
+			network = new NetworkingServer(s);
+		}
+		catch(Exception e){}
+	}
+
+
+
+	public boolean setClient(GameScreen s, String ip){
+		//For development
+		try {
+			System.out.println("set client");
+			network = new NetworkingClient(s, ip);
+		}
+		catch(Exception e){
+			System.out.println("Exception");
+			System.out.println(e);
+			return false;
+		}
+		return true;
+	}
+
+	public void stopNetworking() {
+		if(network != null) {
+			network.stop();
+			network = null;
+		}
+	}
+	public void startGame(GameScreen s) {
+		System.out.println(network);
+		if(network != null) {
+
+			network.startGame(s);
 		}
 	}
 
@@ -41,12 +83,8 @@ public class CS110App extends Game { //The automatically generated code has Appl
 	@Override
 	public void render() {
 		super.render();
-		if (client && NC != null) {
-			NC.update();
-		} else if (NS != null) {
-			//System.out.println("update");
-			NS.update();
+		if(network != null) {
+			network.update();
 		}
-
 	}
 }

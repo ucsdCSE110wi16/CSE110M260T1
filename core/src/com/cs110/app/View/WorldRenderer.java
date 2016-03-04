@@ -130,7 +130,7 @@ public class WorldRenderer
 
             // spriteX = person.getPosition().x;
             // spriteY = person.getPosition().y;
-            System.out.println("Sprite pos: " + spriteX + "    " + spriteY);
+            //System.out.println("Sprite pos: " + spriteX + "    " + spriteY);
             spriteBatch.begin();
             //playerSprite.setPosition(spriteX, spriteY);
             playerSprite.setPosition(spriteX, spriteY);

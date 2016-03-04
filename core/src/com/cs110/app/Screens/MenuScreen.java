@@ -26,6 +26,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.cs110.app.CS110App;
 import com.cs110.app.Controller.WorldController;
 import com.cs110.app.Model.World;
+import com.cs110.app.RunEnum;
 import com.cs110.app.View.WorldRenderer;
 import com.badlogic.gdx.Net.*;
 import com.badlogic.gdx.net.*;
@@ -95,14 +96,15 @@ public class MenuScreen extends BaseScreen {
 
         buttonServer.addListener(new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (CS110App.local) {
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                if (CS110App.RUN_TYPE == RunEnum.MULTIPLAYER_LOCAL) {
                     changeScreen = true;
                     newScreen = ScreenEnum.WAITING;
                     serverclient = false;
-                } else {
+                }
+                else {
                     HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-                    final HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://localhost:5000/game/create").build();
+                    final HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://" + CS110App.SERVER_URL + "/game/create").build();
                     Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
                         @Override
                         public void handleHttpResponse(HttpResponse httpResponse) {
@@ -125,32 +127,25 @@ public class MenuScreen extends BaseScreen {
 
                         @Override
                         public void failed(Throwable t) {
-                            System.out.println("failure1");
+                            displayErrorMessage("Server Error");
                         }
 
                         @Override
                         public void cancelled() {
-                            System.out.println("failure2");
+                            displayErrorMessage("Server Error");
                         }
                     });
 
                 }
-                return true;
             }
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
-            }
-
         });
 
         buttonClient = new TextButton(" Start Client ",textbuttonStyle);
         buttonClient.addListener(new ClickListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 //              //get current game  s from the server
-                if(CS110App.local) {
+                if(CS110App.RUN_TYPE == RunEnum.MULTIPLAYER_LOCAL) {
                     changeScreen = true;
                     newScreen = ScreenEnum.GAME;
                     serverclient = true;
@@ -158,7 +153,7 @@ public class MenuScreen extends BaseScreen {
                 }
                 else {
                     HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-                    Net.HttpRequest httpRequest = requestBuilder.newRequest().method(Net.HttpMethods.GET).url("http://localhost:5000/games/").build();
+                    Net.HttpRequest httpRequest = requestBuilder.newRequest().method(Net.HttpMethods.GET).url("http://" + CS110App.SERVER_URL + "/games/").build();
                     Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
                         @Override
                         public void handleHttpResponse(Net.HttpResponse httpResponse) {
@@ -176,7 +171,7 @@ public class MenuScreen extends BaseScreen {
                                         serverclient = false;
                                         clientip = game.get("ip").asString();
                                     } else {
-                                        System.out.println("NO GAMES AVAILABLE");
+                                        displayErrorMessage("No games available");
                                     }
 
                                 } catch (Exception e) {
@@ -191,21 +186,15 @@ public class MenuScreen extends BaseScreen {
 
                         @Override
                         public void failed(Throwable t) {
-                            MenuScreen.ipStatus = "failed to get IP";
+                            displayErrorMessage("Backend Server error");
                         }
 
                         @Override
                         public void cancelled() {
-                            MenuScreen.ipStatus = "failed to get IP";
+                            displayErrorMessage("Backend Server error");
                         }
                     });
                 }
-                return true;
-            }
-
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
             }
 
         });
@@ -237,16 +226,11 @@ public class MenuScreen extends BaseScreen {
         fontIPTitle.draw(spriteBatch, "IP Address: ", 5, 50);
 
         spriteBatch.end();
-        //stage.act(delta);
-        //stage.draw();
         super.update(delta);
 
 
     }
 
-//    public World getWorld(){
-//        return world;
-//    }
     @Override
     public void resize(int width, int height)
     {

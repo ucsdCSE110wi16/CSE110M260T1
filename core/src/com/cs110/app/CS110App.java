@@ -17,28 +17,34 @@ public class CS110App extends Game { //The automatically generated code has Appl
 	NetworkingBase network;
 	public static boolean local;
 	public static boolean gameOnly;
+	public static RunEnum RUN_TYPE;
+
+	public static String SERVER_URL = "192.168.99.100";
 
 	public CS110App(int type) {
 		if(type == 0){
-			local = true;
+			RUN_TYPE = RunEnum.MULTIPLAYER_LOCAL;
+			SERVER_URL = "127.0.0.1";
 		}
-		else {
-			local = false;
+		else if(type == 2)  {
+			RUN_TYPE = RunEnum.MULTIPLAYER_BACKEND;
 		}
-		if(type== 1){
-			CS110App.gameOnly = true;
+		else if(type== 1){
+			RUN_TYPE = RunEnum.SINGLE_PLAYER;
 		}
 	}
 
 	@Override
 	public void create() {
-		if(CS110App.gameOnly){
+		if(CS110App.RUN_TYPE == RunEnum.SINGLE_PLAYER){
 			ScreenManager.getInstance().initialize(this);
 			ScreenManager.getInstance().showScreen(ScreenEnum.GAME, 5);
 			return;
 		}
-		ScreenManager.getInstance().initialize(this);
-		ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU, local);
+		else {
+			ScreenManager.getInstance().initialize(this);
+			ScreenManager.getInstance().showScreen(ScreenEnum.MAIN_MENU, local);
+		}
 	}
 
 
@@ -50,19 +56,9 @@ public class CS110App extends Game { //The automatically generated code has Appl
 	}
 
 
-
-	public boolean setClient(GameScreen s, String ip){
-		//For development
-		try {
-			System.out.println("set client");
+	// throws exception if connection doesn't work
+	public void setClient(GameScreen s, String ip) throws Exception{
 			network = new NetworkingClient(s, ip);
-		}
-		catch(Exception e){
-			System.out.println("Exception");
-			System.out.println(e);
-			return false;
-		}
-		return true;
 	}
 
 	public void stopNetworking() {
@@ -71,6 +67,8 @@ public class CS110App extends Game { //The automatically generated code has Appl
 			network = null;
 		}
 	}
+
+
 	public void startGame(GameScreen s) {
 		System.out.println(network);
 		if(network != null) {
@@ -79,11 +77,11 @@ public class CS110App extends Game { //The automatically generated code has Appl
 		}
 	}
 
-
 	@Override
 	public void render() {
 		super.render();
 		if(network != null) {
+			System.out.println("network update");
 			network.update();
 		}
 	}

@@ -4,7 +4,7 @@
 
 ##### Run the game only
 ```
-./gradlew desktop:run -PappArgs="['local']"
+./gradlew desktop:run -PappArgs="['gameonly']"
 ```
 
 ##### Run local server/client

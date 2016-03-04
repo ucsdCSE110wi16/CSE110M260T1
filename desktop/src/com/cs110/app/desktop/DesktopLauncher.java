@@ -20,5 +20,6 @@ public class DesktopLauncher {
             System.out.println("Normal Connect to backed Server Client");
             new LwjglApplication(new CS110App(2), config);
         }
+
 	}
 }

@@ -98,6 +98,7 @@ public class MenuScreen extends BaseScreen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
                 final HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://128.54.238.99:5000/game/create").build();
+
                 Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
                     @Override
                     public void handleHttpResponse(HttpResponse httpResponse) {

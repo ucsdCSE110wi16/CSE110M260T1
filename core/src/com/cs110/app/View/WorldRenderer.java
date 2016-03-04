@@ -33,8 +33,10 @@ public class WorldRenderer
     private SpriteBatch spriteBatch;
     private Texture playerTexture;
     private Texture background;
+    private Texture arrowTexture;
     private Sprite playerSprite;
     private Sprite backgroundSprite;
+    private Sprite arrowSprite;
     //Constructor takes in a world to render as the parameter
     public WorldRenderer(World world)
     {
@@ -56,6 +58,7 @@ public class WorldRenderer
         loadTextures();
         playerSprite = new Sprite(playerTexture);
         backgroundSprite = new Sprite(background/*, 5000, 5000*/);
+        arrowSprite = new Sprite(arrowTexture);
     }
 
     //loads the images to be used
@@ -63,6 +66,7 @@ public class WorldRenderer
     {
         playerTexture = new Texture("spaceshipSprite.png");
         background = new Texture("stars.jpg");
+        arrowTexture = new Texture("yellowarrow.png");
     }
 
     //Draw the world and set the camera
@@ -88,8 +92,8 @@ public class WorldRenderer
         //playerSprite.setPosition(spriteX, spriteY);
 
         //bot left
-        backgroundSprite.setPosition(w/2 - world.getPlayer().getPosition().x - World.WORLD_WIDTH/2,
-                h / 2 - world.getPlayer().getPosition().y - World.WORLD_HEIGHT/2 );
+        backgroundSprite.setPosition(w / 2 - world.getPlayer().getPosition().x - World.WORLD_WIDTH / 2,
+                h / 2 - world.getPlayer().getPosition().y - World.WORLD_HEIGHT / 2);
 
         //playerSprite.setSize(2, 1);
         //playerSprite.setSize(person.getBounds().width,person.getBounds().height);
@@ -113,6 +117,26 @@ public class WorldRenderer
 
 
         backgroundSprite.draw(spriteBatch);
+
+        //Draww pointer arrow
+        arrowSprite.setPosition(w - arrowSprite.getRegionWidth(),
+                h - arrowSprite.getRegionWidth());
+       //arrowSprite.setPosition(0,0);
+
+        if(world.getOtherPlayer() != null){
+            double diffx = world.getOtherPlayer().getPosition().x - world.getPlayer().getPosition().x;
+            double diffy = world.getOtherPlayer().getPosition().y - world.getPlayer().getPosition().y;
+
+            double angle = Math.atan2(diffy, diffx);
+
+            arrowSprite.setRotation((float) Math.toDegrees(angle));
+
+        }
+        else
+            arrowSprite.setRotation(0);
+
+        arrowSprite.draw(spriteBatch);
+
         spriteBatch.end();
 
 

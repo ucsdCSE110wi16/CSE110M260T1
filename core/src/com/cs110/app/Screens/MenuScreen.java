@@ -97,7 +97,7 @@ public class MenuScreen extends BaseScreen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-                final HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://192.168.99.100/game/create").build();
+                final HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://128.54.238.99:9000/game/create").build();
                 Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
                     @Override
                     public void handleHttpResponse(HttpResponse httpResponse) {
@@ -144,22 +144,21 @@ public class MenuScreen extends BaseScreen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 //              //get current games from the server
-                if(CS110App.local) {
+                if (CS110App.local) {
                     changeScreen = true;
                     newScreen = ScreenEnum.GAME;
                     serverclient = true;
                     clientip = "127.0.0.1";
-                }
-                else {
+                } else {
                     HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-                    Net.HttpRequest httpRequest = requestBuilder.newRequest().method(Net.HttpMethods.GET).url("http://192.168.99.100/games/").build();
+                    Net.HttpRequest httpRequest = requestBuilder.newRequest().method(Net.HttpMethods.GET).url("http://128.54.238.99:9000/games/").build();
                     Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
                         @Override
                         public void handleHttpResponse(Net.HttpResponse httpResponse) {
                             System.out.println(httpResponse.getStatus());
                             String jsonString = httpResponse.getResultAsString();
                             System.out.println(jsonString);
-                            if(httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
+                            if (httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
                                 try {
                                     JsonValue root = new JsonReader().parse(jsonString);
                                     System.out.println(root);
@@ -177,8 +176,7 @@ public class MenuScreen extends BaseScreen {
                                     System.out.println(e);
                                     System.out.println("FAILURE");
                                 }
-                            }
-                            else {
+                            } else {
                                 displayErrorMessage("Backend Server error");
                             }
                         }

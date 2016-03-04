@@ -46,6 +46,7 @@ public class ScreenManager {
             CS110App app = (CS110App)game;
 
             if(params.length >= 2) {
+                System.out.println("GOGO");
                 boolean set = app.setClient((GameScreen) newScreen, (String) params[1]);
                 if(!set && currentScreen instanceof BaseScreen) {
                     BaseScreen b = (BaseScreen)currentScreen;
@@ -55,15 +56,18 @@ public class ScreenManager {
                 }
             }
 
-            app.startGame((GameScreen) newScreen);
-            System.out.println("STARTED THE GAME AHAHH");
-            // start
+
 
 
         }
         System.out.println("setScreen");
         game.setScreen(newScreen);
-
+        if(screenEnum == ScreenEnum.GAME) {
+            CS110App app = (CS110App)game;
+            app.startGame((GameScreen) newScreen);
+            System.out.println("STARTED THE GAME AHAHH");
+            // start
+        }
         if(screenEnum == ScreenEnum.GAME && params.length == 1 && (Integer)params[0] == 5) {
             // Local game
             Player myPlayer = new Player(new Vector2(700,700),"Player1");

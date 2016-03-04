@@ -11,7 +11,7 @@ public class PacketMessage {
 //    public boolean blocked = false;
 //    public boolean closeAttack = false;
 //    public boolean rangedAttack = false;
-
+    public int tick;
     public float xCord;
     public float yCord;
 

@@ -20,7 +20,8 @@ public class NetworkingClient extends Listener implements NetworkingBase {
     static Client client;
     Player myPlayer;
     Player otherPlayer;
-
+    private int tick = 0;
+    private int networkTick = 0;
     static String ip;
     static int tcpPort = 27961, udpPort = 27961;
     float oldXCord, oldYCord;
@@ -46,6 +47,15 @@ public class NetworkingClient extends Listener implements NetworkingBase {
                 connect = c;
                 if (p instanceof PacketMessage) {
                     PacketMessage packet = (PacketMessage) p;
+                    if(networkTick == 0){
+                        networkTick = packet.tick;
+                    }
+                    else if(packet.tick > networkTick){
+                        networkTick = packet.tick;
+                    }
+                    else {
+                        return;
+                    }
                     if (oldXCord != packet.xCord || oldYCord != packet.yCord) {}
                     oldXCord = packet.xCord;
                     oldYCord = packet.yCord;
@@ -75,6 +85,8 @@ public class NetworkingClient extends Listener implements NetworkingBase {
             packetMessage.xCord = gs.getWorld().getSelfPlayer().getPosition().x;
             packetMessage.yCord = gs.getWorld().getSelfPlayer().getPosition().y;
             packetMessage.rotation = gs.getWorld().getSelfPlayer().getRotation();
+            packetMessage.tick = tick;
+            tick++;
             if (gs.getWorld().attackOccured) {
                 gs.getWorld().attackOccured = false;
                 List<Attack> attacks = gs.getWorld().getAttacks();

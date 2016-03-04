@@ -16,10 +16,10 @@ public class DesktopLauncher {
 				System.out.println("Game only");
 				new LwjglApplication(new CS110App(1), config);
 			}
-			else{
-				System.out.println("Normal Connect to backed Server Client");
-				new LwjglApplication(new CS110App(2), config);
-			}
+		}
+		else{
+			System.out.println("Normal Connect to backed Server Client");
+			new LwjglApplication(new CS110App(2), config);
 		}
 	}
 }

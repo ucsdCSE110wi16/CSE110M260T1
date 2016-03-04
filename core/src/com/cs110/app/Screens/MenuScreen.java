@@ -97,7 +97,7 @@ public class MenuScreen extends BaseScreen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-                final HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://192.168.99.100/game/create").build();
+                final HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://localhost:5000/game/create").build();
                 Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
                     @Override
                     public void handleHttpResponse(HttpResponse httpResponse) {
@@ -152,7 +152,7 @@ public class MenuScreen extends BaseScreen {
                 }
                 else {
                     HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-                    Net.HttpRequest httpRequest = requestBuilder.newRequest().method(Net.HttpMethods.GET).url("http://192.168.99.100/games/").build();
+                    Net.HttpRequest httpRequest = requestBuilder.newRequest().method(Net.HttpMethods.GET).url("http://localhost:5000/games/").build();
                     Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
                         @Override
                         public void handleHttpResponse(Net.HttpResponse httpResponse) {

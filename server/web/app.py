@@ -7,7 +7,7 @@ from flask import abort
 from redis import Redis
 
 app = Flask(__name__)
-redis = Redis(host="redis_1", port=6379)
+redis = Redis(host="localhost", port=6379)
 
 
 def delete_stale_games():
@@ -25,9 +25,16 @@ def create():
         redis.set("game_id", game_id)
     redis.incr("game_id")
 
+    if request.headers.getlist("X-Forwarded-For"):
+        ip = request.headers.getlist("X-Forwarded-For")[0]
+    else:
+        ip = request.remote_addr
+    logging.error(ip)
+    ip = request.environ['REMOTE_ADDR']
+    logging.error(ip)
     game = {}
     game["id"] = game_id
-    game["ip"] = request.remote_addr
+    game["ip"] = ip
     game["start"] = time.time()
 
     redis.hset("games",game_id, json.dumps(game))

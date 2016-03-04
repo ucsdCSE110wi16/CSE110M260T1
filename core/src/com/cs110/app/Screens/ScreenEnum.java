@@ -9,19 +9,19 @@ import com.badlogic.gdx.Screen;
  */
 public enum ScreenEnum {
     MAIN_MENU {
-        public Screen getScreen(Object... params) {
+        public BaseScreen getScreen(Object... params) {
                 return new MenuScreen();
         }
     },
     WAITING {
-        public Screen getScreen(Object... params) {
+        public BaseScreen getScreen(Object... params) {
             return new ServerWaitingScreen();
         }
     },
     GAME {
-        public Screen getScreen(Object... params) {
+        public BaseScreen getScreen(Object... params) {
             return new GameScreen();
         }
     };
-    public abstract Screen getScreen(Object... params);
+    public abstract BaseScreen getScreen(Object... params);
 }

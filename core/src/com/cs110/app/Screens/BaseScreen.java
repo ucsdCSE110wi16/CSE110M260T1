@@ -113,6 +113,7 @@ public class BaseScreen implements Screen {
         if (changeScreen) {
             System.out.println("MENU change screen in render");
             ScreenManager.getInstance().showScreen(newScreen, serverclient, clientip);
+            serverclient = false;
         }
         baseSpriteBatch.begin();
         if(currentErrorMessage != null) {

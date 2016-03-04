@@ -96,23 +96,6 @@ public class MenuScreen extends BaseScreen {
         buttonServer.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-<<<<<<< HEAD
-                HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-                final HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://128.54.238.99:5000/game/create").build();
-
-                Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
-                    @Override
-                    public void handleHttpResponse(HttpResponse httpResponse) {
-                        System.out.println(httpResponse.getStatus().getStatusCode());
-                        if(CS110App.local) {
-                            changeScreen = true;
-                            newScreen = ScreenEnum.WAITING;
-                        }
-                        else {
-                            if (httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
-                                System.out.println(httpResponse.getStatus());
-                                System.out.println(httpResponse.getResultAsString());
-=======
                 if (CS110App.local) {
                     changeScreen = true;
                     newScreen = ScreenEnum.WAITING;
@@ -125,7 +108,6 @@ public class MenuScreen extends BaseScreen {
                         public void handleHttpResponse(HttpResponse httpResponse) {
                             System.out.println(httpResponse.getStatus().getStatusCode());
                             if (CS110App.local) {
->>>>>>> cc120066f804498adb04cf5883862260593277fd
                                 changeScreen = true;
                                 newScreen = ScreenEnum.WAITING;
                             } else {
@@ -167,22 +149,23 @@ public class MenuScreen extends BaseScreen {
         buttonClient.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (CS110App.local) {
-
+//              //get current game  s from the server
+                if(CS110App.local) {
                     changeScreen = true;
                     newScreen = ScreenEnum.GAME;
                     serverclient = true;
                     clientip = "127.0.0.1";
-                } else {
+                }
+                else {
                     HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-                    Net.HttpRequest httpRequest = requestBuilder.newRequest().method(Net.HttpMethods.GET).url("http://128.54.238.99:5000/games/").build();
+                    Net.HttpRequest httpRequest = requestBuilder.newRequest().method(Net.HttpMethods.GET).url("http://localhost:5000/games/").build();
                     Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
                         @Override
                         public void handleHttpResponse(Net.HttpResponse httpResponse) {
                             System.out.println(httpResponse.getStatus());
                             String jsonString = httpResponse.getResultAsString();
                             System.out.println(jsonString);
-                            if (httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
+                            if(httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
                                 try {
                                     JsonValue root = new JsonReader().parse(jsonString);
                                     System.out.println(root);
@@ -200,7 +183,8 @@ public class MenuScreen extends BaseScreen {
                                     System.out.println(e);
                                     System.out.println("FAILURE");
                                 }
-                            } else {
+                            }
+                            else {
                                 displayErrorMessage("Backend Server error");
                             }
                         }
@@ -260,7 +244,7 @@ public class MenuScreen extends BaseScreen {
 
     }
 
-//    public World getWorld(){
+    //    public World getWorld(){
 //        return world;
 //    }
     @Override
@@ -293,4 +277,3 @@ public class MenuScreen extends BaseScreen {
 
     }
 }
-

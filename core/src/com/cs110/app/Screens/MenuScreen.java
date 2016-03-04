@@ -96,6 +96,7 @@ public class MenuScreen extends BaseScreen {
         buttonServer.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+<<<<<<< HEAD
                 HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
                 final HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://128.54.238.99:5000/game/create").build();
 
@@ -111,25 +112,47 @@ public class MenuScreen extends BaseScreen {
                             if (httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
                                 System.out.println(httpResponse.getStatus());
                                 System.out.println(httpResponse.getResultAsString());
+=======
+                if (CS110App.local) {
+                    changeScreen = true;
+                    newScreen = ScreenEnum.WAITING;
+                    serverclient = false;
+                } else {
+                    HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
+                    final HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://localhost:5000/game/create").build();
+                    Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
+                        @Override
+                        public void handleHttpResponse(HttpResponse httpResponse) {
+                            System.out.println(httpResponse.getStatus().getStatusCode());
+                            if (CS110App.local) {
+>>>>>>> cc120066f804498adb04cf5883862260593277fd
                                 changeScreen = true;
                                 newScreen = ScreenEnum.WAITING;
                             } else {
-                                displayErrorMessage("Server Error");
+                                if (httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
+                                    System.out.println(httpResponse.getStatus());
+                                    System.out.println(httpResponse.getResultAsString());
+                                    changeScreen = true;
+                                    newScreen = ScreenEnum.WAITING;
+                                } else {
+                                    displayErrorMessage("Server Error");
+                                }
                             }
+
                         }
 
-                    }
+                        @Override
+                        public void failed(Throwable t) {
+                            System.out.println("failure1");
+                        }
 
-                    @Override
-                    public void failed(Throwable t) {
-                        System.out.println("failure1");
-                    }
+                        @Override
+                        public void cancelled() {
+                            System.out.println("failure2");
+                        }
+                    });
 
-                    @Override
-                    public void cancelled() {
-                        System.out.println("failure2");
-                    }
-                });
+                }
                 return true;
             }
 
@@ -144,8 +167,8 @@ public class MenuScreen extends BaseScreen {
         buttonClient.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//              //get current games from the server
                 if (CS110App.local) {
+
                     changeScreen = true;
                     newScreen = ScreenEnum.GAME;
                     serverclient = true;

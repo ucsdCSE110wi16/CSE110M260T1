@@ -17,5 +17,7 @@ public class DesktopLauncher {
 				new LwjglApplication(new CS110App(false), config);
 			}
 		}
+		else
+			new LwjglApplication(new CS110App(false), config);
 	}
 }

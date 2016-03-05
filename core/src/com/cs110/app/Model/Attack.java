@@ -51,7 +51,7 @@ public class Attack
         CONST_FACTOR =1;
         yDist = 0;
         active = true;
-        velocity = 2;
+        velocity = 20;
     }
     public Attack(int center, double rad, int d){}
 
@@ -97,7 +97,7 @@ public class Attack
         CONST_FACTOR =1;
         yDist = 0;
         active = true;
-        velocity = 2;
+        velocity = 20;
         this.center = center;
         //polygon = new Polygon(new float[] {10, 10,});
     }
@@ -117,13 +117,13 @@ public class Attack
 
         else if (type == 0)   //big ball attack
         {
-            bounds = new Rectangle(x, y, 25, 25);
+            bounds = new Rectangle(x, y, 55, 55);
             reCalc(x, y,center + 35, rad);
         }
 
         else
         {
-            bounds = new Rectangle(x, y, 3, 3);
+            bounds = new Rectangle(x, y, 10, 10);
             reCalc(x,y,center+15,rad);
         }
 

@@ -23,7 +23,7 @@ public class Player {
     public static final int IMAGE_WIDTH = 150;
     public static final int MAX_HEALTH = 100;
     public static final int MAX_ARMOR = 100;
-    public static final float SPEED = 10f;
+    public static final float SPEED = 20f;
 
     private List<Attack> attacks;
 

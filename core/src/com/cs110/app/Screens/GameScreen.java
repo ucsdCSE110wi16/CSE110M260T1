@@ -200,8 +200,8 @@ public class GameScreen extends BaseScreen
          float h = Gdx.graphics.getHeight();
         float w2 = Gdx.graphics.getWidth();
         group.pad(0, 50, h/2, 0);
-        buttonGroup.pad(0, 50, h / 4, 0);
-
+        buttonGroup.pad(0,0, h / 4, 0);
+//        buttonGroup.align(Align.right);
         group.addActor(pad);
         buttonGroup.addActor(buttonX);
         buttonGroup.addActor(buttonY);
@@ -209,7 +209,7 @@ public class GameScreen extends BaseScreen
         buttonGroup.space(w / 4);
         UI.addActor(group);
         UI.addActor(buttonGroup);
-        UI.space((float)0.38*w2);
+        UI.space(w2 - w2/4 - ((float)w2/480 + (float)3*w/4 + (180*4)));
 
         //add touchpad to the stage
         stage = new Stage();

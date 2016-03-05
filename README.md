@@ -32,3 +32,6 @@ docker-compose up
 ### Example image
 
 ![Image of Game](http://i.imgur.com/ZDCPFB7.png)
+
+### Android image
+![Alt text](androidpic.png)

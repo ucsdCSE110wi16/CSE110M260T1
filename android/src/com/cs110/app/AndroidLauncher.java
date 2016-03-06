@@ -13,6 +13,6 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		//initialize(new CS110App(2), config);
 		initialize(new CS110App(1), config);
-	
+
 	}
 }

@@ -123,7 +123,7 @@ public class Attack
 
         else
         {
-            bounds = new Rectangle(x, y, 10, 10);
+            bounds = new Rectangle(x, y, 8, 8);
             reCalc(x,y,center+15,rad);
         }
 

@@ -62,16 +62,11 @@ public class WorldController implements GestureDetector.GestureListener
     //    static ArrayList<TextButton> button;
     static Map<Keys, TextButton> button = new HashMap<Keys, TextButton>();
     static Map<Keys, Integer> duration = new HashMap<Keys, Integer>();
-    static Map<Keys,Integer> coolDown = new HashMap<Keys, Integer>();
-
     static
     {
         duration.put(Keys.BUTTON_X,0);
         duration.put(Keys.BUTTON_Y,0);
         duration.put(Keys.BUTTON_Z,0);
-        coolDown.put(Keys.BUTTON_X,0);
-        coolDown.put(Keys.BUTTON_Y,500);
-        coolDown.put(Keys.BUTTON_Z,200);
     }
 
     public WorldController(World world)
@@ -103,7 +98,7 @@ public class WorldController implements GestureDetector.GestureListener
         keys.put(Keys.BUTTON_Y,true);
         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y, world.getSelfPlayer().getRotation(),world,0);
         button.get(Keys.BUTTON_Y).setTouchable(Touchable.disabled);
-        duration.put(Keys.BUTTON_Y,0);
+        duration.put(Keys.BUTTON_Y,500);
     }
     public void buttonZPressed()
     {
@@ -115,15 +110,13 @@ public class WorldController implements GestureDetector.GestureListener
         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y, world.getSelfPlayer().getRotation() - Math.PI/16,world,2);
         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y, world.getSelfPlayer().getRotation() + Math.PI/32,world,2);
         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y, world.getSelfPlayer().getRotation() - Math.PI/32,world,2);
-
         button.get(Keys.BUTTON_Z).setTouchable(Touchable.disabled);
-        duration.put(Keys.BUTTON_Z,0);
+        duration.put(Keys.BUTTON_Z,200);
     }
 
     public void buttonXReleased()
     {
         keys.put(Keys.BUTTON_X, false);
-
     }
 
     private String getButtonText(Keys k)
@@ -151,7 +144,7 @@ public class WorldController implements GestureDetector.GestureListener
 
     private void updateAttack(Keys k)
     {
-        if(keys.get(k) && duration.get(k).equals(coolDown.get(k)))
+        if(keys.get(k) && duration.get(k).equals(0))
         {
             button.get(k).setText(getButtonText(k));
             button.get(k).setTouchable(Touchable.enabled);
@@ -161,15 +154,13 @@ public class WorldController implements GestureDetector.GestureListener
         else if(keys.get(k))
         {
             button.get(k).setText("" + duration.get(k)/100);
-            duration.put(k,duration.get(k) + 1);
+            duration.put(k,duration.get(k) - 1);
         }
 
         else
             return;
 
     }
-
-
 
     public void processInput()
     {

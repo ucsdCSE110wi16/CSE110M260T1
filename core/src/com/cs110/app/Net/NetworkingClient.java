@@ -36,9 +36,11 @@ public class NetworkingClient extends NetworkingBase {
         client.addListener(new ThreadedListener(new Listener() {
             public void connected(Connection c) {
                 connect = c;
+                gs.connect();
             }
 
             public void received(Connection c, Object p) {
+                gs.connect();
                 connect = c;
                 System.out.println("RECIEVED");
                 if (p instanceof PacketMessage) {

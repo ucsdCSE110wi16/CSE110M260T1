@@ -19,7 +19,7 @@ public class CS110App extends Game { //The automatically generated code has Appl
 	public static boolean gameOnly;
 	public static RunEnum RUN_TYPE;
 
-	public static String SERVER_URL = "104.154.19.223/";
+	public static String SERVER_URL = "104.154.19.223";
 
 	public CS110App(int type) {
 		if(type == 0){

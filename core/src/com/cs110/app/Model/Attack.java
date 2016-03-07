@@ -87,11 +87,6 @@ public class Attack
         this.w = w;
         w.addAttack(this);
         duration = d;
-//        xPos = x + (float) calculateX(70 + 20,rad);
-//        yPos =  y + (float)calculateY(70 + 20, rad);
-
-//        xPos = x + (float) calculateX(center,rad);
-//        yPos =  y + (float)calculateY(center, rad);
         this.rad = rad ;
         xDist = 0;
         CONST_FACTOR =1;
@@ -99,7 +94,6 @@ public class Attack
         active = true;
         velocity = 20;
         this.center = center;
-        //polygon = new Polygon(new float[] {10, 10,});
     }
 
     //MAIN CONSTRUCTOR

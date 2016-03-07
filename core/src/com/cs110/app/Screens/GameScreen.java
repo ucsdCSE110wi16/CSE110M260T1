@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -199,8 +201,8 @@ public class GameScreen extends BaseScreen
         HorizontalGroup UI = new HorizontalGroup();
          float h = Gdx.graphics.getHeight();
         float w2 = Gdx.graphics.getWidth();
-        group.pad(0, 50, h/2, 0);
-        buttonGroup.pad(0,0, h / 4, 0);
+        group.pad(0, 50, h / 2, 0);
+        buttonGroup.pad(0, 0, h / 4, 0);
 //        buttonGroup.align(Align.right);
         group.addActor(pad);
         buttonGroup.addActor(buttonX);
@@ -209,8 +211,7 @@ public class GameScreen extends BaseScreen
         buttonGroup.space(w / 4);
         UI.addActor(group);
         UI.addActor(buttonGroup);
-        UI.space(w2 - w2/4 - ((float)w2/480 + (float)3*w/4 + (180*4)));
-
+        UI.space(w2 - w2 / 4 - ((float) w2 / 480 + (float) 3 * w / 4 + (180 * 4)));
         //add touchpad to the stage
         stage = new Stage();
         stage.addActor(UI);
@@ -250,6 +251,8 @@ public class GameScreen extends BaseScreen
             }
         }
         controller.processInput();
+
+        world.getPlayer().updateAliveStatus();
 
 
 

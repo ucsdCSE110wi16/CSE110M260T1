@@ -171,7 +171,6 @@ public class WorldController implements GestureDetector.GestureListener
     }
 
     public void blinkPressed(Vector2 blinkVector) {
-        player.blink(blinkVector);
     }
 
 
@@ -183,30 +182,34 @@ public class WorldController implements GestureDetector.GestureListener
     @Override
     public boolean tap(float x, float y, int count, int button) {
         long currTime = World.gameTime;
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
+
 
 
         //dont want to blink if we are on attack buttons
-        if(x>=270 && x<=530 && y>=324 && y<=400) {
+        if(x>=width/2 + width/15 && x<=width && y>=height-height/4 && y<=height) {
             return false;
         }
+
 
         //dont blink if we are on the move pad
-        if(x>=48 && x<=253 && y>=252 && y<=459) {
+        if(x>=0 && x<=width/3.6 && y>=height-height/2 && y<=height) {
             return false;
         }
 
-        /*
-        if(player==null) {
-            System.out.println("Player is null");
-            return false;
-        }
-        */
+
+
+
+
 
         if(currTime - tapStartTime > tapDiff) {
             tapStartTime = currTime;
 
         }
         else {
+
+
             int wMid = Gdx.graphics.getWidth()/2;
             int hMid = Gdx.graphics.getHeight()/2;
 
@@ -214,21 +217,23 @@ public class WorldController implements GestureDetector.GestureListener
             //vector of the click from window's topLeft
             Vector2 clickPos = new Vector2(x,y);
 
-
-
             //position of player in GAMESCREEN, not window
             Vector2 currPos = world.getSelfPlayer().getPosition();
-
-
+            Vector2 newPos = new Vector2(currPos.x,currPos.y);
             //gets the topLeft corner of the window in GAMESCREEN coordinates
-            Vector2 topLeft = currPos.add(-wMid,hMid);
+            Vector2 topLeft = newPos.add(-wMid,hMid);
 
             //gets the spot we want to move to.
             Vector2 movePos = topLeft.add(x,-y);
 
+            //System.out.println("teleport x: " + movePos.x + "teleport y: " + y);
+            //if out of bounds, dont move it
+            if(movePos.x > 2500 || movePos.x < -2500 || movePos.y > 2500 || movePos.y < -2500){
+                return false;
+            }
             world.getSelfPlayer().setPosition(movePos.x, movePos.y);
-
             return true;
+
         }
 
         return true;

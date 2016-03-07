@@ -3,7 +3,7 @@ package com.cs110.app.Net;
 import com.badlogic.gdx.math.Vector2;
 import com.cs110.app.Model.Attack;
 import com.cs110.app.Model.Player;
-import com.esotericsoftware.kryonet.Client;
+//import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.cs110.app.Screens.GameScreen;

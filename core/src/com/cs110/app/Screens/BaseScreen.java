@@ -117,8 +117,6 @@ public class BaseScreen implements Screen {
         }
         baseSpriteBatch.begin();
         if(currentErrorMessage != null) {
-            System.out.println(delta);
-            System.out.println(currentErrorMessageTime);
             errorMessageFont.draw(baseSpriteBatch, "Error: " + currentErrorMessage, 100, 100);
             currentErrorMessageTime = currentErrorMessageTime - delta;
             if(currentErrorMessageTime <= 0){

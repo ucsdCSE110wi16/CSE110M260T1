@@ -51,6 +51,8 @@ public class ScreenManager {
         if(screenEnum == ScreenEnum.GAME && ! (app.RUN_TYPE == RunEnum.SINGLE_PLAYER)) {
             // Try to create client networking
             if(params.length > 1 && (Boolean) params[0]) {
+                System.out.println("SET CLIENT");
+                System.out.println((String)params[1]);
                 try {
                     app.setClient((GameScreen) newScreen, (String) params[1]);
                 }

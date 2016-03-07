@@ -37,6 +37,7 @@ public class WorldRenderer
     private Sprite playerSprite;
     private Sprite backgroundSprite;
     private Sprite arrowSprite;
+    private boolean show;
     //Constructor takes in a world to render as the parameter
     public WorldRenderer(World world)
     {
@@ -59,6 +60,7 @@ public class WorldRenderer
         playerSprite = new Sprite(playerTexture);
         backgroundSprite = new Sprite(background/*, 5000, 5000*/);
         arrowSprite = new Sprite(arrowTexture);
+        show = true;
     }
 
     //loads the images to be used
@@ -72,9 +74,9 @@ public class WorldRenderer
     //Draw the world and set the camera
     public void render()
     {
-
-
-
+        if(!show){
+            return;
+        }
         //Keeping the camera the centered on the player
         camera.position.set(world.getPlayer().getPosition().x, world.getPlayer().getPosition().y, 0);
         camera.update();

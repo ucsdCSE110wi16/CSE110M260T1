@@ -12,7 +12,7 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		//initialize(new CS110App(2), config);
-		initialize(new CS110App(1), config);
+		initialize(new CS110App(2), config);
 	
 	}
 }

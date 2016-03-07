@@ -213,7 +213,7 @@ public class GameScreen extends BaseScreen
     @Override
     public void render(float delta)
     {
-        if(! show) {
+        if(!show) {
             return;
         }
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
@@ -227,7 +227,7 @@ public class GameScreen extends BaseScreen
         }
 
         batch.begin();
-        //font.draw(batch, "Health: "+Integer.toString(world.getSelfPlayer().getHealth()), 550, 25);
+        font.draw(batch, "Health: "+Integer.toString(world.getSelfPlayer().getHealth()), 550, 25);
         batch.end();
 
         if (world.getAttacks().size() > 0) {

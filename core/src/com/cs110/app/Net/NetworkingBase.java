@@ -85,7 +85,11 @@ public abstract class NetworkingBase extends Listener {
 
     public void update()
     {
+
+
         if(connect != null && this.gs != null){
+            System.out.println("Connecting GS");
+            System.out.println(gs.getWorld().getOtherPlayer().getPosition());
             PacketMessage packetMessage = new PacketMessage();
             packetMessage.xCord =  gs.getWorld().getSelfPlayer().getPosition().x;
             packetMessage.yCord =  gs.getWorld().getSelfPlayer().getPosition().y;
@@ -109,6 +113,8 @@ public abstract class NetworkingBase extends Listener {
                 }
             }
             else{
+                System.out.println("Sending");
+                System.out.println("Connect obj: " + connect.getRemoteAddressUDP());
                 connect.sendUDP(packetMessage);
             }
         }

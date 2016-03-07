@@ -82,6 +82,7 @@ public class CS110App extends Game { //The automatically generated code has Appl
 		super.render();
 		if(network != null) {
 			System.out.println("network update");
+			System.out.println(network);
 			network.update();
 		}
 	}

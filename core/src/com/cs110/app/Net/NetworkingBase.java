@@ -45,6 +45,9 @@ public abstract class NetworkingBase extends Listener {
     public void processPacketMessage(PacketMessage packet) {
         System.out.println("processPacketMessage");
         //MOVEMENT
+        if( this.gs == null){
+            return;
+        }
         if (updateTick(packet)) {
             oldXCord = packet.xCord;
             oldYCord = packet.yCord;
@@ -82,7 +85,7 @@ public abstract class NetworkingBase extends Listener {
 
     public void update()
     {
-        if(connect != null){
+        if(connect != null && this.gs != null){
             PacketMessage packetMessage = new PacketMessage();
             packetMessage.xCord =  gs.getWorld().getSelfPlayer().getPosition().x;
             packetMessage.yCord =  gs.getWorld().getSelfPlayer().getPosition().y;

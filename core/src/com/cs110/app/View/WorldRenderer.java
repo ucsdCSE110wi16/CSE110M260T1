@@ -314,6 +314,8 @@ public class WorldRenderer
 
                 //Comment following two to ignore collision debug rendering
                 rend.end();
+
+                System.out.println(world.getOtherPlayer().getPosition());
 //                rend.begin(ShapeRenderer.ShapeType.Line);
 //                rend.setColor(new Color(0, 1, 1, 0));
 //                rend.polygon(a.getPolygon().getTransformedVertices());

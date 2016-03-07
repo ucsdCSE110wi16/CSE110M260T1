@@ -104,9 +104,9 @@ public abstract class NetworkingBase extends Listener {
                 List<Attack> attacks = gs.getWorld().getAttacks();
                 for(int i = 0; i<attacks.size(); i++){
                     Attack shot = attacks.get(i);
-                    if(shot.drawn == false && (shot.getSenderID() == null ||!shot.getSenderID().equals(type))) {
+                    if(shot.drawn == false && (shot.getSenderID() == null || !(shot.getSenderID().equals(type)))) {
                         packetMessage.attackType = attacks.get(i).getType();
-                        connect.sendUDP(packetMessage);
+                        connect.sendTCP(packetMessage);
                         packetMessage.attackType = null;
                         shot.drawn = true;
                     }
@@ -115,7 +115,7 @@ public abstract class NetworkingBase extends Listener {
             else{
                 System.out.println("Sending");
                 System.out.println("Connect obj: " + connect.getRemoteAddressUDP());
-                connect.sendUDP(packetMessage);
+                connect.sendTCP(packetMessage);
             }
         }
     }

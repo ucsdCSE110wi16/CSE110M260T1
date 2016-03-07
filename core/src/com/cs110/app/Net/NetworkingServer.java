@@ -30,6 +30,7 @@ public class NetworkingServer extends NetworkingBase{
                 if(currentScreen != null){
                     currentScreen.connected();
                 }
+                gs.connect();
             }
 
             public void received(Connection c, Object p) {

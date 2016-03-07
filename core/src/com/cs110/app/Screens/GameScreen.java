@@ -39,6 +39,7 @@ import com.cs110.app.View.WorldRenderer;
 import com.badlogic.gdx.graphics.Color;
 
 
+
 /**
  * Created by Yashwanth on 1/25/16.
  */
@@ -67,8 +68,8 @@ public class GameScreen extends BaseScreen
     BitmapFont healthFont;
     GestureDetector gestureDetector;
     private boolean show;
-    private boolean changeScreen;
-    private ScreenEnum newScreen;
+
+    private Timer disconnectTimer;
 
     SpriteBatch batch;
 
@@ -300,11 +301,33 @@ public class GameScreen extends BaseScreen
 
     }
 
+    public void connect(){
+        if(disconnectTimer != null) {
+            disconnectTimer.stop();
+        }
+    }
+
     public void disconnect(){
-        displayErrorMessage("disconnection");
-        newScreen = ScreenEnum.MAIN_MENU;
-        changeScreen = true;
-        serverclient = true;
+        displayErrorMessage("disconnection", 3);
+        System.out.println(changeScreen);
+        //newScreen = ScreenEnum.MAIN_MENU;
+        //changeScreen = true;
+        //serverclient = true;
+        System.out.println(changeScreen);
+
+        disconnectTimer = new Timer();
+        disconnectTimer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                System.out.println("callback ran");
+                System.out.println(changeScreen);
+                changeScreen = true;
+                newScreen = ScreenEnum.MAIN_MENU;
+                serverclient = true;
+                System.out.println(changeScreen);
+            }
+
+        }, 4);
     }
 
     /**************************** Input Processes **************************************/

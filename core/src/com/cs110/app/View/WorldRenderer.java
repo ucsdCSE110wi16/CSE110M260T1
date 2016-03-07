@@ -38,11 +38,8 @@ public class WorldRenderer
     private Sprite playerSprite;
     private Sprite backgroundSprite;
     private Sprite arrowSprite;
-<<<<<<< HEAD
     private boolean show;
-=======
     private Sprite deathSprite;
->>>>>>> 38bfec4f332015eed86ce58c18bc190e82f43c90
     //Constructor takes in a world to render as the parameter
     public WorldRenderer(World world)
     {

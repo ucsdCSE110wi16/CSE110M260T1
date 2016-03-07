@@ -35,9 +35,13 @@ public class Player {
     private int armor;  // armor of the player
     private String Id; // the Id of the player
     private double rotation; //angle of the player in radians, (java math sin and cos use radians)
+    private int deathCount;
+    private static int deaths = 0;
 
     Rectangle bounds1 = new Rectangle(); //hitbox from nose to tail
     Rectangle bounds2 = new Rectangle(); //hitbox wingspan
+
+    private static Vector2 startingPosition;
 
     //Polygon used for collision detection
     Polygon polygon;
@@ -45,8 +49,15 @@ public class Player {
     private World world;
 
     //Constructor for the player, takes in a vector2 to set the position of the player character
+    public Player(Vector2 position, String playerID, int deathNum)
+    {
+        this(position,playerID);
+        deathCount = deathNum;
+    }
+
     public Player(Vector2 position, String playerID) {
         this.position = position;
+        startingPosition = position;
         bounds1.height = IMAGE_HEIGHT/2;
         bounds1.width = IMAGE_WIDTH;
 
@@ -56,6 +67,7 @@ public class Player {
         armor = MAX_ARMOR;
         Id = playerID;
         rotation = 0;
+        deathCount = 0;
 
         polygon = new Polygon(new float[]{
 //           -IMAGE_WIDTH/4, IMAGE_HEIGHT/2, //A
@@ -115,6 +127,29 @@ public class Player {
 
     }
 
+    public void updateAliveStatus()
+    {
+        if (!isAlive())
+        {
+            this.setPosition(startingPosition.x,startingPosition.y);
+            health = MAX_HEALTH;
+            deathCount++;
+        }
+    }
+
+
+    public int getDeaths() { return deathCount;}
+
+    public void setHealth(int hp)
+    {
+        health = hp;
+    }
+
+
+
+
+    private boolean isAlive() { return getHealth() > 0;}
+
     //moves Player based on the given touchpad knob percentage
     public void move(float knobPercentageX, float knobPercentageY) {
 
@@ -146,24 +181,7 @@ public class Player {
 
     }
 
-    //if double tap on location blink onto that location TBD: determine range of blink
 
-    public void blink(Vector2 blinkVector)
-    {
-        float xNew = blinkVector.x;
-        float yNew = blinkVector.y;
-
-        getPolygon().setPosition(xNew, yNew);
-
-        if(collides()){
-            getPolygon().setPosition(getPosition().x, getPosition().y);
-            return;
-        }
-
-        setPosition(blinkVector.x, blinkVector.y);
-
-
-    }
 
     //returns true if they are the same player
     @Override

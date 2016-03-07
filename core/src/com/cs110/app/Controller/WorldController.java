@@ -90,7 +90,7 @@ public class WorldController implements GestureDetector.GestureListener
     {
         TextButton x = button.get(Keys.BUTTON_X);
         keys.put(Keys.BUTTON_X, true);
-        world.getSelfPlayer().setHealth(world.getSelfPlayer().getHealth()-10);
+        //world.getSelfPlayer().setHealth(world.getSelfPlayer().getHealth()-10);
         System.out.println("Rotation: " + world.getSelfPlayer().getRotation());
         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y, world.getSelfPlayer().getRotation(),world,1);
     }

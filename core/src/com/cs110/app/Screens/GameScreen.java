@@ -76,6 +76,7 @@ public class GameScreen extends BaseScreen
             buttonYClicked = false,
             ButtonZClicked = false;
 
+
     @Override
     public void show()
     {
@@ -228,7 +229,7 @@ public class GameScreen extends BaseScreen
     @Override
     public void render(float delta)
     {
-        if(! show) {
+        if(!show) {
             return;
         }
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
@@ -251,8 +252,8 @@ public class GameScreen extends BaseScreen
             }
         }
         controller.processInput();
-
-        world.getPlayer().updateAliveStatus();
+        if(world.getPlayer() != null)
+            world.getPlayer().updateAliveStatus();
 
 
 

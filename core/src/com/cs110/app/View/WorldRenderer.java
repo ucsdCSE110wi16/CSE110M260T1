@@ -80,6 +80,8 @@ public class WorldRenderer
 
 
         //Keeping the camera the centered on the player
+        if(world.getPlayer() == null)
+            return;
         camera.position.set(world.getPlayer().getPosition().x, world.getPlayer().getPosition().y, 0);
         camera.update();
 

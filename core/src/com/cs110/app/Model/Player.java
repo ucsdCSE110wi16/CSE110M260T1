@@ -41,7 +41,7 @@ public class Player {
     Rectangle bounds1 = new Rectangle(); //hitbox from nose to tail
     Rectangle bounds2 = new Rectangle(); //hitbox wingspan
 
-    private static Vector2 startingPosition;
+    private Vector2 startingPosition;
 
     //Polygon used for collision detection
     Polygon polygon;
@@ -55,9 +55,9 @@ public class Player {
         deathCount = deathNum;
     }
 
-    public Player(Vector2 position, String playerID) {
-        this.position = position;
-        startingPosition = position;
+    public Player(Vector2 pos, String playerID) {
+        this.position = pos;
+        startingPosition = new Vector2(pos);
         bounds1.height = IMAGE_HEIGHT/2;
         bounds1.width = IMAGE_WIDTH;
 
@@ -131,7 +131,7 @@ public class Player {
     {
         if (!isAlive())
         {
-            this.setPosition(startingPosition.x,startingPosition.y);
+            setPosition(startingPosition.x, startingPosition.y);
             health = MAX_HEALTH;
             deathCount++;
         }

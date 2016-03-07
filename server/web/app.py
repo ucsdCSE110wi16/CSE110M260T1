@@ -39,7 +39,7 @@ def create():
 
     redis.hset("games",game_id, json.dumps(game))
 
-    return str(redis.hgetall("games"))
+    return str(game_id)
 
 @app.route("/game/<int:game_id>/")
 def game(game_id):

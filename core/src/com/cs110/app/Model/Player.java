@@ -181,24 +181,7 @@ public class Player {
 
     }
 
-    //if double tap on location blink onto that location TBD: determine range of blink
 
-    public void blink(Vector2 blinkVector)
-    {
-        float xNew = blinkVector.x;
-        float yNew = blinkVector.y;
-
-        getPolygon().setPosition(xNew, yNew);
-
-        if(collides()){
-            getPolygon().setPosition(getPosition().x, getPosition().y);
-            return;
-        }
-
-        setPosition(blinkVector.x, blinkVector.y);
-
-
-    }
 
     //returns true if they are the same player
     @Override

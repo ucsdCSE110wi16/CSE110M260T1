@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -92,6 +94,8 @@ public class GameScreen extends BaseScreen
         font = new BitmapFont();
         font.setColor(Color.RED);
 
+
+        float w = Gdx.graphics.getWidth()/20;
         //init touchpad
         touchPadSkin = new Skin();
         touchPadSkin.add("touchBackground", new Texture("touchBackground.png"));
@@ -103,7 +107,10 @@ public class GameScreen extends BaseScreen
 
         touchpadStyle.background = touchpadBackground;
         touchpadStyle.knob = touchKnob;
-
+        touchpadStyle.background.setMinHeight(5*w);
+        touchpadStyle.background.setMinWidth(5*w);
+        touchpadStyle.knob.setMinHeight((5*w)/3);
+        touchpadStyle.knob.setMinWidth((5*w)/3);
         //init stage & table and on screen controls
         buttonSkin = new Skin();
         font = new BitmapFont();
@@ -118,10 +125,13 @@ public class GameScreen extends BaseScreen
         buttonX = new TextButton("X",textbuttonStyle);
         buttonY = new TextButton("Y",textbuttonStyle);
         buttonZ = new TextButton("Z",textbuttonStyle);
-
-        buttonZ.pad(30);
-        buttonX.pad(30);
-        buttonY.pad(30);
+//        float w = Gdx.graphics.getWidth()/20;
+         buttonX.getLabel().setFontScale(w/24);
+          buttonY.getLabel().setFontScale(w/24);
+          buttonZ.getLabel().setFontScale(w / 24);
+        buttonZ.pad(90);
+        buttonX.pad(90);
+        buttonY.pad(90);
         controller.addButton(buttonX,'x');
         controller.addButton(buttonY, 'y');
         controller.addButton(buttonZ, 'z');
@@ -182,27 +192,32 @@ public class GameScreen extends BaseScreen
         });
 
         //The 20 is how much distance touchpad has to be moved before detecting the motion
-        pad = new Touchpad(10, touchpadStyle);
-        pad.setBounds(90, 60, 200, 200);
-
+        pad = new Touchpad(50, touchpadStyle);
+        pad.setBounds(90, 90,100,100);
 
         //Adds the pad and on-screen buttons to group
         HorizontalGroup group = new HorizontalGroup();
-        group.pad(0, 50, 250, 0);
-        group.align(Align.left);
+        HorizontalGroup buttonGroup = new HorizontalGroup();
+        HorizontalGroup UI = new HorizontalGroup();
+         float h = Gdx.graphics.getHeight();
+        float w2 = Gdx.graphics.getWidth();
+        group.pad(0, 50, h / 2, 0);
+        buttonGroup.pad(0, 0, h / 4, 0);
+//        buttonGroup.align(Align.right);
         group.addActor(pad);
-        group.addActor(buttonX);
-        group.addActor(buttonY);
-        group.addActor(buttonZ);
-        group.space(20);
-
+        buttonGroup.addActor(buttonX);
+        buttonGroup.addActor(buttonY);
+        buttonGroup.addActor(buttonZ);
+        buttonGroup.space(w / 4);
+        UI.addActor(group);
+        UI.addActor(buttonGroup);
+        UI.space(w2 - w2 / 4 - ((float) w2 / 480 + (float) 3 * w / 4 + (180 * 4)));
         //add touchpad to the stage
         stage = new Stage();
-        stage.addActor(group);
-
+        stage.addActor(UI);
 
         //instantiating myGestureDetector
-        //myGestureDetector = new GestureDetector (this);
+//        myGestureDetector = new GestureDetector (this);
         InputMultiplexer im = new InputMultiplexer();
         im.addProcessor(new GestureDetector(controller));
         im.addProcessor(stage);
@@ -236,6 +251,8 @@ public class GameScreen extends BaseScreen
             }
         }
         controller.processInput();
+
+        world.getPlayer().updateAliveStatus();
 
 
 

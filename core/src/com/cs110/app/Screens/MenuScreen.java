@@ -149,13 +149,12 @@ public class MenuScreen extends BaseScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 //              //get current game  s from the server
-                if(CS110App.RUN_TYPE == RunEnum.MULTIPLAYER_LOCAL) {
+                if (CS110App.RUN_TYPE == RunEnum.MULTIPLAYER_LOCAL) {
                     changeScreen = true;
                     newScreen = ScreenEnum.GAME;
                     serverclient = true;
                     clientip = "127.0.0.1";
-                }
-                else {
+                } else {
                     HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
                     Net.HttpRequest httpRequest = requestBuilder.newRequest().method(Net.HttpMethods.GET).url("http://" + CS110App.SERVER_URL + "/games/").build();
                     Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
@@ -164,7 +163,7 @@ public class MenuScreen extends BaseScreen {
                             System.out.println(httpResponse.getStatus());
                             String jsonString = httpResponse.getResultAsString();
                             System.out.println(jsonString);
-                            if(httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
+                            if (httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
                                 try {
                                     JsonValue root = new JsonReader().parse(jsonString);
                                     System.out.println(root);
@@ -182,8 +181,7 @@ public class MenuScreen extends BaseScreen {
                                     System.out.println(e);
                                     System.out.println("FAILURE");
                                 }
-                            }
-                            else {
+                            } else {
                                 displayErrorMessage("Backend Server error");
                             }
                         }
@@ -202,13 +200,14 @@ public class MenuScreen extends BaseScreen {
             }
 
         });
-
-        buttonClient.pad(20);
-        buttonServer.pad(20);
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+        buttonClient.pad(h/20);
+        buttonServer.pad(h/20);
         HorizontalGroup group = new HorizontalGroup();
-        group.pad(180);
+        group.pad(h/3);
         group.align(Align.bottom);
-        group.space(50);
+        group.space(h/13);
 
         group.addActor(buttonServer);
         group.addActor(buttonClient);

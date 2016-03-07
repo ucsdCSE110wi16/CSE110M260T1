@@ -62,16 +62,11 @@ public class WorldController implements GestureDetector.GestureListener
     //    static ArrayList<TextButton> button;
     static Map<Keys, TextButton> button = new HashMap<Keys, TextButton>();
     static Map<Keys, Integer> duration = new HashMap<Keys, Integer>();
-    static Map<Keys,Integer> coolDown = new HashMap<Keys, Integer>();
-
     static
     {
         duration.put(Keys.BUTTON_X,0);
         duration.put(Keys.BUTTON_Y,0);
         duration.put(Keys.BUTTON_Z,0);
-        coolDown.put(Keys.BUTTON_X,0);
-        coolDown.put(Keys.BUTTON_Y,500);
-        coolDown.put(Keys.BUTTON_Z,200);
     }
 
     public WorldController(World world)
@@ -95,6 +90,7 @@ public class WorldController implements GestureDetector.GestureListener
     {
         TextButton x = button.get(Keys.BUTTON_X);
         keys.put(Keys.BUTTON_X, true);
+        world.getSelfPlayer().setHealth(world.getSelfPlayer().getHealth()-10);
         System.out.println("Rotation: " + world.getSelfPlayer().getRotation());
         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y, world.getSelfPlayer().getRotation(),world,1);
     }
@@ -103,7 +99,7 @@ public class WorldController implements GestureDetector.GestureListener
         keys.put(Keys.BUTTON_Y,true);
         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y, world.getSelfPlayer().getRotation(),world,0);
         button.get(Keys.BUTTON_Y).setTouchable(Touchable.disabled);
-        duration.put(Keys.BUTTON_Y,0);
+        duration.put(Keys.BUTTON_Y,500);
     }
     public void buttonZPressed()
     {
@@ -115,15 +111,13 @@ public class WorldController implements GestureDetector.GestureListener
         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y, world.getSelfPlayer().getRotation() - Math.PI/16,world,2);
         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y, world.getSelfPlayer().getRotation() + Math.PI/32,world,2);
         new Attack(world.getSelfPlayer().getPosition().x,world.getSelfPlayer().getPosition().y, world.getSelfPlayer().getRotation() - Math.PI/32,world,2);
-
         button.get(Keys.BUTTON_Z).setTouchable(Touchable.disabled);
-        duration.put(Keys.BUTTON_Z,0);
+        duration.put(Keys.BUTTON_Z,200);
     }
 
     public void buttonXReleased()
     {
         keys.put(Keys.BUTTON_X, false);
-
     }
 
     private String getButtonText(Keys k)
@@ -151,7 +145,7 @@ public class WorldController implements GestureDetector.GestureListener
 
     private void updateAttack(Keys k)
     {
-        if(keys.get(k) && duration.get(k).equals(coolDown.get(k)))
+        if(keys.get(k) && duration.get(k).equals(0))
         {
             button.get(k).setText(getButtonText(k));
             button.get(k).setTouchable(Touchable.enabled);
@@ -161,15 +155,13 @@ public class WorldController implements GestureDetector.GestureListener
         else if(keys.get(k))
         {
             button.get(k).setText("" + duration.get(k)/100);
-            duration.put(k,duration.get(k) + 1);
+            duration.put(k,duration.get(k) - 1);
         }
 
         else
             return;
 
     }
-
-
 
     public void processInput()
     {
@@ -180,7 +172,6 @@ public class WorldController implements GestureDetector.GestureListener
     }
 
     public void blinkPressed(Vector2 blinkVector) {
-        player.blink(blinkVector);
     }
 
 
@@ -192,30 +183,34 @@ public class WorldController implements GestureDetector.GestureListener
     @Override
     public boolean tap(float x, float y, int count, int button) {
         long currTime = World.gameTime;
+        int width = Gdx.graphics.getWidth();
+        int height = Gdx.graphics.getHeight();
+
 
 
         //dont want to blink if we are on attack buttons
-        if(x>=270 && x<=530 && y>=324 && y<=400) {
+        if(x>=width/2 + width/15 && x<=width && y>=height-height/4 && y<=height) {
             return false;
         }
+
 
         //dont blink if we are on the move pad
-        if(x>=48 && x<=253 && y>=252 && y<=459) {
+        if(x>=0 && x<=width/3.6 && y>=height-height/2 && y<=height) {
             return false;
         }
 
-        /*
-        if(player==null) {
-            System.out.println("Player is null");
-            return false;
-        }
-        */
+
+
+
+
 
         if(currTime - tapStartTime > tapDiff) {
             tapStartTime = currTime;
 
         }
         else {
+
+
             int wMid = Gdx.graphics.getWidth()/2;
             int hMid = Gdx.graphics.getHeight()/2;
 
@@ -223,21 +218,23 @@ public class WorldController implements GestureDetector.GestureListener
             //vector of the click from window's topLeft
             Vector2 clickPos = new Vector2(x,y);
 
-
-
             //position of player in GAMESCREEN, not window
             Vector2 currPos = world.getSelfPlayer().getPosition();
-
-
+            Vector2 newPos = new Vector2(currPos.x,currPos.y);
             //gets the topLeft corner of the window in GAMESCREEN coordinates
-            Vector2 topLeft = currPos.add(-wMid,hMid);
+            Vector2 topLeft = newPos.add(-wMid,hMid);
 
             //gets the spot we want to move to.
             Vector2 movePos = topLeft.add(x,-y);
 
+            //System.out.println("teleport x: " + movePos.x + "teleport y: " + y);
+            //if out of bounds, dont move it
+            if(movePos.x > 2500 || movePos.x < -2500 || movePos.y > 2500 || movePos.y < -2500){
+                return false;
+            }
             world.getSelfPlayer().setPosition(movePos.x, movePos.y);
-
             return true;
+
         }
 
         return true;

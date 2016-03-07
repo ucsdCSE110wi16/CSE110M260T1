@@ -47,6 +47,14 @@ public class ScreenManager {
         // Create new Screen
         BaseScreen newScreen = screenEnum.getScreen(params);
 
+        if(screenEnum == ScreenEnum.WAITING) {
+            ServerWaitingScreen s = (ServerWaitingScreen)newScreen;
+            System.out.println(params[0]);
+            System.out.println(params[1]);
+            int gameId = Integer.parseInt((String) params[1]);
+            s.setGameId(gameId);
+        }
+
         // Change to Game, make sure Client is set
         if(screenEnum == ScreenEnum.GAME && ! (app.RUN_TYPE == RunEnum.SINGLE_PLAYER)) {
             // Try to create client networking

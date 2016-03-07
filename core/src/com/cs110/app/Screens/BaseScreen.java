@@ -112,6 +112,8 @@ public class BaseScreen implements Screen {
     public void update(float delta) {
         if (changeScreen) {
             System.out.println("MENU change screen in render");
+            System.out.println(serverclient);
+            System.out.println(clientip);
             ScreenManager.getInstance().showScreen(newScreen, serverclient, clientip);
             serverclient = false;
         }

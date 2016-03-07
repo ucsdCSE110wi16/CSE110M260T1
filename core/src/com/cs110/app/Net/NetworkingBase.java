@@ -85,8 +85,6 @@ public abstract class NetworkingBase extends Listener {
 
     public void update()
     {
-
-
         if(connect != null && this.gs != null){
             System.out.println("Connecting GS");
             System.out.println(gs.getWorld().getOtherPlayer().getPosition());

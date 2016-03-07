@@ -92,59 +92,60 @@ public class MenuScreen extends BaseScreen {
         textbuttonStyle.down = buttonSkin.getDrawable("buttonDown");
         textbuttonStyle.checked = buttonSkin.getDrawable("button");
 
-        buttonServer = new TextButton("Start Server",textbuttonStyle);
+        buttonServer = new TextButton("Start Game",textbuttonStyle);
 
         buttonServer.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (CS110App.RUN_TYPE == RunEnum.MULTIPLAYER_LOCAL) {
                     changeScreen = true;
-                    newScreen = ScreenEnum.WAITING;
-                    serverclient = false;
-                }
-                else {
+                    newScreen = ScreenEnum.GAME;
+                    serverclient = true;
+                    clientip = "127.0.0.1";
+                } else {
                     HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-                    System.out.println("http://" + CS110App.SERVER_URL + "/game/create");
-                    final HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://" + CS110App.SERVER_URL + "/game/create").build();
-                    Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
+                    Net.HttpRequest httpRequest = requestBuilder.newRequest().method(Net.HttpMethods.GET).url("http://" + CS110App.SERVER_URL + "/games/").build();
+                    Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
                         @Override
-                        public void handleHttpResponse(HttpResponse httpResponse) {
-                            System.out.println(httpResponse.getStatus().getStatusCode());
-                            if (CS110App.RUN_TYPE == RunEnum.MULTIPLAYER_LOCAL) {
-                                changeScreen = true;
-                                newScreen = ScreenEnum.WAITING;
-                            } else {
-                                System.out.println(httpResponse.getStatus().getStatusCode());
-                                if (httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
-                                    System.out.println(httpResponse.getStatus());
-                                    System.out.println(httpResponse.getResultAsString());
-                                    changeScreen = true;
-                                    newScreen = ScreenEnum.WAITING;
-                                } else {
-                                    displayErrorMessage(httpResponse.getStatus().getStatusCode() + "Server Error");
-                                }
-                            }
+                        public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                            String jsonString = httpResponse.getResultAsString();
+                            if (httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
+                                try {
+                                    JsonValue root = new JsonReader().parse(jsonString);
+                                    if (root.size > 0) {
+                                        JsonValue game = root.get(0);
+                                        changeScreen = true;
+                                        newScreen = ScreenEnum.GAME;
+                                        serverclient = true;
+                                        clientip = game.get("ip").asString();
+                                    } else {
+                                        createGame();
+                                    }
 
+                                } catch (Exception e) {
+                                    System.out.println(e);
+                                    System.out.println("FAILURE");
+                                }
+                            } else {
+                                displayErrorMessage("Backend Server error");
+                            }
                         }
 
                         @Override
                         public void failed(Throwable t) {
-                            System.out.println(t.toString());
-                            System.out.println(t.fillInStackTrace().toString());
-                            displayErrorMessage("Server Error failed");
+                            displayErrorMessage("Backend Server error");
                         }
 
                         @Override
                         public void cancelled() {
-                            displayErrorMessage("Server Error cacnelled");
+                            displayErrorMessage("Backend Server error");
                         }
                     });
-
                 }
             }
         });
 
-        buttonClient = new TextButton(" Start Client ",textbuttonStyle);
+        /*buttonClient = new TextButton(" Start Client ",textbuttonStyle);
         buttonClient.addListener(new ClickListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -199,10 +200,10 @@ public class MenuScreen extends BaseScreen {
                 }
             }
 
-        });
+        });*/
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-        buttonClient.pad(h/20);
+        //buttonClient.pad(h/20);
         buttonServer.pad(h/20);
         HorizontalGroup group = new HorizontalGroup();
         group.pad(h/3);
@@ -210,7 +211,7 @@ public class MenuScreen extends BaseScreen {
         group.space(h/13);
 
         group.addActor(buttonServer);
-        group.addActor(buttonClient);
+        //group.addActor(buttonClient);
         //add touchpad to the stage
         //stage = new Stage();
         stage.addActor(group);
@@ -262,6 +263,42 @@ public class MenuScreen extends BaseScreen {
     public void dispose()
     {
 
+    }
+
+    private void createGame() {
+        HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
+        System.out.println("http://" + CS110App.SERVER_URL + "/game/create");
+        final HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://" + CS110App.SERVER_URL + "/game/create").build();
+        Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
+            @Override
+            public void handleHttpResponse(HttpResponse httpResponse) {
+                if (CS110App.RUN_TYPE == RunEnum.MULTIPLAYER_LOCAL) {
+                    changeScreen = true;
+                    newScreen = ScreenEnum.WAITING;
+                } else {
+                    if (httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
+                        changeScreen = true;
+                        newScreen = ScreenEnum.WAITING;
+                        clientip = httpResponse.getResultAsString();
+                    } else {
+                        displayErrorMessage(httpResponse.getStatus().getStatusCode() + "Server Error");
+                    }
+                }
+
+            }
+
+            @Override
+            public void failed(Throwable t) {
+                System.out.println(t.toString());
+                System.out.println(t.fillInStackTrace().toString());
+                displayErrorMessage("Server Error failed");
+            }
+
+            @Override
+            public void cancelled() {
+                displayErrorMessage("Server Error cancelled");
+            }
+        });
     }
 }
 

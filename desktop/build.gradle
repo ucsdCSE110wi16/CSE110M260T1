@@ -41,5 +41,5 @@ task afterEclipseImport(description: "Post processing after project generation",
     }
 }
 dependencies {
-    compile files('/Users/OriGilad/CSE110M260T1/kryonet-2.18-all.jar')
+    compile files('../lib/kryonet-2.18-all.jar')
 }

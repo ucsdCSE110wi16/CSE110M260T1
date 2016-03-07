@@ -104,22 +104,24 @@ public class MenuScreen extends BaseScreen {
                 }
                 else {
                     HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
+                    System.out.println("http://" + CS110App.SERVER_URL + "/game/create");
                     final HttpRequest httpRequest = requestBuilder.newRequest().method(HttpMethods.GET).url("http://" + CS110App.SERVER_URL + "/game/create").build();
                     Gdx.net.sendHttpRequest(httpRequest, new HttpResponseListener() {
                         @Override
                         public void handleHttpResponse(HttpResponse httpResponse) {
                             System.out.println(httpResponse.getStatus().getStatusCode());
-                            if (CS110App.local) {
+                            if (CS110App.RUN_TYPE == RunEnum.MULTIPLAYER_LOCAL) {
                                 changeScreen = true;
                                 newScreen = ScreenEnum.WAITING;
                             } else {
+                                System.out.println(httpResponse.getStatus().getStatusCode());
                                 if (httpResponse.getStatus().getStatusCode() <= 300 && httpResponse.getStatus().getStatusCode() >= 200) {
                                     System.out.println(httpResponse.getStatus());
                                     System.out.println(httpResponse.getResultAsString());
                                     changeScreen = true;
                                     newScreen = ScreenEnum.WAITING;
                                 } else {
-                                    displayErrorMessage("Server Error");
+                                    displayErrorMessage(httpResponse.getStatus().getStatusCode() + "Server Error");
                                 }
                             }
 
@@ -127,12 +129,14 @@ public class MenuScreen extends BaseScreen {
 
                         @Override
                         public void failed(Throwable t) {
-                            displayErrorMessage("Server Error");
+                            System.out.println(t.toString());
+                            System.out.println(t.fillInStackTrace().toString());
+                            displayErrorMessage("Server Error failed");
                         }
 
                         @Override
                         public void cancelled() {
-                            displayErrorMessage("Server Error");
+                            displayErrorMessage("Server Error cacnelled");
                         }
                     });
 
@@ -167,7 +171,7 @@ public class MenuScreen extends BaseScreen {
                                         JsonValue game = root.get(0);
                                         changeScreen = true;
                                         newScreen = ScreenEnum.GAME;
-                                        serverclient = false;
+                                        serverclient = true;
                                         clientip = game.get("ip").asString();
                                     } else {
                                         displayErrorMessage("No games available");

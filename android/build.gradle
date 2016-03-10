@@ -20,7 +20,9 @@ android {
         targetSdkVersion 23
     }
 }
-
+dependencies {
+    compile 'com.jayway.android.robotium:robotium-solo:5.2.1'
+}
 
 // called every time gradle gets executed, takes the native dependencies of
 // the natives configuration, and extracts them to the proper libs/ folders

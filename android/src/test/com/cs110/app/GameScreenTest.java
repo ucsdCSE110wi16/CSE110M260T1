@@ -7,7 +7,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import dalvik.annotation.TestTarget;
 
 /**
- * Created by caeleanb on 3/10/2016.
+ * Created by ogilad on 3/10/2016.
  */
 public class GameScreenTest  extends ActivityInstrumentationTestCase2 {
     private Solo solo;

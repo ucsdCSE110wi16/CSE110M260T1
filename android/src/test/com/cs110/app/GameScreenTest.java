@@ -12,7 +12,7 @@ import dalvik.annotation.TestTarget;
 public class GameScreenTest  extends ActivityInstrumentationTestCase2 {
     private Solo solo;
 
-    private static final String LAUNCHER_ACTIVITY_FULL_CLASSNAME = "/Users/caeleanbarnes/Code/CSE110/test/CSE110M260T1/core/src/com/cs110/app/Screens/MenuScreen.java";
+    private static final String LAUNCHER_ACTIVITY_FULL_CLASSNAME = "com.cs110.app.AndroidLauncher";
 
     private static Class<?> launcherActivityClass;
     static{
@@ -44,6 +44,22 @@ public class GameScreenTest  extends ActivityInstrumentationTestCase2 {
 
     public void testActivity() {
         solo.assertCurrentActivity("Current Activity", AndroidLauncher.class);
+        //solo.clickOnScreen(600, 550);
+        int height = getActivity().getResources().getDisplayMetrics().heightPixels;
+        int width = getActivity().getResources().getDisplayMetrics().widthPixels;
+
+        solo.sleep(5000);
+        solo.clickOnScreen(1150, 900);
+        solo.sleep(9000);
+        solo.clickOnScreen(1400, 900);
+        solo.sleep(9000);
+        solo.clickOnScreen(1625, 900);
+        solo.sleep(9000);
+        solo.clickLongOnScreen(145, 913, 20000);
+        solo.sleep(9000);
+
+//        solo.clickOnScreen(1200, 800);
+//        solo.sleep(200);
     }
 
 //    public void test

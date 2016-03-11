@@ -1,7 +1,11 @@
 package test.com.cs110.app;
 
+import com.cs110.app.AndroidLauncher;
 import com.robotium.solo.Solo;
 import android.test.ActivityInstrumentationTestCase2;
+
+import dalvik.annotation.TestTarget;
+
 /**
  * Created by kshtz on 3/9/2016.
  */
@@ -25,6 +29,7 @@ public class AndroidLauncerTest  extends ActivityInstrumentationTestCase2 {
     }
 
     public void setUp() throws Exception {
+        System.out.println("Here");
         super.setUp();
         solo = new Solo(getInstrumentation());
         getActivity();
@@ -32,8 +37,14 @@ public class AndroidLauncerTest  extends ActivityInstrumentationTestCase2 {
 
     @Override
     public void tearDown() throws Exception {
+        System.out.println("Here");
         solo.finishOpenedActivities();
         super.tearDown();
+    }
+
+    public void testActivity() {
+        System.out.println("Here");
+        solo.assertCurrentActivity("Current Activity", AndroidLauncher.class);
     }
 
     public void testRun() {

@@ -47,11 +47,11 @@ public class AndroidLauncerTest  extends ActivityInstrumentationTestCase2 {
         solo.assertCurrentActivity("Current Activity", AndroidLauncher.class);
     }
 
-    public void testRun() {
-        //Wait for activity: 'com.example.ExampleActivty'
-        solo.waitForActivity("Android Launcher", 2000);
-        //Clear the EditText editText1
-        solo.clearEditText((android.widget.EditText) solo.getView("editText1"));
-        solo.enterText((android.widget.EditText) solo.getView("editText1"), "This is an example text");
-    }
+//    public void testRun() {
+//        //Wait for activity: 'com.example.ExampleActivty'
+//        solo.waitForActivity("Android Launcher", 2000);
+//        //Clear the EditText editText1
+//        solo.clearEditText((android.widget.EditText) solo.getView("editText1"));
+//        solo.enterText((android.widget.EditText) solo.getView("editText1"), "This is an example text");
+//    }
 }

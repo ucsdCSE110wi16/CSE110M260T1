@@ -7,12 +7,12 @@ import android.test.ActivityInstrumentationTestCase2;
 import dalvik.annotation.TestTarget;
 
 /**
- * Created by kshtz on 3/9/2016.
+ * Created by caeleanb on 3/10/2016.
  */
-public class AndroidLauncerTest  extends ActivityInstrumentationTestCase2 {
+public class GameScreenTest  extends ActivityInstrumentationTestCase2 {
     private Solo solo;
 
-    private static final String LAUNCHER_ACTIVITY_FULL_CLASSNAME = "com.cs110.app.AndroidLauncher";
+    private static final String LAUNCHER_ACTIVITY_FULL_CLASSNAME = "/Users/caeleanbarnes/Code/CSE110/test/CSE110M260T1/core/src/com/cs110/app/Screens/MenuScreen.java";
 
     private static Class<?> launcherActivityClass;
     static{
@@ -24,7 +24,7 @@ public class AndroidLauncerTest  extends ActivityInstrumentationTestCase2 {
     }
 
     @SuppressWarnings("unchecked")
-    public AndroidLauncerTest() throws ClassNotFoundException {
+    public GameScreenTest() throws ClassNotFoundException {
         super(launcherActivityClass);
     }
 

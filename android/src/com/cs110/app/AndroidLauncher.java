@@ -11,8 +11,7 @@ public class AndroidLauncher extends AndroidApplication {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-	//initialize(new CS110App(1), config);
-		initialize(new CS110App(2), config);
-
+		//initialize(new CS110App(1), config);
+		initialize(new CS110App(0), config);
 	}
 }

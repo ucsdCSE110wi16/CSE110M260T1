@@ -17,6 +17,10 @@
 IP for connecting to checking number of games
 http://128.54.238.99:5000/game/
 
+## For Testing
+Go to testing branch
+Run GameScreenTester
+
 ##### Run backend server
 ```
 cd server

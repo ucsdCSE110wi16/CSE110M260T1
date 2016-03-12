@@ -185,7 +185,7 @@ public class WorldController implements GestureDetector.GestureListener
         long currTime = World.gameTime;
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
-
+        System.out.println(x + "COORDINATE" + y);
 
 
         //dont want to blink if we are on attack buttons

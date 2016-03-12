@@ -42,21 +42,53 @@ public class GameScreenTest  extends ActivityInstrumentationTestCase2 {
         super.tearDown();
     }
 
-    public void testActivity() {
+    public void test1ShootAndMove() {
         solo.assertCurrentActivity("Current Activity", AndroidLauncher.class);
         //solo.clickOnScreen(600, 550);
-        int height = getActivity().getResources().getDisplayMetrics().heightPixels;
-        int width = getActivity().getResources().getDisplayMetrics().widthPixels;
 
-        solo.sleep(5000);
+        solo.sleep(2000);
         solo.clickOnScreen(1150, 900);
-        solo.sleep(9000);
+        solo.sleep(3000);
         solo.clickOnScreen(1400, 900);
-        solo.sleep(9000);
+        solo.sleep(3000);
         solo.clickOnScreen(1625, 900);
-        solo.sleep(9000);
-        solo.clickLongOnScreen(145, 913, 20000);
-        solo.sleep(9000);
+        solo.sleep(3000);
+        solo.clickLongOnScreen(145, 913, 1);
+        solo.sleep(200);
+        solo.clickLongOnScreen(362, 946, 1);
+        //solo.sleep(1000);
+    }
+
+    public void test2CollisionDetection() {
+        //solo.assertCurrentActivity("Current Activity", AndroidLauncher.class);
+
+        solo.sleep(200);
+        solo.clickLongOnScreen(140, 808, 2000);
+        solo.sleep(2000);
+        solo.clickLongOnScreen(444, 808, 5000);
+        solo.sleep(3000);
+        solo.clickLongOnScreen(140, 808, 1500);
+        solo.sleep(500);
+        solo.clickLongOnScreen(444, 808, 7);
+        //solo.sleep(1000);
+    }
+
+    public void test3Blink() {
+        //solo.assertCurrentActivity("Current Activity", AndroidLauncher.class);
+        solo.sleep(200);
+        solo.clickOnScreen(1200, 529, 2);
+        //solo.clickOnScreen(1350, 529);
+        solo.sleep(10);
+        solo.clickOnScreen(1150, 529, 2);
+        //solo.clickOnScreen(1350, 529);
+        solo.sleep(10);
+        solo.clickOnScreen(1100, 529, 2);
+        //solo.clickOnScreen(1350, 529);
+        solo.sleep(2000);
+    }
+
+//        solo.clickLongOnScreen(444, 808, 5000);
+//        solo.sleep(3000);
 
 //        solo.clickOnScreen(1200, 800);
 //        solo.sleep(200);
@@ -70,4 +102,4 @@ public class GameScreenTest  extends ActivityInstrumentationTestCase2 {
 //        solo.clearEditText((android.widget.EditText) solo.getView("editText1"));
 //        solo.enterText((android.widget.EditText) solo.getView("editText1"), "This is an example text");
 //    }
-}
+

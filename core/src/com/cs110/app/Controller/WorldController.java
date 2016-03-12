@@ -186,8 +186,6 @@ public class WorldController implements GestureDetector.GestureListener
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
-        System.out.println(x);
-        System.out.println(y);
 
 
 

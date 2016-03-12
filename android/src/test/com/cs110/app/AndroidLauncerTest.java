@@ -7,6 +7,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import dalvik.annotation.TestTarget;
 
 /**
+ * EDIT = CREATED JUST SO WE CAN TEST THE OPENING OF THE PROGRAM
  * Created by kshtz on 3/9/2016.
  */
 public class AndroidLauncerTest  extends ActivityInstrumentationTestCase2 {

@@ -186,6 +186,9 @@ public class WorldController implements GestureDetector.GestureListener
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
+        System.out.println(x);
+        System.out.println(y);
+
 
 
         //dont want to blink if we are on attack buttons
